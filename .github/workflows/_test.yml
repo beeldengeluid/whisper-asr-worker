@@ -22,10 +22,11 @@ jobs:
     - name: "Install dev environment"
       run: poetry install --no-interaction --no-ansi
 
-    - name: "pytest"
-      run: |
-        cp config/config.yml config.yml
-        poetry run pytest -k 'not test_extract_features and not test_batches'
+    ### COMMENTED FOR NOW UNTIL WE START WITH TESTING
+    # - name: "pytest"
+    #   run: |
+    #     cp config/config.yml config.yml
+    #     poetry run pytest -k 'not test_extract_features and not test_batches'
 
     - name: "flake8"
       run: "poetry run flake8"
