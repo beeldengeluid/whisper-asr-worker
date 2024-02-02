@@ -1,0 +1,16 @@
+name: Manual deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    uses: ./.github/workflows/_test.yml
+
+  ### TO BE UNCOMMENTED ONCE DOCKER IS SET UP
+  # deploy:
+  #   uses: ./.github/workflows/_deploy.yml
+  #   permissions:
+  #     contents: read
+  #     packages: write
+  #   needs: [test]
