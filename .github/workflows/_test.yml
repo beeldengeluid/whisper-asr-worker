@@ -1,0 +1,38 @@
+name: Test
+
+on:
+  workflow_call:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: "Checkout Repository"
+      uses: "actions/checkout@v4"
+
+    - name: "Install Python"
+      uses: "actions/setup-python@v4"
+      with:
+        python-version: "3.10"
+
+    - name: "Install poetry"
+      run: "pip install --user poetry"
+
+    - name: "Install dev environment"
+      run: poetry install --no-interaction --no-ansi
+
+    ### COMMENTED FOR NOW UNTIL WE START WITH TESTING
+    # - name: "pytest"
+    #   run: |
+    #     cp config/config.yml config.yml
+    #     poetry run pytest -k 'not test_extract_features and not test_batches'
+
+    - name: "flake8"
+      run: "poetry run flake8"
+
+    - name: "black"
+      run: "poetry run black --check ."
+
+    - name: "mypy"
+      run: "poetry run mypy ."
