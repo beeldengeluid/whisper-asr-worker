@@ -1,0 +1,2974 @@
+{
+  "segments": [
+    {
+      "id": 1,
+      "seek": 2508,
+      "start": 0.0,
+      "end": 4.74,
+      "text": "De Nederlandse Spoorwegen en Schiphol, toch twee gevoelige dossiers op het verkeersgebied,",
+      "tokens": [
+        50364,
+        1346,
+        31888,
+        405,
+        1738,
+        28656,
+        13683,
+        465,
+        2065,
+        647,
+        5449,
+        11,
+        22587,
+        30660,
+        1519,
+        3080,
+        338,
+        3969,
+        47831,
+        4890,
+        999,
+        3639,
+        1306,
+        330,
+        433,
+        10848,
+        1091,
+        11,
+        50620
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.23489932205853045,
+      "compression_ratio": 1.6159169550173011,
+      "no_speech_prob": 0.0225830078125,
+      "words": [
+        {
+          "text": "De",
+          "start": 0.0,
+          "end": 0.78,
+          "confidence": 0.2237548828125
+        },
+        {
+          "text": "Nederlandse",
+          "start": 0.78,
+          "end": 1.2,
+          "confidence": 0.79052734375
+        },
+        {
+          "text": "Spoorwegen",
+          "start": 1.2,
+          "end": 1.68,
+          "confidence": 0.7831217447916666
+        },
+        {
+          "text": "en",
+          "start": 1.68,
+          "end": 1.86,
+          "confidence": 0.921875
+        },
+        {
+          "text": "Schiphol,",
+          "start": 1.86,
+          "end": 2.24,
+          "confidence": 0.9599609375
+        },
+        {
+          "text": "toch",
+          "start": 2.44,
+          "end": 2.54,
+          "confidence": 0.537109375
+        },
+        {
+          "text": "twee",
+          "start": 2.54,
+          "end": 2.8,
+          "confidence": 0.6962890625
+        },
+        {
+          "text": "gevoelige",
+          "start": 2.8,
+          "end": 3.3,
+          "confidence": 0.970458984375
+        },
+        {
+          "text": "dossiers",
+          "start": 3.3,
+          "end": 3.72,
+          "confidence": 0.937255859375
+        },
+        {
+          "text": "op",
+          "start": 3.72,
+          "end": 3.9,
+          "confidence": 0.7431640625
+        },
+        {
+          "text": "het",
+          "start": 3.9,
+          "end": 4.02,
+          "confidence": 0.87744140625
+        },
+        {
+          "text": "verkeersgebied,",
+          "start": 4.02,
+          "end": 4.74,
+          "confidence": 0.94140625
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "seek": 2508,
+      "start": 5.26,
+      "end": 9.36,
+      "text": "zitten in het nieuwe kabinet in de portefeuille van de minister van Verkeer en Waterstaat,",
+      "tokens": [
+        50620,
+        35242,
+        294,
+        3639,
+        37029,
+        27835,
+        21370,
+        294,
+        368,
+        26658,
+        2106,
+        84,
+        3409,
+        3161,
+        368,
+        10563,
+        3161,
+        4281,
+        330,
+        260,
+        465,
+        8772,
+        9140,
+        267,
+        11,
+        50836
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.23489932205853045,
+      "compression_ratio": 1.6159169550173011,
+      "no_speech_prob": 0.0225830078125,
+      "words": [
+        {
+          "text": "zitten",
+          "start": 5.26,
+          "end": 5.4,
+          "confidence": 0.92431640625
+        },
+        {
+          "text": "in",
+          "start": 5.4,
+          "end": 5.58,
+          "confidence": 0.8955078125
+        },
+        {
+          "text": "het",
+          "start": 5.58,
+          "end": 5.7,
+          "confidence": 0.88916015625
+        },
+        {
+          "text": "nieuwe",
+          "start": 5.7,
+          "end": 5.92,
+          "confidence": 0.7841796875
+        },
+        {
+          "text": "kabinet",
+          "start": 5.92,
+          "end": 6.36,
+          "confidence": 0.931884765625
+        },
+        {
+          "text": "in",
+          "start": 6.36,
+          "end": 6.54,
+          "confidence": 0.67333984375
+        },
+        {
+          "text": "de",
+          "start": 6.54,
+          "end": 6.66,
+          "confidence": 0.8916015625
+        },
+        {
+          "text": "portefeuille",
+          "start": 6.66,
+          "end": 7.16,
+          "confidence": 0.890625
+        },
+        {
+          "text": "van",
+          "start": 7.16,
+          "end": 7.3,
+          "confidence": 0.900390625
+        },
+        {
+          "text": "de",
+          "start": 7.3,
+          "end": 7.44,
+          "confidence": 0.8955078125
+        },
+        {
+          "text": "minister",
+          "start": 7.44,
+          "end": 7.86,
+          "confidence": 0.78173828125
+        },
+        {
+          "text": "van",
+          "start": 7.86,
+          "end": 8.36,
+          "confidence": 0.892578125
+        },
+        {
+          "text": "Verkeer",
+          "start": 8.36,
+          "end": 8.7,
+          "confidence": 0.8743489583333334
+        },
+        {
+          "text": "en",
+          "start": 8.7,
+          "end": 8.82,
+          "confidence": 0.869140625
+        },
+        {
+          "text": "Waterstaat,",
+          "start": 8.82,
+          "end": 9.36,
+          "confidence": 0.9267578125
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "seek": 2508,
+      "start": 9.42,
+      "end": 10.96,
+      "text": "u hoorde hem zojuist al, Camiel Eurlings.",
+      "tokens": [
+        50836,
+        344,
+        1106,
+        15127,
+        8636,
+        5721,
+        8954,
+        468,
+        419,
+        11,
+        6886,
+        1187,
+        462,
+        374,
+        20823,
+        13,
+        50924
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.23489932205853045,
+      "compression_ratio": 1.6159169550173011,
+      "no_speech_prob": 0.0225830078125,
+      "words": [
+        {
+          "text": "u",
+          "start": 9.42,
+          "end": 9.54,
+          "confidence": 0.56689453125
+        },
+        {
+          "text": "hoorde",
+          "start": 9.54,
+          "end": 9.7,
+          "confidence": 0.93701171875
+        },
+        {
+          "text": "hem",
+          "start": 9.7,
+          "end": 9.84,
+          "confidence": 0.541015625
+        },
+        {
+          "text": "zojuist",
+          "start": 9.84,
+          "end": 10.14,
+          "confidence": 0.9646809895833334
+        },
+        {
+          "text": "al,",
+          "start": 10.14,
+          "end": 10.3,
+          "confidence": 0.82861328125
+        },
+        {
+          "text": "Camiel",
+          "start": 10.34,
+          "end": 10.62,
+          "confidence": 0.665771484375
+        },
+        {
+          "text": "Eurlings.",
+          "start": 10.62,
+          "end": 10.96,
+          "confidence": 0.7975260416666666
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "seek": 2508,
+      "start": 11.38,
+      "end": 15.08,
+      "text": "In het net opgestapte kabinet vielen deze dossiers nog onder het staatssecretariaat.",
+      "tokens": [
+        50924,
+        682,
+        3639,
+        2533,
+        999,
+        2629,
+        569,
+        975,
+        27835,
+        21370,
+        19885,
+        18040,
+        47831,
+        4890,
+        9638,
+        20756,
+        3639,
+        11135,
+        1720,
+        8159,
+        1505,
+        9831,
+        267,
+        13,
+        51118
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.23489932205853045,
+      "compression_ratio": 1.6159169550173011,
+      "no_speech_prob": 0.0225830078125,
+      "words": [
+        {
+          "text": "In",
+          "start": 11.38,
+          "end": 11.5,
+          "confidence": 0.89501953125
+        },
+        {
+          "text": "het",
+          "start": 11.5,
+          "end": 11.6,
+          "confidence": 0.896484375
+        },
+        {
+          "text": "net",
+          "start": 11.6,
+          "end": 11.78,
+          "confidence": 0.9072265625
+        },
+        {
+          "text": "opgestapte",
+          "start": 11.78,
+          "end": 12.26,
+          "confidence": 0.90380859375
+        },
+        {
+          "text": "kabinet",
+          "start": 12.26,
+          "end": 12.64,
+          "confidence": 0.9228515625
+        },
+        {
+          "text": "vielen",
+          "start": 12.64,
+          "end": 12.9,
+          "confidence": 0.78466796875
+        },
+        {
+          "text": "deze",
+          "start": 12.9,
+          "end": 13.18,
+          "confidence": 0.86474609375
+        },
+        {
+          "text": "dossiers",
+          "start": 13.18,
+          "end": 13.56,
+          "confidence": 0.951171875
+        },
+        {
+          "text": "nog",
+          "start": 13.56,
+          "end": 13.8,
+          "confidence": 0.81787109375
+        },
+        {
+          "text": "onder",
+          "start": 13.8,
+          "end": 14.02,
+          "confidence": 0.755859375
+        },
+        {
+          "text": "het",
+          "start": 14.02,
+          "end": 14.18,
+          "confidence": 0.89453125
+        },
+        {
+          "text": "staatssecretariaat.",
+          "start": 14.18,
+          "end": 15.08,
+          "confidence": 0.8771158854166666
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "seek": 2508,
+      "start": 16.26,
+      "end": 21.4,
+      "text": "Het treinverkeer van en naar Utrecht is sinds half zes ontregeld door een computerstoring.",
+      "tokens": [
+        51118,
+        12045,
+        2192,
+        259,
+        331,
+        330,
+        260,
+        3161,
+        465,
+        12762,
+        624,
+        3599,
+        4701,
+        307,
+        3290,
+        82,
+        1922,
+        710,
+        279,
+        6592,
+        3375,
+        5957,
+        2853,
+        3881,
+        2807,
+        16398,
+        3662,
+        13,
+        51444
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.23489932205853045,
+      "compression_ratio": 1.6159169550173011,
+      "no_speech_prob": 0.0225830078125,
+      "words": [
+        {
+          "text": "Het",
+          "start": 16.26,
+          "end": 16.44,
+          "confidence": 0.8427734375
+        },
+        {
+          "text": "treinverkeer",
+          "start": 16.44,
+          "end": 17.04,
+          "confidence": 0.98955078125
+        },
+        {
+          "text": "van",
+          "start": 17.04,
+          "end": 17.28,
+          "confidence": 0.9091796875
+        },
+        {
+          "text": "en",
+          "start": 17.28,
+          "end": 17.46,
+          "confidence": 0.86279296875
+        },
+        {
+          "text": "naar",
+          "start": 17.46,
+          "end": 17.66,
+          "confidence": 0.86181640625
+        },
+        {
+          "text": "Utrecht",
+          "start": 17.66,
+          "end": 18.14,
+          "confidence": 0.9544270833333334
+        },
+        {
+          "text": "is",
+          "start": 18.14,
+          "end": 18.58,
+          "confidence": 0.8671875
+        },
+        {
+          "text": "sinds",
+          "start": 18.58,
+          "end": 18.96,
+          "confidence": 0.94189453125
+        },
+        {
+          "text": "half",
+          "start": 18.96,
+          "end": 19.2,
+          "confidence": 0.7412109375
+        },
+        {
+          "text": "zes",
+          "start": 19.2,
+          "end": 19.46,
+          "confidence": 0.7296142578125
+        },
+        {
+          "text": "ontregeld",
+          "start": 19.46,
+          "end": 20.08,
+          "confidence": 0.8927408854166666
+        },
+        {
+          "text": "door",
+          "start": 20.08,
+          "end": 20.32,
+          "confidence": 0.83984375
+        },
+        {
+          "text": "een",
+          "start": 20.32,
+          "end": 20.48,
+          "confidence": 0.86572265625
+        },
+        {
+          "text": "computerstoring.",
+          "start": 20.48,
+          "end": 21.4,
+          "confidence": 0.7373860677083334
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "seek": 2508,
+      "start": 22.16,
+      "end": 25.08,
+      "text": "ProRail hoopt dat de problemen nog vanavond kunnen worden opgelost.",
+      "tokens": [
+        51444,
+        1705,
+        49,
+        864,
+        1106,
+        5747,
+        1137,
+        368,
+        1154,
+        268,
+        9638,
+        3161,
+        706,
+        684,
+        18377,
+        14054,
+        999,
+        10345,
+        555,
+        13,
+        51622
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.23489932205853045,
+      "compression_ratio": 1.6159169550173011,
+      "no_speech_prob": 0.0225830078125,
+      "words": [
+        {
+          "text": "ProRail",
+          "start": 22.16,
+          "end": 22.66,
+          "confidence": 0.94189453125
+        },
+        {
+          "text": "hoopt",
+          "start": 22.66,
+          "end": 22.92,
+          "confidence": 0.81640625
+        },
+        {
+          "text": "dat",
+          "start": 22.92,
+          "end": 23.04,
+          "confidence": 0.88671875
+        },
+        {
+          "text": "de",
+          "start": 23.04,
+          "end": 23.18,
+          "confidence": 0.8955078125
+        },
+        {
+          "text": "problemen",
+          "start": 23.18,
+          "end": 23.58,
+          "confidence": 0.888916015625
+        },
+        {
+          "text": "nog",
+          "start": 23.58,
+          "end": 23.72,
+          "confidence": 0.85986328125
+        },
+        {
+          "text": "vanavond",
+          "start": 23.72,
+          "end": 24.18,
+          "confidence": 0.9111328125
+        },
+        {
+          "text": "kunnen",
+          "start": 24.18,
+          "end": 24.38,
+          "confidence": 0.9287109375
+        },
+        {
+          "text": "worden",
+          "start": 24.38,
+          "end": 24.58,
+          "confidence": 0.71630859375
+        },
+        {
+          "text": "opgelost.",
+          "start": 24.58,
+          "end": 25.08,
+          "confidence": 0.9484049479166666
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "seek": 5106,
+      "start": 25.879999999999995,
+      "end": 31.44,
+      "text": "Een 41-jarige Amsterdammer heeft ruim 100 dagen cel gekregen voor opruiing en het bedreigen",
+      "tokens": [
+        50364,
+        25374,
+        18173,
+        12,
+        10150,
+        3969,
+        2012,
+        3120,
+        67,
+        335,
+        936,
+        17425,
+        33871,
+        2319,
+        49638,
+        9277,
+        14037,
+        265,
+        1766,
+        7358,
+        999,
+        894,
+        72,
+        278,
+        465,
+        3639,
+        2901,
+        265,
+        3213,
+        50682
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.26711782680195606,
+      "compression_ratio": 1.6306620209059233,
+      "no_speech_prob": 0.10931396484375,
+      "words": [
+        {
+          "text": "Een",
+          "start": 25.879999999999995,
+          "end": 26.4,
+          "confidence": 0.29345703125
+        },
+        {
+          "text": "41",
+          "start": 26.4,
+          "end": 26.82,
+          "confidence": 0.90234375
+        },
+        {
+          "text": "-jarige",
+          "start": 26.82,
+          "end": 27.16,
+          "confidence": 0.8626302083333334
+        },
+        {
+          "text": "Amsterdammer",
+          "start": 27.16,
+          "end": 27.72,
+          "confidence": 0.71298828125
+        },
+        {
+          "text": "heeft",
+          "start": 27.72,
+          "end": 28.02,
+          "confidence": 0.66162109375
+        },
+        {
+          "text": "ruim",
+          "start": 28.02,
+          "end": 28.28,
+          "confidence": 0.90625
+        },
+        {
+          "text": "100",
+          "start": 28.28,
+          "end": 28.6,
+          "confidence": 0.51806640625
+        },
+        {
+          "text": "dagen",
+          "start": 28.6,
+          "end": 28.94,
+          "confidence": 0.736328125
+        },
+        {
+          "text": "cel",
+          "start": 28.94,
+          "end": 29.24,
+          "confidence": 0.88818359375
+        },
+        {
+          "text": "gekregen",
+          "start": 29.24,
+          "end": 29.72,
+          "confidence": 0.8907877604166666
+        },
+        {
+          "text": "voor",
+          "start": 29.72,
+          "end": 29.96,
+          "confidence": 0.65380859375
+        },
+        {
+          "text": "opruiing",
+          "start": 29.96,
+          "end": 30.7,
+          "confidence": 0.8197021484375
+        },
+        {
+          "text": "en",
+          "start": 30.7,
+          "end": 30.9,
+          "confidence": 0.84375
+        },
+        {
+          "text": "het",
+          "start": 30.9,
+          "end": 31.02,
+          "confidence": 0.82470703125
+        },
+        {
+          "text": "bedreigen",
+          "start": 31.02,
+          "end": 31.44,
+          "confidence": 0.9261067708333334
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "seek": 5106,
+      "start": 31.44,
+      "end": 32.4,
+      "text": "van premier Balkenende.",
+      "tokens": [
+        50682,
+        3161,
+        12689,
+        36289,
+        268,
+        5445,
+        13,
+        50736
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.26711782680195606,
+      "compression_ratio": 1.6306620209059233,
+      "no_speech_prob": 0.10931396484375,
+      "words": [
+        {
+          "text": "van",
+          "start": 31.44,
+          "end": 31.62,
+          "confidence": 0.90234375
+        },
+        {
+          "text": "premier",
+          "start": 31.62,
+          "end": 31.86,
+          "confidence": 0.83154296875
+        },
+        {
+          "text": "Balkenende.",
+          "start": 31.86,
+          "end": 32.4,
+          "confidence": 0.8235677083333334
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "seek": 5106,
+      "start": 32.84,
+      "end": 35.56,
+      "text": "Dat staat gelijk aan de tijd dat de man al heeft gezeten.",
+      "tokens": [
+        50736,
+        9315,
+        28836,
+        4087,
+        6940,
+        9904,
+        368,
+        26966,
+        1137,
+        368,
+        587,
+        419,
+        17425,
+        18110,
+        19865,
+        13,
+        50894
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.26711782680195606,
+      "compression_ratio": 1.6306620209059233,
+      "no_speech_prob": 0.10931396484375,
+      "words": [
+        {
+          "text": "Dat",
+          "start": 32.84,
+          "end": 33.08,
+          "confidence": 0.884765625
+        },
+        {
+          "text": "staat",
+          "start": 33.08,
+          "end": 33.24,
+          "confidence": 0.80078125
+        },
+        {
+          "text": "gelijk",
+          "start": 33.24,
+          "end": 33.62,
+          "confidence": 0.937744140625
+        },
+        {
+          "text": "aan",
+          "start": 33.62,
+          "end": 33.84,
+          "confidence": 0.92236328125
+        },
+        {
+          "text": "de",
+          "start": 33.84,
+          "end": 33.98,
+          "confidence": 0.88232421875
+        },
+        {
+          "text": "tijd",
+          "start": 33.98,
+          "end": 34.2,
+          "confidence": 0.84912109375
+        },
+        {
+          "text": "dat",
+          "start": 34.2,
+          "end": 34.54,
+          "confidence": 0.87841796875
+        },
+        {
+          "text": "de",
+          "start": 34.54,
+          "end": 34.66,
+          "confidence": 0.89208984375
+        },
+        {
+          "text": "man",
+          "start": 34.66,
+          "end": 34.82,
+          "confidence": 0.86865234375
+        },
+        {
+          "text": "al",
+          "start": 34.82,
+          "end": 34.98,
+          "confidence": 0.9208984375
+        },
+        {
+          "text": "heeft",
+          "start": 34.98,
+          "end": 35.14,
+          "confidence": 0.79541015625
+        },
+        {
+          "text": "gezeten.",
+          "start": 35.14,
+          "end": 35.56,
+          "confidence": 0.87451171875
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "seek": 5106,
+      "start": 36.06,
+      "end": 37.46,
+      "text": "Hij kreeg ook zes maanden voorwaardelijk.",
+      "tokens": [
+        50894,
+        27832,
+        350,
+        701,
+        70,
+        7839,
+        710,
+        279,
+        463,
+        28762,
+        7358,
+        4151,
+        515,
+        19592,
+        13,
+        50986
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.26711782680195606,
+      "compression_ratio": 1.6306620209059233,
+      "no_speech_prob": 0.10931396484375,
+      "words": [
+        {
+          "text": "Hij",
+          "start": 36.06,
+          "end": 36.16,
+          "confidence": 0.79638671875
+        },
+        {
+          "text": "kreeg",
+          "start": 36.16,
+          "end": 36.32,
+          "confidence": 0.95751953125
+        },
+        {
+          "text": "ook",
+          "start": 36.32,
+          "end": 36.5,
+          "confidence": 0.896484375
+        },
+        {
+          "text": "zes",
+          "start": 36.5,
+          "end": 36.68,
+          "confidence": 0.8564453125
+        },
+        {
+          "text": "maanden",
+          "start": 36.68,
+          "end": 36.92,
+          "confidence": 0.914794921875
+        },
+        {
+          "text": "voorwaardelijk.",
+          "start": 36.92,
+          "end": 37.46,
+          "confidence": 0.9307861328125
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "seek": 5106,
+      "start": 38.02,
+      "end": 40.66,
+      "text": "Hij schreef op het internet opruiende columns over Balkenende.",
+      "tokens": [
+        50986,
+        27832,
+        956,
+        701,
+        69,
+        999,
+        3639,
+        4705,
+        999,
+        894,
+        45816,
+        13766,
+        670,
+        36289,
+        268,
+        5445,
+        13,
+        51148
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.26711782680195606,
+      "compression_ratio": 1.6306620209059233,
+      "no_speech_prob": 0.10931396484375,
+      "words": [
+        {
+          "text": "Hij",
+          "start": 38.02,
+          "end": 38.12,
+          "confidence": 0.8583984375
+        },
+        {
+          "text": "schreef",
+          "start": 38.12,
+          "end": 38.38,
+          "confidence": 0.9581705729166666
+        },
+        {
+          "text": "op",
+          "start": 38.38,
+          "end": 38.5,
+          "confidence": 0.8916015625
+        },
+        {
+          "text": "het",
+          "start": 38.5,
+          "end": 38.64,
+          "confidence": 0.8330078125
+        },
+        {
+          "text": "internet",
+          "start": 38.64,
+          "end": 38.94,
+          "confidence": 0.64111328125
+        },
+        {
+          "text": "opruiende",
+          "start": 38.94,
+          "end": 39.44,
+          "confidence": 0.8225911458333334
+        },
+        {
+          "text": "columns",
+          "start": 39.44,
+          "end": 39.8,
+          "confidence": 0.810546875
+        },
+        {
+          "text": "over",
+          "start": 39.8,
+          "end": 40.12,
+          "confidence": 0.87451171875
+        },
+        {
+          "text": "Balkenende.",
+          "start": 40.12,
+          "end": 40.66,
+          "confidence": 0.908203125
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "seek": 5106,
+      "start": 42.08,
+      "end": 46.14,
+      "text": "Nederland betaalt nog steeds voor de beveiliging van Arjan Hirschiali, dat zei het oud-kaam",
+      "tokens": [
+        51148,
+        31888,
+        9861,
+        3198,
+        9638,
+        43603,
+        7358,
+        368,
+        312,
+        303,
+        388,
+        328,
+        278,
+        3161,
+        1587,
+        14763,
+        23192,
+        6145,
+        831,
+        72,
+        11,
+        1137,
+        5277,
+        72,
+        3639,
+        220,
+        1861,
+        12,
+        2330,
+        335,
+        51416
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.26711782680195606,
+      "compression_ratio": 1.6306620209059233,
+      "no_speech_prob": 0.10931396484375,
+      "words": [
+        {
+          "text": "Nederland",
+          "start": 42.08,
+          "end": 42.4,
+          "confidence": 0.72998046875
+        },
+        {
+          "text": "betaalt",
+          "start": 42.4,
+          "end": 42.72,
+          "confidence": 0.91748046875
+        },
+        {
+          "text": "nog",
+          "start": 42.72,
+          "end": 42.86,
+          "confidence": 0.86181640625
+        },
+        {
+          "text": "steeds",
+          "start": 42.86,
+          "end": 43.12,
+          "confidence": 0.791015625
+        },
+        {
+          "text": "voor",
+          "start": 43.12,
+          "end": 43.34,
+          "confidence": 0.7822265625
+        },
+        {
+          "text": "de",
+          "start": 43.34,
+          "end": 43.44,
+          "confidence": 0.896484375
+        },
+        {
+          "text": "beveiliging",
+          "start": 43.44,
+          "end": 43.94,
+          "confidence": 0.9705078125
+        },
+        {
+          "text": "van",
+          "start": 43.94,
+          "end": 44.1,
+          "confidence": 0.88134765625
+        },
+        {
+          "text": "Arjan",
+          "start": 44.1,
+          "end": 44.42,
+          "confidence": 0.5360107421875
+        },
+        {
+          "text": "Hirschiali,",
+          "start": 44.42,
+          "end": 45.08,
+          "confidence": 0.63763427734375
+        },
+        {
+          "text": "dat",
+          "start": 45.34,
+          "end": 45.46,
+          "confidence": 0.84912109375
+        },
+        {
+          "text": "zei",
+          "start": 45.46,
+          "end": 45.62,
+          "confidence": 0.8837890625
+        },
+        {
+          "text": "het",
+          "start": 45.62,
+          "end": 45.72,
+          "confidence": 0.87646484375
+        },
+        {
+          "text": "oud",
+          "start": 45.72,
+          "end": 45.88,
+          "confidence": 0.6614990234375
+        },
+        {
+          "text": "-kaam",
+          "start": 45.88,
+          "end": 46.14,
+          "confidence": 0.6925455729166666
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "seek": 5106,
+      "start": 46.14,
+      "end": 48.02,
+      "text": "lid in het interview met Newsweek.",
+      "tokens": [
+        51416,
+        10252,
+        294,
+        3639,
+        4049,
+        1131,
+        7987,
+        23188,
+        13,
+        51514
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.26711782680195606,
+      "compression_ratio": 1.6306620209059233,
+      "no_speech_prob": 0.10931396484375,
+      "words": [
+        {
+          "text": "lid",
+          "start": 46.14,
+          "end": 46.32,
+          "confidence": 0.0955810546875
+        },
+        {
+          "text": "in",
+          "start": 46.32,
+          "end": 46.46,
+          "confidence": 0.85986328125
+        },
+        {
+          "text": "het",
+          "start": 46.46,
+          "end": 46.62,
+          "confidence": 0.8076171875
+        },
+        {
+          "text": "interview",
+          "start": 46.62,
+          "end": 47.1,
+          "confidence": 0.8427734375
+        },
+        {
+          "text": "met",
+          "start": 47.1,
+          "end": 47.36,
+          "confidence": 0.87646484375
+        },
+        {
+          "text": "Newsweek.",
+          "start": 47.36,
+          "end": 48.02,
+          "confidence": 0.888427734375
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "seek": 5106,
+      "start": 48.64,
+      "end": 51.06,
+      "text": "Hirschiali woont en werkt tegenwoordig in de Verenigde Staten.",
+      "tokens": [
+        51514,
+        389,
+        12983,
+        339,
+        831,
+        72,
+        6020,
+        896,
+        465,
+        2612,
+        2320,
+        30945,
+        6120,
+        765,
+        328,
+        294,
+        368,
+        4281,
+        268,
+        328,
+        1479,
+        745,
+        7186,
+        13,
+        51670
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.26711782680195606,
+      "compression_ratio": 1.6306620209059233,
+      "no_speech_prob": 0.10931396484375,
+      "words": [
+        {
+          "text": "Hirschiali",
+          "start": 48.64,
+          "end": 49.14,
+          "confidence": 0.82470703125
+        },
+        {
+          "text": "woont",
+          "start": 49.14,
+          "end": 49.42,
+          "confidence": 0.80078125
+        },
+        {
+          "text": "en",
+          "start": 49.42,
+          "end": 49.58,
+          "confidence": 0.89990234375
+        },
+        {
+          "text": "werkt",
+          "start": 49.58,
+          "end": 49.78,
+          "confidence": 0.86376953125
+        },
+        {
+          "text": "tegenwoordig",
+          "start": 49.78,
+          "end": 50.28,
+          "confidence": 0.9571533203125
+        },
+        {
+          "text": "in",
+          "start": 50.28,
+          "end": 50.4,
+          "confidence": 0.90087890625
+        },
+        {
+          "text": "de",
+          "start": 50.4,
+          "end": 50.5,
+          "confidence": 0.89990234375
+        },
+        {
+          "text": "Verenigde",
+          "start": 50.5,
+          "end": 50.76,
+          "confidence": 0.9288330078125
+        },
+        {
+          "text": "Staten.",
+          "start": 50.76,
+          "end": 51.06,
+          "confidence": 0.927001953125
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "seek": 7922,
+      "start": 51.580000000000005,
+      "end": 55.08,
+      "text": "Het tijdschrift sprak met Hirschiali over de verschijning van haar boek, de Infodol,",
+      "tokens": [
+        50390,
+        12045,
+        26966,
+        6145,
+        35742,
+        637,
+        11272,
+        1131,
+        23192,
+        6145,
+        831,
+        72,
+        670,
+        368,
+        20563,
+        1718,
+        773,
+        3161,
+        39371,
+        748,
+        916,
+        11,
+        368,
+        11537,
+        378,
+        401,
+        11,
+        50582
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.24066311702495669,
+      "compression_ratio": 1.561056105610561,
+      "no_speech_prob": 0.282958984375,
+      "words": [
+        {
+          "text": "Het",
+          "start": 51.46,
+          "end": 51.7,
+          "confidence": 0.2890625
+        },
+        {
+          "text": "tijdschrift",
+          "start": 51.7,
+          "end": 52.06,
+          "confidence": 0.8512369791666666
+        },
+        {
+          "text": "sprak",
+          "start": 52.06,
+          "end": 52.38,
+          "confidence": 0.94189453125
+        },
+        {
+          "text": "met",
+          "start": 52.38,
+          "end": 52.54,
+          "confidence": 0.85302734375
+        },
+        {
+          "text": "Hirschiali",
+          "start": 52.54,
+          "end": 53.1,
+          "confidence": 0.3707197904586792
+        },
+        {
+          "text": "over",
+          "start": 53.1,
+          "end": 53.3,
+          "confidence": 0.8583984375
+        },
+        {
+          "text": "de",
+          "start": 53.3,
+          "end": 53.42,
+          "confidence": 0.9130859375
+        },
+        {
+          "text": "verschijning",
+          "start": 53.42,
+          "end": 53.88,
+          "confidence": 0.7650553385416666
+        },
+        {
+          "text": "van",
+          "start": 53.88,
+          "end": 54.06,
+          "confidence": 0.86376953125
+        },
+        {
+          "text": "haar",
+          "start": 54.06,
+          "end": 54.22,
+          "confidence": 0.8740234375
+        },
+        {
+          "text": "boek,",
+          "start": 54.22,
+          "end": 54.42,
+          "confidence": 0.962890625
+        },
+        {
+          "text": "de",
+          "start": 54.54,
+          "end": 54.64,
+          "confidence": 0.470947265625
+        },
+        {
+          "text": "Infodol,",
+          "start": 54.64,
+          "end": 55.08,
+          "confidence": 0.528076171875
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "seek": 7922,
+      "start": 55.48,
+      "end": 55.96,
+      "text": "in de VS.",
+      "tokens": [
+        50582,
+        294,
+        368,
+        25091,
+        13,
+        50632
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.24066311702495669,
+      "compression_ratio": 1.561056105610561,
+      "no_speech_prob": 0.282958984375,
+      "words": [
+        {
+          "text": "in",
+          "start": 55.48,
+          "end": 55.56,
+          "confidence": 0.8486328125
+        },
+        {
+          "text": "de",
+          "start": 55.56,
+          "end": 55.7,
+          "confidence": 0.8544921875
+        },
+        {
+          "text": "VS.",
+          "start": 55.7,
+          "end": 55.96,
+          "confidence": 0.94189453125
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "seek": 7922,
+      "start": 56.4,
+      "end": 58.42,
+      "text": "Het staat hoog op de boekenlijst van de New York Times.",
+      "tokens": [
+        50632,
+        12045,
+        28836,
+        1106,
+        664,
+        999,
+        368,
+        748,
+        41021,
+        75,
+        1718,
+        372,
+        3161,
+        368,
+        1873,
+        3609,
+        11366,
+        13,
+        50814
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.24066311702495669,
+      "compression_ratio": 1.561056105610561,
+      "no_speech_prob": 0.282958984375,
+      "words": [
+        {
+          "text": "Het",
+          "start": 56.4,
+          "end": 56.48,
+          "confidence": 0.89453125
+        },
+        {
+          "text": "staat",
+          "start": 56.48,
+          "end": 56.6,
+          "confidence": 0.728515625
+        },
+        {
+          "text": "hoog",
+          "start": 56.6,
+          "end": 56.86,
+          "confidence": 0.961181640625
+        },
+        {
+          "text": "op",
+          "start": 56.86,
+          "end": 56.96,
+          "confidence": 0.849609375
+        },
+        {
+          "text": "de",
+          "start": 56.96,
+          "end": 57.08,
+          "confidence": 0.919921875
+        },
+        {
+          "text": "boekenlijst",
+          "start": 57.08,
+          "end": 57.58,
+          "confidence": 0.962109375
+        },
+        {
+          "text": "van",
+          "start": 57.58,
+          "end": 57.7,
+          "confidence": 0.892578125
+        },
+        {
+          "text": "de",
+          "start": 57.7,
+          "end": 57.8,
+          "confidence": 0.62109375
+        },
+        {
+          "text": "New",
+          "start": 57.8,
+          "end": 57.94,
+          "confidence": 0.8447265625
+        },
+        {
+          "text": "York",
+          "start": 57.94,
+          "end": 58.12,
+          "confidence": 0.93310546875
+        },
+        {
+          "text": "Times.",
+          "start": 58.12,
+          "end": 58.42,
+          "confidence": 0.72314453125
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "seek": 7922,
+      "start": 60.0,
+      "end": 65.98,
+      "text": "Iran is gisteren niet gestopt met het verrijken van uranium, zoals de internationale gemeenschap",
+      "tokens": [
+        50814,
+        8283,
+        307,
+        290,
+        1964,
+        268,
+        6899,
+        7219,
+        5747,
+        1131,
+        3639,
+        1306,
+        11105,
+        2653,
+        3161,
+        4038,
+        3782,
+        449,
+        11,
+        40040,
+        368,
+        19257,
+        1220,
+        18111,
+        26590,
+        569,
+        51112
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.24066311702495669,
+      "compression_ratio": 1.561056105610561,
+      "no_speech_prob": 0.282958984375,
+      "words": [
+        {
+          "text": "Iran",
+          "start": 60.0,
+          "end": 60.3,
+          "confidence": 0.7216796875
+        },
+        {
+          "text": "is",
+          "start": 60.3,
+          "end": 60.5,
+          "confidence": 0.8876953125
+        },
+        {
+          "text": "gisteren",
+          "start": 60.5,
+          "end": 60.88,
+          "confidence": 0.9080403645833334
+        },
+        {
+          "text": "niet",
+          "start": 60.88,
+          "end": 60.98,
+          "confidence": 0.84375
+        },
+        {
+          "text": "gestopt",
+          "start": 60.98,
+          "end": 61.36,
+          "confidence": 0.94775390625
+        },
+        {
+          "text": "met",
+          "start": 61.36,
+          "end": 61.5,
+          "confidence": 0.88720703125
+        },
+        {
+          "text": "het",
+          "start": 61.5,
+          "end": 61.62,
+          "confidence": 0.8466796875
+        },
+        {
+          "text": "verrijken",
+          "start": 61.62,
+          "end": 61.98,
+          "confidence": 0.939453125
+        },
+        {
+          "text": "van",
+          "start": 61.98,
+          "end": 62.14,
+          "confidence": 0.92431640625
+        },
+        {
+          "text": "uranium,",
+          "start": 62.14,
+          "end": 62.72,
+          "confidence": 0.6949869791666666
+        },
+        {
+          "text": "zoals",
+          "start": 63.14,
+          "end": 63.28,
+          "confidence": 0.93310546875
+        },
+        {
+          "text": "de",
+          "start": 63.28,
+          "end": 63.52,
+          "confidence": 0.73681640625
+        },
+        {
+          "text": "internationale",
+          "start": 63.52,
+          "end": 65.58,
+          "confidence": 0.827880859375
+        },
+        {
+          "text": "gemeenschap",
+          "start": 65.58,
+          "end": 65.98,
+          "confidence": 0.9322916666666666
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "seek": 7922,
+      "start": 65.98,
+      "end": 66.68,
+      "text": "wel had geëist.",
+      "tokens": [
+        51112,
+        2214,
+        632,
+        1519,
+        15101,
+        468,
+        13,
+        51162
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.24066311702495669,
+      "compression_ratio": 1.561056105610561,
+      "no_speech_prob": 0.282958984375,
+      "words": [
+        {
+          "text": "wel",
+          "start": 65.98,
+          "end": 66.14,
+          "confidence": 0.74365234375
+        },
+        {
+          "text": "had",
+          "start": 66.14,
+          "end": 66.3,
+          "confidence": 0.8125
+        },
+        {
+          "text": "geëist.",
+          "start": 66.3,
+          "end": 66.68,
+          "confidence": 0.9065755208333334
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "seek": 7922,
+      "start": 67.14,
+      "end": 70.3,
+      "text": "Dat heeft de atoombakant IAEA in Wenen bekendgemaakt.",
+      "tokens": [
+        51162,
+        9315,
+        17425,
+        368,
+        412,
+        78,
+        3548,
+        514,
+        394,
+        286,
+        32,
+        36,
+        32,
+        294,
+        343,
+        20317,
+        9393,
+        521,
+        432,
+        1696,
+        5886,
+        13,
+        51358
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.24066311702495669,
+      "compression_ratio": 1.561056105610561,
+      "no_speech_prob": 0.282958984375,
+      "words": [
+        {
+          "text": "Dat",
+          "start": 67.14,
+          "end": 67.32,
+          "confidence": 0.92529296875
+        },
+        {
+          "text": "heeft",
+          "start": 67.32,
+          "end": 67.46,
+          "confidence": 0.74560546875
+        },
+        {
+          "text": "de",
+          "start": 67.46,
+          "end": 67.56,
+          "confidence": 0.87841796875
+        },
+        {
+          "text": "atoombakant",
+          "start": 67.56,
+          "end": 68.24,
+          "confidence": 0.667138671875
+        },
+        {
+          "text": "IAEA",
+          "start": 68.24,
+          "end": 69.14,
+          "confidence": 0.8990478515625
+        },
+        {
+          "text": "in",
+          "start": 69.14,
+          "end": 69.36,
+          "confidence": 0.89892578125
+        },
+        {
+          "text": "Wenen",
+          "start": 69.36,
+          "end": 69.6,
+          "confidence": 0.817626953125
+        },
+        {
+          "text": "bekendgemaakt.",
+          "start": 69.6,
+          "end": 70.3,
+          "confidence": 0.8974609375
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "seek": 7922,
+      "start": 70.96,
+      "end": 75.88,
+      "text": "Iran heeft meer dan 300 centrifuges neergezet in een fabriek waar de verrijking van uranium",
+      "tokens": [
+        51358,
+        8283,
+        17425,
+        16318,
+        3277,
+        6641,
+        44828,
+        39064,
+        408,
+        260,
+        432,
+        40399,
+        294,
+        3881,
+        5355,
+        5469,
+        74,
+        16618,
+        368,
+        1306,
+        11105,
+        5092,
+        3161,
+        4038,
+        3782,
+        449,
+        51606
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.24066311702495669,
+      "compression_ratio": 1.561056105610561,
+      "no_speech_prob": 0.282958984375,
+      "words": [
+        {
+          "text": "Iran",
+          "start": 70.96,
+          "end": 71.22,
+          "confidence": 0.95263671875
+        },
+        {
+          "text": "heeft",
+          "start": 71.22,
+          "end": 71.44,
+          "confidence": 0.75
+        },
+        {
+          "text": "meer",
+          "start": 71.44,
+          "end": 71.68,
+          "confidence": 0.88671875
+        },
+        {
+          "text": "dan",
+          "start": 71.68,
+          "end": 71.84,
+          "confidence": 0.85693359375
+        },
+        {
+          "text": "300",
+          "start": 71.84,
+          "end": 72.34,
+          "confidence": 0.80322265625
+        },
+        {
+          "text": "centrifuges",
+          "start": 72.34,
+          "end": 73.02,
+          "confidence": 0.869140625
+        },
+        {
+          "text": "neergezet",
+          "start": 73.02,
+          "end": 73.6,
+          "confidence": 0.958740234375
+        },
+        {
+          "text": "in",
+          "start": 73.6,
+          "end": 73.88,
+          "confidence": 0.80224609375
+        },
+        {
+          "text": "een",
+          "start": 73.88,
+          "end": 74.02,
+          "confidence": 0.89990234375
+        },
+        {
+          "text": "fabriek",
+          "start": 74.02,
+          "end": 74.38,
+          "confidence": 0.9264322916666666
+        },
+        {
+          "text": "waar",
+          "start": 74.38,
+          "end": 74.72,
+          "confidence": 0.61328125
+        },
+        {
+          "text": "de",
+          "start": 74.72,
+          "end": 74.82,
+          "confidence": 0.90966796875
+        },
+        {
+          "text": "verrijking",
+          "start": 74.82,
+          "end": 75.22,
+          "confidence": 0.9322916666666666
+        },
+        {
+          "text": "van",
+          "start": 75.22,
+          "end": 75.38,
+          "confidence": 0.91796875
+        },
+        {
+          "text": "uranium",
+          "start": 75.38,
+          "end": 75.88,
+          "confidence": 0.7256673177083334
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "seek": 7922,
+      "start": 75.88,
+      "end": 79.22,
+      "text": "op industriële schaal is gepland, al dus het atoomagentschap.",
+      "tokens": [
+        51606,
+        999,
+        49005,
+        15101,
+        306,
+        956,
+        38950,
+        307,
+        1519,
+        564,
+        474,
+        11,
+        419,
+        14284,
+        3639,
+        412,
+        78,
+        298,
+        559,
+        791,
+        339,
+        569,
+        13,
+        51786
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.24066311702495669,
+      "compression_ratio": 1.561056105610561,
+      "no_speech_prob": 0.282958984375,
+      "words": [
+        {
+          "text": "op",
+          "start": 75.88,
+          "end": 76.08,
+          "confidence": 0.87158203125
+        },
+        {
+          "text": "industriële",
+          "start": 76.08,
+          "end": 76.82,
+          "confidence": 0.811767578125
+        },
+        {
+          "text": "schaal",
+          "start": 76.82,
+          "end": 77.1,
+          "confidence": 0.895263671875
+        },
+        {
+          "text": "is",
+          "start": 77.1,
+          "end": 77.24,
+          "confidence": 0.8935546875
+        },
+        {
+          "text": "gepland,",
+          "start": 77.24,
+          "end": 77.6,
+          "confidence": 0.9005533854166666
+        },
+        {
+          "text": "al",
+          "start": 78.0,
+          "end": 78.12,
+          "confidence": 0.81201171875
+        },
+        {
+          "text": "dus",
+          "start": 78.12,
+          "end": 78.26,
+          "confidence": 0.69189453125
+        },
+        {
+          "text": "het",
+          "start": 78.26,
+          "end": 78.4,
+          "confidence": 0.8935546875
+        },
+        {
+          "text": "atoomagentschap.",
+          "start": 78.4,
+          "end": 79.22,
+          "confidence": 0.9110630580357143
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "seek": 10530,
+      "start": 79.22,
+      "end": 82.56,
+      "text": "Het Westen maakt zich zorgen dat Iran atoombommen wil bouwen.",
+      "tokens": [
+        50376,
+        12045,
+        4055,
+        268,
+        463,
+        5886,
+        31820,
+        22304,
+        1766,
+        1137,
+        8283,
+        412,
+        78,
+        3548,
+        5132,
+        20501,
+        15345,
+        15615,
+        13,
+        50532
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.2270975969221494,
+      "compression_ratio": 1.6702508960573477,
+      "no_speech_prob": 0.03668212890625,
+      "words": [
+        {
+          "text": "Het",
+          "start": 79.22,
+          "end": 79.64,
+          "confidence": 0.6552734375
+        },
+        {
+          "text": "Westen",
+          "start": 79.64,
+          "end": 79.96,
+          "confidence": 0.727783203125
+        },
+        {
+          "text": "maakt",
+          "start": 79.96,
+          "end": 80.12,
+          "confidence": 0.920166015625
+        },
+        {
+          "text": "zich",
+          "start": 80.12,
+          "end": 80.26,
+          "confidence": 0.72705078125
+        },
+        {
+          "text": "zorgen",
+          "start": 80.26,
+          "end": 80.62,
+          "confidence": 0.87890625
+        },
+        {
+          "text": "dat",
+          "start": 80.62,
+          "end": 80.82,
+          "confidence": 0.88037109375
+        },
+        {
+          "text": "Iran",
+          "start": 80.82,
+          "end": 81.14,
+          "confidence": 0.9111328125
+        },
+        {
+          "text": "atoombommen",
+          "start": 81.14,
+          "end": 81.96,
+          "confidence": 0.905029296875
+        },
+        {
+          "text": "wil",
+          "start": 81.96,
+          "end": 82.2,
+          "confidence": 0.85791015625
+        },
+        {
+          "text": "bouwen.",
+          "start": 82.2,
+          "end": 82.56,
+          "confidence": 0.877685546875
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "seek": 10530,
+      "start": 83.7,
+      "end": 88.64,
+      "text": "In verschillende wijken van Baghdad zijn het afgelopen etmaal 20 lijken gevonden van doodgeschoten",
+      "tokens": [
+        50532,
+        682,
+        20563,
+        373,
+        5445,
+        24770,
+        2653,
+        3161,
+        45487,
+        20034,
+        8004,
+        3639,
+        3238,
+        10345,
+        15752,
+        1030,
+        30371,
+        945,
+        42158,
+        2653,
+        47103,
+        37982,
+        3161,
+        360,
+        378,
+        23378,
+        21990,
+        50836
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.2270975969221494,
+      "compression_ratio": 1.6702508960573477,
+      "no_speech_prob": 0.03668212890625,
+      "words": [
+        {
+          "text": "In",
+          "start": 83.7,
+          "end": 84.3,
+          "confidence": 0.88671875
+        },
+        {
+          "text": "verschillende",
+          "start": 84.3,
+          "end": 84.7,
+          "confidence": 0.8854166666666666
+        },
+        {
+          "text": "wijken",
+          "start": 84.7,
+          "end": 84.96,
+          "confidence": 0.8544921875
+        },
+        {
+          "text": "van",
+          "start": 84.96,
+          "end": 85.14,
+          "confidence": 0.92626953125
+        },
+        {
+          "text": "Baghdad",
+          "start": 85.14,
+          "end": 85.58,
+          "confidence": 0.703125
+        },
+        {
+          "text": "zijn",
+          "start": 85.58,
+          "end": 85.84,
+          "confidence": 0.79931640625
+        },
+        {
+          "text": "het",
+          "start": 85.84,
+          "end": 85.96,
+          "confidence": 0.85888671875
+        },
+        {
+          "text": "afgelopen",
+          "start": 85.96,
+          "end": 86.3,
+          "confidence": 0.96923828125
+        },
+        {
+          "text": "etmaal",
+          "start": 86.3,
+          "end": 86.68,
+          "confidence": 0.912353515625
+        },
+        {
+          "text": "20",
+          "start": 86.68,
+          "end": 87.06,
+          "confidence": 0.472900390625
+        },
+        {
+          "text": "lijken",
+          "start": 87.06,
+          "end": 87.46,
+          "confidence": 0.887451171875
+        },
+        {
+          "text": "gevonden",
+          "start": 87.46,
+          "end": 87.82,
+          "confidence": 0.918701171875
+        },
+        {
+          "text": "van",
+          "start": 87.82,
+          "end": 88.04,
+          "confidence": 0.85009765625
+        },
+        {
+          "text": "doodgeschoten",
+          "start": 88.04,
+          "end": 88.64,
+          "confidence": 0.9415283203125
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "seek": 10530,
+      "start": 88.64,
+      "end": 89.22,
+      "text": "Irakezen.",
+      "tokens": [
+        50836,
+        10954,
+        330,
+        2904,
+        13,
+        50886
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.2270975969221494,
+      "compression_ratio": 1.6702508960573477,
+      "no_speech_prob": 0.03668212890625,
+      "words": [
+        {
+          "text": "Irakezen.",
+          "start": 88.64,
+          "end": 89.22,
+          "confidence": 0.7960611979166666
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "seek": 10530,
+      "start": 89.78,
+      "end": 92.0,
+      "text": "De stoffelijke overschotten vertonen sporen van marteling.",
+      "tokens": [
+        50886,
+        1346,
+        342,
+        4506,
+        338,
+        33611,
+        670,
+        6145,
+        310,
+        1147,
+        1306,
+        1756,
+        268,
+        637,
+        10948,
+        3161,
+        12396,
+        11031,
+        13,
+        51008
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.2270975969221494,
+      "compression_ratio": 1.6702508960573477,
+      "no_speech_prob": 0.03668212890625,
+      "words": [
+        {
+          "text": "De",
+          "start": 89.78,
+          "end": 89.88,
+          "confidence": 0.92529296875
+        },
+        {
+          "text": "stoffelijke",
+          "start": 89.88,
+          "end": 90.24,
+          "confidence": 0.8790283203125
+        },
+        {
+          "text": "overschotten",
+          "start": 90.24,
+          "end": 90.72,
+          "confidence": 0.8668212890625
+        },
+        {
+          "text": "vertonen",
+          "start": 90.72,
+          "end": 91.08,
+          "confidence": 0.6888834635416666
+        },
+        {
+          "text": "sporen",
+          "start": 91.08,
+          "end": 91.36,
+          "confidence": 0.929443359375
+        },
+        {
+          "text": "van",
+          "start": 91.36,
+          "end": 91.56,
+          "confidence": 0.94189453125
+        },
+        {
+          "text": "marteling.",
+          "start": 91.56,
+          "end": 92.0,
+          "confidence": 0.908447265625
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "seek": 10530,
+      "start": 93.28,
+      "end": 97.66,
+      "text": "Nederland doet het op het gebied van innovatie beter dan het gemiddelde van de Europese Unie.",
+      "tokens": [
+        51008,
+        31888,
+        44138,
+        3639,
+        999,
+        3639,
+        21125,
+        1091,
+        3161,
+        5083,
+        16921,
+        45425,
+        3277,
+        3639,
+        7173,
+        14273,
+        338,
+        1479,
+        3161,
+        368,
+        12201,
+        1130,
+        1156,
+        414,
+        13,
+        51296
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.2270975969221494,
+      "compression_ratio": 1.6702508960573477,
+      "no_speech_prob": 0.03668212890625,
+      "words": [
+        {
+          "text": "Nederland",
+          "start": 93.28,
+          "end": 93.58,
+          "confidence": 0.338623046875
+        },
+        {
+          "text": "doet",
+          "start": 93.58,
+          "end": 93.92,
+          "confidence": 0.93408203125
+        },
+        {
+          "text": "het",
+          "start": 93.92,
+          "end": 94.04,
+          "confidence": 0.88427734375
+        },
+        {
+          "text": "op",
+          "start": 94.04,
+          "end": 94.14,
+          "confidence": 0.90771484375
+        },
+        {
+          "text": "het",
+          "start": 94.14,
+          "end": 94.24,
+          "confidence": 0.88427734375
+        },
+        {
+          "text": "gebied",
+          "start": 94.24,
+          "end": 94.46,
+          "confidence": 0.87939453125
+        },
+        {
+          "text": "van",
+          "start": 94.46,
+          "end": 94.66,
+          "confidence": 0.93115234375
+        },
+        {
+          "text": "innovatie",
+          "start": 94.66,
+          "end": 95.28,
+          "confidence": 0.938720703125
+        },
+        {
+          "text": "beter",
+          "start": 95.28,
+          "end": 95.7,
+          "confidence": 0.84912109375
+        },
+        {
+          "text": "dan",
+          "start": 95.7,
+          "end": 96.2,
+          "confidence": 0.8447265625
+        },
+        {
+          "text": "het",
+          "start": 96.2,
+          "end": 96.34,
+          "confidence": 0.81689453125
+        },
+        {
+          "text": "gemiddelde",
+          "start": 96.34,
+          "end": 96.74,
+          "confidence": 0.9075927734375
+        },
+        {
+          "text": "van",
+          "start": 96.74,
+          "end": 96.88,
+          "confidence": 0.890625
+        },
+        {
+          "text": "de",
+          "start": 96.88,
+          "end": 97.0,
+          "confidence": 0.90185546875
+        },
+        {
+          "text": "Europese",
+          "start": 97.0,
+          "end": 97.4,
+          "confidence": 0.8330078125
+        },
+        {
+          "text": "Unie.",
+          "start": 97.4,
+          "end": 97.66,
+          "confidence": 0.89990234375
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "seek": 10530,
+      "start": 97.96,
+      "end": 101.02,
+      "text": "Dat blijkt uit het jaarlijkse innovatiescorebord van de EU.",
+      "tokens": [
+        51296,
+        9315,
+        26486,
+        2320,
+        12528,
+        3639,
+        2784,
+        6843,
+        6940,
+        405,
+        5083,
+        267,
+        530,
+        12352,
+        65,
+        765,
+        3161,
+        368,
+        10887,
+        13,
+        51468
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.2270975969221494,
+      "compression_ratio": 1.6702508960573477,
+      "no_speech_prob": 0.03668212890625,
+      "words": [
+        {
+          "text": "Dat",
+          "start": 97.96,
+          "end": 98.18,
+          "confidence": 0.916015625
+        },
+        {
+          "text": "blijkt",
+          "start": 98.18,
+          "end": 98.44,
+          "confidence": 0.935302734375
+        },
+        {
+          "text": "uit",
+          "start": 98.44,
+          "end": 98.58,
+          "confidence": 0.89501953125
+        },
+        {
+          "text": "het",
+          "start": 98.58,
+          "end": 98.74,
+          "confidence": 0.8564453125
+        },
+        {
+          "text": "jaarlijkse",
+          "start": 98.74,
+          "end": 99.14,
+          "confidence": 0.8985595703125
+        },
+        {
+          "text": "innovatiescorebord",
+          "start": 99.14,
+          "end": 100.42,
+          "confidence": 0.742431640625
+        },
+        {
+          "text": "van",
+          "start": 100.42,
+          "end": 100.58,
+          "confidence": 0.9091796875
+        },
+        {
+          "text": "de",
+          "start": 100.58,
+          "end": 100.72,
+          "confidence": 0.92431640625
+        },
+        {
+          "text": "EU.",
+          "start": 100.72,
+          "end": 101.02,
+          "confidence": 0.95849609375
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "seek": 10530,
+      "start": 101.58,
+      "end": 105.3,
+      "text": "De achterstand van Europa op de VS is de afgelopen vier jaar een beetje ingelopen.",
+      "tokens": [
+        51468,
+        1346,
+        35557,
+        1115,
+        3161,
+        16642,
+        999,
+        368,
+        25091,
+        307,
+        368,
+        3238,
+        10345,
+        15752,
+        17634,
+        22579,
+        3881,
+        27459,
+        3957,
+        338,
+        15752,
+        13,
+        51672
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.2270975969221494,
+      "compression_ratio": 1.6702508960573477,
+      "no_speech_prob": 0.03668212890625,
+      "words": [
+        {
+          "text": "De",
+          "start": 101.58,
+          "end": 101.74,
+          "confidence": 0.9013671875
+        },
+        {
+          "text": "achterstand",
+          "start": 101.74,
+          "end": 102.1,
+          "confidence": 0.884033203125
+        },
+        {
+          "text": "van",
+          "start": 102.1,
+          "end": 102.26,
+          "confidence": 0.8994140625
+        },
+        {
+          "text": "Europa",
+          "start": 102.26,
+          "end": 102.6,
+          "confidence": 0.87158203125
+        },
+        {
+          "text": "op",
+          "start": 102.6,
+          "end": 102.82,
+          "confidence": 0.90966796875
+        },
+        {
+          "text": "de",
+          "start": 102.82,
+          "end": 102.94,
+          "confidence": 0.9130859375
+        },
+        {
+          "text": "VS",
+          "start": 102.94,
+          "end": 103.28,
+          "confidence": 0.97509765625
+        },
+        {
+          "text": "is",
+          "start": 103.28,
+          "end": 103.52,
+          "confidence": 0.89453125
+        },
+        {
+          "text": "de",
+          "start": 103.52,
+          "end": 103.62,
+          "confidence": 0.912109375
+        },
+        {
+          "text": "afgelopen",
+          "start": 103.62,
+          "end": 103.96,
+          "confidence": 0.9632161458333334
+        },
+        {
+          "text": "vier",
+          "start": 103.96,
+          "end": 104.22,
+          "confidence": 0.78955078125
+        },
+        {
+          "text": "jaar",
+          "start": 104.22,
+          "end": 104.42,
+          "confidence": 0.8720703125
+        },
+        {
+          "text": "een",
+          "start": 104.42,
+          "end": 104.56,
+          "confidence": 0.88720703125
+        },
+        {
+          "text": "beetje",
+          "start": 104.56,
+          "end": 104.76,
+          "confidence": 0.8701171875
+        },
+        {
+          "text": "ingelopen.",
+          "start": 104.76,
+          "end": 105.3,
+          "confidence": 0.9339192708333334
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "seek": 11187,
+      "start": 105.3,
+      "end": 109.12,
+      "text": "Nederland doet het vooral goed op het gebied van de verspreiding van breedband internet",
+      "tokens": [
+        50380,
+        31888,
+        44138,
+        3639,
+        7358,
+        304,
+        16987,
+        999,
+        3639,
+        21125,
+        1091,
+        3161,
+        368,
+        1774,
+        3712,
+        2819,
+        3161,
+        18971,
+        4235,
+        4705,
+        50568
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.3251953199505806,
+      "compression_ratio": 1.173913043478261,
+      "no_speech_prob": 0.2186279296875,
+      "words": [
+        {
+          "text": "Nederland",
+          "start": 105.3,
+          "end": 105.96,
+          "confidence": 0.64404296875
+        },
+        {
+          "text": "doet",
+          "start": 105.96,
+          "end": 106.26,
+          "confidence": 0.95458984375
+        },
+        {
+          "text": "het",
+          "start": 106.26,
+          "end": 106.4,
+          "confidence": 0.87646484375
+        },
+        {
+          "text": "vooral",
+          "start": 106.4,
+          "end": 106.68,
+          "confidence": 0.8125
+        },
+        {
+          "text": "goed",
+          "start": 106.68,
+          "end": 106.9,
+          "confidence": 0.87890625
+        },
+        {
+          "text": "op",
+          "start": 106.9,
+          "end": 107.04,
+          "confidence": 0.8564453125
+        },
+        {
+          "text": "het",
+          "start": 107.04,
+          "end": 107.14,
+          "confidence": 0.859375
+        },
+        {
+          "text": "gebied",
+          "start": 107.14,
+          "end": 107.4,
+          "confidence": 0.869140625
+        },
+        {
+          "text": "van",
+          "start": 107.4,
+          "end": 107.56,
+          "confidence": 0.93115234375
+        },
+        {
+          "text": "de",
+          "start": 107.56,
+          "end": 107.64,
+          "confidence": 0.87060546875
+        },
+        {
+          "text": "verspreiding",
+          "start": 107.64,
+          "end": 108.08,
+          "confidence": 0.93701171875
+        },
+        {
+          "text": "van",
+          "start": 108.08,
+          "end": 108.24,
+          "confidence": 0.89794921875
+        },
+        {
+          "text": "breedband",
+          "start": 108.24,
+          "end": 108.7,
+          "confidence": 0.779052734375
+        },
+        {
+          "text": "internet",
+          "start": 108.7,
+          "end": 109.12,
+          "confidence": 0.495361328125
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "seek": 11187,
+      "start": 109.12,
+      "end": 111.06,
+      "text": "en uitgaven aan ICT.",
+      "tokens": [
+        50568,
+        465,
+        12528,
+        3680,
+        553,
+        9904,
+        286,
+        10259,
+        13,
+        50668
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.3251953199505806,
+      "compression_ratio": 1.173913043478261,
+      "no_speech_prob": 0.2186279296875,
+      "words": [
+        {
+          "text": "en",
+          "start": 109.12,
+          "end": 109.6,
+          "confidence": 0.83154296875
+        },
+        {
+          "text": "uitgaven",
+          "start": 109.6,
+          "end": 110.3,
+          "confidence": 0.724609375
+        },
+        {
+          "text": "aan",
+          "start": 110.3,
+          "end": 110.52,
+          "confidence": 0.88916015625
+        },
+        {
+          "text": "ICT.",
+          "start": 110.52,
+          "end": 111.06,
+          "confidence": 0.890625
+        }
+      ]
+    }
+  ]
+}
