@@ -112,7 +112,7 @@ if __name__ == "__main__":
     from base_util import LOG_FORMAT
 
     # first read the CLI arguments
-    parser = ArgumentParser(description="dane-audio-extraction-worker")
+    parser = ArgumentParser(description="dane-whisper-asr-worker")
     parser.add_argument(
         "--run-test-file", action="store", dest="run_test_file", default="n", nargs="?"
     )
@@ -156,7 +156,7 @@ if __name__ == "__main__":
     else:
         logger.info("Starting the worker")
         # start the worker
-        w = AudioExtractionWorker(cfg)
+        w = WhisperASRWorker(cfg)
         try:
             w.run()
         except ChannelClosedByBroker:
