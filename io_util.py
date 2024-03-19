@@ -88,9 +88,7 @@ def get_output_file_name(source_id: str, output_type: OutputType) -> str:
         case OutputType.PROVENANCE:
             output_file_name = source_id + "_provenance.json"
         case OutputType.TRANSCRIPT:
-            output_file_name = (
-                source_id + ".json"
-            )
+            output_file_name = source_id + ".json"
     return output_file_name
 
 
