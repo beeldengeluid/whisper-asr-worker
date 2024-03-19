@@ -1,4 +1,4 @@
-name: Deploy dane-visual-feature-extraction-worker to ghcr
+name: Deploy dane-whisper-asr-worker to ghcr
 
 on:
   workflow_call:

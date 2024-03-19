@@ -1,0 +1,34 @@
+RABBITMQ:
+    HOST: dane-rabbitmq-api.default.svc.cluster.local
+    PORT: 5672
+    EXCHANGE: DANE-exchange
+    RESPONSE_QUEUE: DANE-response-queue
+    USER: guest # change this for production mode
+    PASSWORD: guest # change this for production mode
+ELASTICSEARCH:
+    HOST:
+        - elasticsearch
+    PORT: 9200
+    USER: '' # change this for production mode
+    PASSWORD: '' # change this for production mode
+    SCHEME: http
+    INDEX: dane-index-k8s
+FILE_SYSTEM:
+    BASE_MOUNT: data # data when running locally
+    INPUT_DIR: input-files
+    OUTPUT_DIR: output-files
+INPUT:
+    TEST_INPUT_PATH: testsource__testcarrier/inputfile.wav
+    S3_ENDPOINT_URL: https://s3-host
+    MODEL: s3://bucket/model
+    DELETE_ON_COMPLETION: False
+OUTPUT:
+    DELETE_ON_COMPLETION: True
+    TRANSFER_ON_COMPLETION: True
+    S3_ENDPOINT_URL: https://s3-host
+    S3_BUCKET: bucket-name  # bucket reserved for 1 type of output
+    S3_FOLDER_IN_BUCKET: folder  # folder within the bucket
+WHISPER_ASR_SETTINGS:
+    WORD_TIMESTAMPS: True
+DANE_DEPENDENCIES:
+    - input-generating-worker
