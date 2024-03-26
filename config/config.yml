@@ -30,5 +30,8 @@ OUTPUT:
     S3_FOLDER_IN_BUCKET: folder  # folder within the bucket
 WHISPER_ASR_SETTINGS:
     WORD_TIMESTAMPS: True
+    DEVICE: cpu  # "cpu" to run on CPU, otherwise "cuda" to run on GPU
+    VAD: True  # whether to use voice activity detection (VAD) or not
+    MODEL_VERSION: large-v2  # check the README for available options
 DANE_DEPENDENCIES:
     - input-generating-worker
