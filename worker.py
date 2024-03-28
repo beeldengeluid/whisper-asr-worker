@@ -79,7 +79,6 @@ class WhisperASRWorker(base_worker):
             )
         return processing_result
 
-    # TODO adapt
     def save_to_dane_index(
         self,
         doc: Document,
@@ -88,7 +87,6 @@ class WhisperASRWorker(base_worker):
         provenance: Provenance,
     ) -> None:
         logger.info("saving results to DANE, task id={0}".format(task._id))
-        # TODO figure out the multiple lines per transcript (refresh my memory)
         r = Result(
             self.generator,
             payload={
