@@ -39,7 +39,7 @@ def run_whisper(
         best_of=5,
         temperature=(0.0, 0.2, 0.4, 0.6, 0.8, 1.0),
         language="nl",
-        word_timestamps=cfg.WHISPER_ASR_SETTINGS.WORD_TIMESTAMPS
+        word_timestamps=cfg.WHISPER_ASR_SETTINGS.WORD_TIMESTAMPS,
     )
 
     segments_to_add = []
@@ -52,7 +52,7 @@ def run_whisper(
                         "text": word.word.lstrip(),
                         "start": word.start,
                         "end": word.end,
-                        "confidence": word.probability
+                        "confidence": word.probability,
                     }
                 )
         segments_to_add.append(
@@ -67,7 +67,7 @@ def run_whisper(
                 "avg_logprob": segment.avg_logprob,
                 "compression_ratio": segment.compression_ratio,
                 "no_speech_prob": segment.no_speech_prob,
-                "words": words_to_add
+                "words": words_to_add,
             }
         )
     result = {"segments": segments_to_add}
