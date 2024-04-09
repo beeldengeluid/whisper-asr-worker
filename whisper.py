@@ -24,39 +24,55 @@ def run_whisper(
     destination = get_output_file_path(input.source_id, OutputType.TRANSCRIPT)
 
     # float16 only works on GPU, float32 or int8 are recommended for CPU
-    model = WhisperModel(cfg.WHISPER_ASR_SETTINGS.MODEL_VERSION, device=cfg.WHISPER_ASR_SETTINGS.DEVICE,
-                         compute_type="float16" if cfg.WHISPER_ASR_SETTINGS.DEVICE == "cuda" else "float32")
+    model = WhisperModel(
+        cfg.WHISPER_ASR_SETTINGS.MODEL_VERSION,
+        device=cfg.WHISPER_ASR_SETTINGS.DEVICE,
+        compute_type=(
+            "float16" if cfg.WHISPER_ASR_SETTINGS.DEVICE == "cuda" else "float32"
+        ),
+    )
 
-    segments, _ = model.transcribe(input.input_file_path, vad_filter=cfg.WHISPER_ASR_SETTINGS.VAD, beam_size=5,
-                                   best_of=5, temperature=(0.0, 0.2, 0.4, 0.6, 0.8, 1.0), language="nl",
-                                   word_timestamps=cfg.WHISPER_ASR_SETTINGS.WORD_TIMESTAMPS)
+    segments, _ = model.transcribe(
+        input.input_file_path,
+        vad_filter=cfg.WHISPER_ASR_SETTINGS.VAD,
+        beam_size=5,
+        best_of=5,
+        temperature=(0.0, 0.2, 0.4, 0.6, 0.8, 1.0),
+        language="nl",
+        word_timestamps=cfg.WHISPER_ASR_SETTINGS.WORD_TIMESTAMPS
+    )
+
     segments_to_add = []
     for segment in segments:
         words_to_add = []
         if cfg.WHISPER_ASR_SETTINGS.WORD_TIMESTAMPS:
             for word in segment.words:
-                words_to_add.append({
-                    "text": word.word.lstrip(),
-                    "start": word.start,
-                    "end": word.end,
-                    "confidence": word.probability
-                })
-        segments_to_add.append({
-            "id": segment.id,
-            "seek": segment.seek,
-            "start": segment.start,
-            "end": segment.end,
-            "text": segment.text.lstrip(),
-            "tokens": segment.tokens,
-            "temperature": segment.temperature,
-            "avg_logprob": segment.avg_logprob,
-            "compression_ratio": segment.compression_ratio,
-            "no_speech_prob": segment.no_speech_prob,
-            "words": words_to_add
-        })
+                words_to_add.append(
+                    {
+                        "text": word.word.lstrip(),
+                        "start": word.start,
+                        "end": word.end,
+                        "confidence": word.probability
+                    }
+                )
+        segments_to_add.append(
+            {
+                "id": segment.id,
+                "seek": segment.seek,
+                "start": segment.start,
+                "end": segment.end,
+                "text": segment.text.lstrip(),
+                "tokens": segment.tokens,
+                "temperature": segment.temperature,
+                "avg_logprob": segment.avg_logprob,
+                "compression_ratio": segment.compression_ratio,
+                "no_speech_prob": segment.no_speech_prob,
+                "words": words_to_add
+            }
+        )
     result = {"segments": segments_to_add}
-    
-    with open(destination, 'w', encoding='utf-8') as f:
+
+    with open(destination, "w", encoding="utf-8") as f:
         json.dump(result, f, indent=2, ensure_ascii=False)
         logger.info("Transcription finished, saved at " + destination)
 
