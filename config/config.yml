@@ -33,5 +33,8 @@ WHISPER_ASR_SETTINGS:
     DEVICE: cpu  # "cpu" to run on CPU, otherwise "cuda" to run on GPU
     VAD: True  # whether to use voice activity detection (VAD) or not
     MODEL_VERSION: large-v2  # check the README for available options
+    BEAM_SIZE: 5
+    BEST_OF: 5
+    TEMPERATURE: (0.0,0.2,0.4,0.6,0.8,1.0)
 DANE_DEPENDENCIES:
     - input-generating-worker

@@ -6,6 +6,7 @@ from models import (
 import logging
 import time
 import json
+import ast
 from dane.config import cfg
 from dane.provenance import Provenance
 from io_util import (
@@ -35,9 +36,9 @@ def run_whisper(
     segments, _ = model.transcribe(
         input.input_file_path,
         vad_filter=cfg.WHISPER_ASR_SETTINGS.VAD,
-        beam_size=5,
-        best_of=5,
-        temperature=(0.0, 0.2, 0.4, 0.6, 0.8, 1.0),
+        beam_size=cfg.WHISPER_ASR_SETTINGS.BEAM_SIZE,
+        best_of=cfg.WHISPER_ASR_SETTINGS.BEST_OF,
+        temperature=ast.literal_eval(cfg.WHISPER_ASR_SETTINGS.TEMPERATURE),
         language="nl",
         word_timestamps=cfg.WHISPER_ASR_SETTINGS.WORD_TIMESTAMPS,
     )
@@ -49,7 +50,7 @@ def run_whisper(
             for word in segment.words:
                 words_to_add.append(
                     {
-                        "text": word.word.lstrip(),
+                        "text": word.word.strip(),
                         "start": word.start,
                         "end": word.end,
                         "confidence": word.probability,
@@ -61,7 +62,7 @@ def run_whisper(
                 "seek": segment.seek,
                 "start": segment.start,
                 "end": segment.end,
-                "text": segment.text.lstrip(),
+                "text": segment.text.strip(),
                 "tokens": segment.tokens,
                 "temperature": segment.temperature,
                 "avg_logprob": segment.avg_logprob,
