@@ -13,7 +13,7 @@ from io_util import (
     get_base_output_dir,
     get_output_file_path,
 )
-from faster_whisper import WhisperModel
+import faster_whisper
 
 
 def run_whisper(
@@ -25,7 +25,7 @@ def run_whisper(
     destination = get_output_file_path(input.source_id, OutputType.TRANSCRIPT)
 
     # float16 only works on GPU, float32 or int8 are recommended for CPU
-    model = WhisperModel(
+    model = faster_whisper.WhisperModel(
         cfg.WHISPER_ASR_SETTINGS.MODEL_VERSION,
         device=cfg.WHISPER_ASR_SETTINGS.DEVICE,
         compute_type=(
@@ -85,6 +85,7 @@ def run_whisper(
         input_data=input.input_file_path,
         start_time_unix=start,
         parameters=cfg.WHISPER_ASR_SETTINGS,
+        software_version=faster_whisper.__version__,
         output_data=destination,
         processing_time_ms=end - start,
     )
