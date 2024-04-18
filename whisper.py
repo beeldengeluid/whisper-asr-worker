@@ -85,7 +85,6 @@ def run_whisper(
         input_data=input.input_file_path,
         start_time_unix=start,
         parameters=cfg.WHISPER_ASR_SETTINGS,
-        software_version="0.1.0",
         output_data=destination,
         processing_time_ms=end - start,
     )
