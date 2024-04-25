@@ -20,13 +20,15 @@ FILE_SYSTEM:
 INPUT:
     TEST_INPUT_PATH: testsource__testcarrier/inputfile.wav
     S3_ENDPOINT_URL: https://s3-host
-    MODEL: s3://bucket/model
+    S3_BUCKET: input
+    S3_FOLDER_IN_BUCKET: assets  # folder within the bucket
+    S3_BUCKET_MODEL: model
     DELETE_ON_COMPLETION: False
 OUTPUT:
-    DELETE_ON_COMPLETION: True
+    DELETE_ON_COMPLETION: False
     TRANSFER_ON_COMPLETION: True
     S3_ENDPOINT_URL: https://s3-host
-    S3_BUCKET: bucket-name  # bucket reserved for 1 type of output
+    S3_BUCKET: output  # bucket reserved for 1 type of output
     S3_FOLDER_IN_BUCKET: folder  # folder within the bucket
 WHISPER_ASR_SETTINGS:
     WORD_TIMESTAMPS: True
