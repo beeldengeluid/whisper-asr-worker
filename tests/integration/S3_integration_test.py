@@ -43,7 +43,7 @@ def create_sample_input():
     """
     fn = "./data/input-files/testsource__testcarrier/inputfile.wav"
     with tarfile.open(fn_tar_in, "w:gz") as tar:
-        tar.add(fn, arcname='inputfile.wav')
+        tar.add(fn, arcname="inputfile.wav")
     yield
     # after test: cleanup
     os.remove(fn_tar_in)
