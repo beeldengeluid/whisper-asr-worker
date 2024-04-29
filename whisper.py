@@ -18,36 +18,36 @@ import os
 
 
 # makes sure the model is available, if not download it from S3, if that fails download from Huggingface
-def check_model_availability():
+def check_model_availability() -> bool:
     logger = logging.getLogger(__name__)
-    logger.info("Checking if the model is available")
-    model_checkpoint_path = ".cache/hub/"
-    if os.path.exists(model_checkpoint_path):
-        logger.info("Model found, continuing")
-        return
+    model_checkpoint_path = cfg.FILE_SYSTEM.MODEL
+    if os.path.exists(model_checkpoint_path + "/model.bin"):
+        logger.info("Model found locally")
+        return True
 
-    logger.info("Model not found, checking availability in S3")
-    if not cfg.INPUT.MODEL:
-        logger.error(
-            "Incomplete config for downloading the model from S3, please configure: INPUT.MODEL"
-        )
-        logger.error(
-            "Downloading from Huggingface instead"
-        )
-        return
+    # logger.info("Model not found locally, checking availability in S3")
+    # if not cfg.INPUT.MODEL:
+    #     logger.error(
+    #         "Incomplete config for downloading the model from S3, please configure: INPUT.MODEL"
+    #     )
+    #     logger.error(
+    #         "Downloading from Huggingface instead"
+    #     )
+    #     return
 
-    download_success = False
-    # download_model_from_s3(
-    #     cfg.VISXP_EXTRACT.MODEL_BASE_MOUNT,  # download models into this dir
-    #     cfg.INPUT.MODEL_CHECKPOINT_S3_URI,  # model checkpoint file is stored here
-    #     cfg.INPUT.MODEL_CONFIG_S3_URI,  # model config file is stored here
-    #     cfg.INPUT.S3_ENDPOINT_URL,  # the endpoint URL of the S3 host
-    # )
+    # download_success = False
+    # # download_model_from_s3(
+    # #     cfg.VISXP_EXTRACT.MODEL_BASE_MOUNT,  # download models into this dir
+    # #     cfg.INPUT.MODEL_CHECKPOINT_S3_URI,  # model checkpoint file is stored here
+    # #     cfg.INPUT.MODEL_CONFIG_S3_URI,  # model config file is stored here
+    # #     cfg.INPUT.S3_ENDPOINT_URL,  # the endpoint URL of the S3 host
+    # # )
 
-    if not download_success:
-        logger.error("Could not download models from S3, downloading from Huggingface instead...")
-    else:
-        logger.info("Model successfully downloaded from S3!")
+    # if not download_success:
+    logger.error("Could not download models from S3, downloading from Huggingface instead...")
+    return False
+    # else:
+    #     logger.info("Model successfully downloaded from S3!")
 
 
 def run_whisper(
@@ -57,12 +57,11 @@ def run_whisper(
     logger.info("Starting model application")
     start = time.time() * 1000  # convert to ms
     destination = get_output_file_path(input.source_id, OutputType.TRANSCRIPT)
-
-    os.environ["HF_HOME"] = '.cache'
+    model_location = cfg.FILE_SYSTEM.MODEL if check_model_availability() else cfg.WHISPER_ASR_SETTINGS.MODEL_VERSION
 
     # float16 only works on GPU, float32 or int8 are recommended for CPU
     model = faster_whisper.WhisperModel(
-        cfg.WHISPER_ASR_SETTINGS.MODEL_VERSION,
+        model_location,
         device=cfg.WHISPER_ASR_SETTINGS.DEVICE,
         compute_type=(
             "float16" if cfg.WHISPER_ASR_SETTINGS.DEVICE == "cuda" else "float32"

@@ -14,7 +14,8 @@ ELASTICSEARCH:
     SCHEME: http
     INDEX: dane-index-k8s
 FILE_SYSTEM:
-    BASE_MOUNT: data # data when running S3 integration test, /data when running via Docker
+    BASE_MOUNT: /data # data when running S3 integration test, /data when running via Docker
+    MODEL: /model # model when running S3 integration test, /model when running via Docker
     INPUT_DIR: input-files
     OUTPUT_DIR: output-files
 INPUT:
