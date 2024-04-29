@@ -265,7 +265,8 @@ def obtain_input_file(s3_uri: str) -> WhisperASRInput:
     success = s3.download_file(bucket, object_name, output_folder)
     if success:
         # uncompress the <input_base>.tar.gz
-        untar_input_file(input_file_path)
+        if input_file_path.find(".tar.gz") != -1:
+            input_file_path = untar_input_file(input_file_path)
 
         provenance = Provenance(
             activity_name="download",
@@ -297,8 +298,10 @@ def fetch_input_s3_uri(handler, doc: Document) -> str:
 
 
 # untars somefile.tar.gz into the same dir
-def untar_input_file(tar_file_path: str):
+def untar_input_file(tar_file_path: str) -> str:
     logger.info(f"Uncompressing {tar_file_path}")
     path = str(Path(tar_file_path).parent)
     with tarfile.open(tar_file_path) as tar:
         tar.extractall(path=path, filter="data")  # type: ignore
+        filename = tar.getmembers()[0].name
+    return path + f"/{filename}"
