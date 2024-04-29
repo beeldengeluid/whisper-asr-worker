@@ -11,3 +11,4 @@ __pycache__
 !/tests/data/spectograms/README.md
 /config.yml
 s3-creds.env
+.vscode/*
