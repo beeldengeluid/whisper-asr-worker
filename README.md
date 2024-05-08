@@ -13,3 +13,11 @@ The Whisper model version can be adjusted in the `config.yml` file by editing th
 |`large`|1550 M|
 |`large-v2`|1550 M|
 |`large-v3`|1550 M|
+
+We recommend version `large-v2` as it performs better in most cases than `large-v3`.
+
+## Running via Docker using a CUDA compatible GPU
+
+To run it using a GPU via Docker, check [the instructions from the dane-example-worker](https://github.com/beeldengeluid/dane-example-worker/wiki/Containerization#running-the-container-locally-using-cuda-compatible-gpu).
+
+Make sure to replace `dane-example-worker` in the `docker run` command with `dane-whisper-asr-worker`.

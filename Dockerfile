@@ -1,10 +1,14 @@
-FROM docker.io/python:3.10
+FROM nvidia/cuda:12.2.2-cudnn8-runtime-ubuntu22.04
 
 # Create dirs for:
 # - Injecting config.yml: /root/.DANE
 # - Mount point for input & output files: /mnt/dane-fs
 # - Storing the source code: /src
 RUN mkdir /root/.DANE /mnt/dane-fs /src /data
+
+RUN apt-get update && \
+    apt-get install -y python3-pip python3-dev python-is-python3 && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /src
 
