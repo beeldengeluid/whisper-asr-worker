@@ -25,7 +25,7 @@ INPUT:
     S3_BUCKET_MODEL: model
     DELETE_ON_COMPLETION: False
 OUTPUT:
-    DELETE_ON_COMPLETION: False
+    DELETE_ON_COMPLETION: True
     TRANSFER_ON_COMPLETION: True
     S3_ENDPOINT_URL: https://s3-host
     S3_BUCKET: output  # bucket reserved for 1 type of output
