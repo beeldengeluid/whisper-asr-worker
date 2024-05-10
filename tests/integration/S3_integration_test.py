@@ -41,9 +41,11 @@ def create_sample_input():
     """
     Add sample input for test to input bucket.
     """
-    fn = (f"{cfg.FILE_SYSTEM.BASE_MOUNT}/"
-          f"{cfg.FILE_SYSTEM.INPUT_DIR}/"
-          f"{cfg.INPUT.TEST_INPUT_PATH}")
+    fn = (
+        f"{cfg.FILE_SYSTEM.BASE_MOUNT}/"
+        f"{cfg.FILE_SYSTEM.INPUT_DIR}/"
+        f"{cfg.INPUT.TEST_INPUT_PATH}"
+    )
     with tarfile.open(fn_tar_in, "w:gz") as tar:
         tar.add(fn, arcname="inputfile.wav")
     yield
