@@ -1,2 +1,8 @@
-.vscode
-testsource__testcarrier
+/data/*
+!/data/README.md
+__pycache__
+.pytest_cache
+.coverage
+/config.yml
+s3-creds.env
+.vscode/*
