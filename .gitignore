@@ -1,7 +1,7 @@
 /*.mp4
 /config-local.yml
 /data/*
-/model/*
+model/*
 !/data/README.md
 __pycache__
 .pytest_cache
@@ -13,3 +13,4 @@ __pycache__
 /config.yml
 s3-creds.env
 .vscode/*
+s3_model/*

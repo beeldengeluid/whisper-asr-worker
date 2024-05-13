@@ -20,6 +20,7 @@ FILE_SYSTEM:
     OUTPUT_DIR: output-files
 INPUT:
     TEST_INPUT_PATH: testsource__testcarrier/inputfile.wav
+    TEST_MODEL_PATH: s3_model
     S3_ENDPOINT_URL: https://s3-host
     S3_BUCKET: input
     S3_FOLDER_IN_BUCKET: assets  # folder within the bucket

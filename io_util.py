@@ -305,3 +305,33 @@ def untar_input_file(tar_file_path: str) -> str:
         tar.extractall(path=path, filter="data")  # type: ignore
         filename = tar.getmembers()[0].name
     return path + f"/{filename}"
+
+
+# makes sure the model is available, if not download it from S3, if that fails download from Huggingface
+def check_model_availability() -> bool:
+    logger = logging.getLogger(__name__)
+    model_checkpoint_path = cfg.FILE_SYSTEM.BASE_MOUNT_MODEL
+    if os.path.exists(model_checkpoint_path + "/model.bin"):
+        logger.info("Model found locally")
+        return True
+    else:
+        logger.info("Model not found locally, attempting to download from S3")
+        if not validate_s3_uri(cfg.INPUT.MODEL_S3_URI):
+            logger.error("Please provide a valid S3 URI for the model!")
+            logger.info("Downloading version {cfg.WHISPER_ASR_SETTINGS.MODEL_VERSION} from Huggingface instead")
+            return False
+        s3 = S3Store(cfg.INPUT.S3_ENDPOINT_URL)
+        bucket, object_name = parse_s3_uri(cfg.INPUT.MODEL_S3_URI)
+        success = s3.download_file(bucket, object_name, cfg.FILE_SYSTEM.BASE_MOUNT_MODEL)
+        if not success:
+            logger.error(f"Could not download {cfg.INPUT.MODEL_S3_URI} into {cfg.FILE_SYSTEM.BASE_MOUNT_MODEL}")
+            logger.info("Downloading version {cfg.WHISPER_ASR_SETTINGS.MODEL_VERSION} from Huggingface instead")
+            return False
+        logger.info(f"Downloaded {cfg.INPUT.MODEL_S3_URI} into {cfg.FILE_SYSTEM.BASE_MOUNT_MODEL}")
+        logger.info("Extracting the model")
+        tar_path = cfg.FILE_SYSTEM.BASE_MOUNT_MODEL + "/" + object_name
+        with tarfile.open(tar_path) as tar:
+            tar.extractall(path=cfg.FILE_SYSTEM.BASE_MOUNT_MODEL)
+        # cleanup: delete the tar file
+        os.remove(tar_path)
+        return True
