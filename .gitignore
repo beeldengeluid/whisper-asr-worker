@@ -1,15 +1,9 @@
-/*.mp4
-/config-local.yml
 /data/*
 model/*
 !/data/README.md
 __pycache__
 .pytest_cache
 .coverage
-/tests/data/mp4s/*
-!/tests/data/mp4s/test.mp4
-!/tests/data/spectograms/*
-!/tests/data/spectograms/README.md
 /config.yml
 s3-creds.env
 .vscode/*
