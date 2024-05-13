@@ -318,16 +318,26 @@ def check_model_availability() -> bool:
         logger.info("Model not found locally, attempting to download from S3")
         if not validate_s3_uri(cfg.INPUT.MODEL_S3_URI):
             logger.error("Please provide a valid S3 URI for the model!")
-            logger.info("Downloading version {cfg.WHISPER_ASR_SETTINGS.MODEL_VERSION} from Huggingface instead")
+            logger.info(
+                "Downloading version {cfg.WHISPER_ASR_SETTINGS.MODEL_VERSION} from Huggingface instead"
+            )
             return False
         s3 = S3Store(cfg.INPUT.S3_ENDPOINT_URL)
         bucket, object_name = parse_s3_uri(cfg.INPUT.MODEL_S3_URI)
-        success = s3.download_file(bucket, object_name, cfg.FILE_SYSTEM.BASE_MOUNT_MODEL)
+        success = s3.download_file(
+            bucket, object_name, cfg.FILE_SYSTEM.BASE_MOUNT_MODEL
+        )
         if not success:
-            logger.error(f"Could not download {cfg.INPUT.MODEL_S3_URI} into {cfg.FILE_SYSTEM.BASE_MOUNT_MODEL}")
-            logger.info("Downloading version {cfg.WHISPER_ASR_SETTINGS.MODEL_VERSION} from Huggingface instead")
+            logger.error(
+                f"Could not download {cfg.INPUT.MODEL_S3_URI} into {cfg.FILE_SYSTEM.BASE_MOUNT_MODEL}"
+            )
+            logger.info(
+                "Downloading version {cfg.WHISPER_ASR_SETTINGS.MODEL_VERSION} from Huggingface instead"
+            )
             return False
-        logger.info(f"Downloaded {cfg.INPUT.MODEL_S3_URI} into {cfg.FILE_SYSTEM.BASE_MOUNT_MODEL}")
+        logger.info(
+            f"Downloaded {cfg.INPUT.MODEL_S3_URI} into {cfg.FILE_SYSTEM.BASE_MOUNT_MODEL}"
+        )
         logger.info("Extracting the model")
         tar_path = cfg.FILE_SYSTEM.BASE_MOUNT_MODEL + "/" + object_name
         with tarfile.open(tar_path) as tar:

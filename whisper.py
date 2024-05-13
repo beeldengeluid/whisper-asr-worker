@@ -24,7 +24,11 @@ def run_whisper(
     logger.info("Starting model application")
     start = time.time() * 1000  # convert to ms
     destination = get_output_file_path(input.source_id, OutputType.TRANSCRIPT)
-    model_location = cfg.FILE_SYSTEM.BASE_MOUNT_MODEL if check_model_availability() else cfg.WHISPER_ASR_SETTINGS.MODEL_VERSION
+    model_location = (
+        cfg.FILE_SYSTEM.BASE_MOUNT_MODEL
+        if check_model_availability()
+        else cfg.WHISPER_ASR_SETTINGS.MODEL_VERSION
+    )
 
     # float16 only works on GPU, float32 or int8 are recommended for CPU
     model = faster_whisper.WhisperModel(
