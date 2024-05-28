@@ -37,8 +37,6 @@ def run_whisper(
     ):
         return WhisperASROutput(500, "Failed to apply model")
 
-    logger.info(model_location)
-
     # float16 only works on GPU, float32 or int8 are recommended for CPU
     model = faster_whisper.WhisperModel(
         model_location,
