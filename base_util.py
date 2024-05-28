@@ -101,6 +101,24 @@ def validate_config(config: CfgNode, validate_file_paths: bool = True) -> bool:
         assert check_setting(
             config.WHISPER_ASR_SETTINGS.WORD_TIMESTAMPS, bool
         ), "WHISPER_ASR_SETTINGS.WORD_TIMESTAMPS"
+        assert check_setting(
+            config.WHISPER_ASR_SETTINGS.DEVICE, str
+        ), "WHISPER_ASR_SETTINGS.DEVICE"
+        assert check_setting(
+            config.WHISPER_ASR_SETTINGS.VAD, bool
+        ), "WHISPER_ASR_SETTINGS.VAD"
+        assert check_setting(
+            config.WHISPER_ASR_SETTINGS.MODEL, str
+        ), "WHISPER_ASR_SETTINGS.MODEL"
+        assert check_setting(
+            config.WHISPER_ASR_SETTINGS.BEAM_SIZE, int
+        ), "WHISPER_ASR_SETTINGS.BEAM_SIZE"
+        assert check_setting(
+            config.WHISPER_ASR_SETTINGS.BEST_OF, int
+        ), "WHISPER_ASR_SETTINGS.BEST_OF"
+        assert check_setting(
+            config.WHISPER_ASR_SETTINGS.TEMPERATURE, str
+        ), "WHISPER_ASR_SETTINGS.TEMPERATURE"
 
         assert __check_dane_dependencies(config.DANE_DEPENDENCIES), "DANE_DEPENDENCIES"
 

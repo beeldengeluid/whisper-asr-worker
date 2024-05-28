@@ -7,4 +7,3 @@ __pycache__
 /config.yml
 s3-creds.env
 .vscode/*
-s3_model/*

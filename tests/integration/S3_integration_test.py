@@ -55,22 +55,7 @@ def create_sample_input():
 
 
 @pytest.fixture
-def tar_model_files():
-    """
-    Zips the model's files so that they can be added to S3.
-    """
-    folder = cfg.INPUT.TEST_MODEL_PATH
-    with tarfile.open(model_tar, "w:gz") as tar:
-        for file in os.listdir(folder):
-            tar.add(cfg.INPUT.TEST_MODEL_PATH + "/" + file, arcname=file)
-        print(tar.getmembers())
-    yield
-    # after test: cleanup
-    os.remove(model_tar)
-
-
-@pytest.fixture
-def create_and_fill_buckets(aws, create_sample_input, tar_model_files):
+def create_and_fill_buckets(aws, create_sample_input):
     """Make sure input and output buckets exist, and add sample input"""
     client = boto3.client("s3")
     for bucket in [
@@ -83,11 +68,6 @@ def create_and_fill_buckets(aws, create_sample_input, tar_model_files):
         Filename=fn_tar_in,
         Bucket=cfg.INPUT.S3_BUCKET,
         Key=key_in,
-    )
-    client.upload_file(
-        Filename=model_tar,
-        Bucket=cfg.INPUT.S3_BUCKET_MODEL,
-        Key=model_tar,
     )
 
 

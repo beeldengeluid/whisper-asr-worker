@@ -1,8 +1,8 @@
 # dane-whisper-asr-worker
 
-## Model versions
+## Model options
 
-The Whisper model version can be adjusted in the `config.yml` file by editing the `MODEL_VERSION` parameter within `WHISPER_ASR_SETTINGS`. Possible options are:
+The pre-trained Whisper model version can be adjusted in the `config.yml` file by editing the `MODEL` parameter within `WHISPER_ASR_SETTINGS`. Possible options are:
 
 |Size|Parameters|
 |---|---|
@@ -14,7 +14,9 @@ The Whisper model version can be adjusted in the `config.yml` file by editing th
 |`large-v2`|1550 M|
 |`large-v3`|1550 M|
 
-We recommend version `large-v2` as it performs better in most cases than `large-v3`.
+We recommend version `large-v2` as it performs better than `large-v3` in our benchmarks.
+
+You can also specify an S3 URI bucket if you have your own custom model available in an S3 bucket.
 
 ## Running via Docker using a CUDA compatible GPU
 
