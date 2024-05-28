@@ -32,7 +32,7 @@ def run_whisper(
     )
 
     if (
-        model_location == cfg.WHISPER_ASR_SETTINGS.MODEL 
+        model_location == cfg.WHISPER_ASR_SETTINGS.MODEL
         and not check_pretrained_model_availability()
     ):
         return WhisperASROutput(500, "Failed to apply model")
