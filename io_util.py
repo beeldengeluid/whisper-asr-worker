@@ -318,7 +318,7 @@ def check_model_availability() -> bool:
         if not validate_s3_uri(cfg.WHISPER_ASR_SETTINGS.MODEL):
             logger.error("No S3 URI detected")
             logger.info(
-                f"Downloading version {cfg.WHISPER_ASR_SETTINGS.MODEL_VERSION} from Huggingface instead"
+                f"Downloading version {cfg.WHISPER_ASR_SETTINGS.MODEL} from Huggingface instead"
             )
             return False
         s3 = S3Store(cfg.INPUT.S3_ENDPOINT_URL)
