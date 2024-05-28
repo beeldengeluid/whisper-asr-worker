@@ -13,7 +13,7 @@ from io_util import (
     get_base_output_dir,
     get_output_file_path,
     check_model_availability,
-    check_pretrained_model_availability
+    check_pretrained_model_availability,
 )
 import faster_whisper
 
@@ -31,7 +31,10 @@ def run_whisper(
         else cfg.WHISPER_ASR_SETTINGS.MODEL
     )
 
-    if model_location == cfg.WHISPER_ASR_SETTINGS.MODEL and not check_pretrained_model_availability():
+    if (
+        model_location == cfg.WHISPER_ASR_SETTINGS.MODEL 
+        and not check_pretrained_model_availability()
+    ):
         return WhisperASROutput(500, "Failed to apply model")
 
     logger.info(model_location)

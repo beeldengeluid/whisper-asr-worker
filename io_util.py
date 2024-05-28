@@ -345,7 +345,15 @@ def check_model_availability() -> bool:
 
 def check_pretrained_model_availability() -> bool:
     logger = logging.getLogger(__name__)
-    pretrained_models = ["tiny", "base", "small", "medium", "large", "large-v2", "large-v3"]
+    pretrained_models = [
+        "tiny",
+        "base",
+        "small",
+        "medium",
+        "large",
+        "large-v2",
+        "large-v3",
+    ]
     if (cfg.WHISPER_ASR_SETTINGS.MODEL in pretrained_models):
         return True
     logger.error(f"'{cfg.WHISPER_ASR_SETTINGS.MODEL}' is not a valid pretrained model!")
