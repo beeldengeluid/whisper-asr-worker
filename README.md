@@ -2,6 +2,8 @@
 
 ## Model options
 
+If you prefer to use your own model that is stored locally, make sure to set `BASE_MOUNT_MODEL` to the path where the model files can be found. A model found locally will take precedence over downloading it from Huggingface or S3 (so, no matter how `WHISPER_ASR_SETTINGS.MODEL` is set, it will ignore it if a model is present locally).
+
 The pre-trained Whisper model version can be adjusted in the `config.yml` file by editing the `MODEL` parameter within `WHISPER_ASR_SETTINGS`. Possible options are:
 
 |Size|Parameters|

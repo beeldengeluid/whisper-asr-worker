@@ -35,7 +35,19 @@ def run_whisper(
         model_location == cfg.WHISPER_ASR_SETTINGS.MODEL
         and not check_pretrained_model_availability()
     ):
-        return WhisperASROutput(500, "Failed to apply model")
+        return WhisperASROutput(
+            500,
+            "Failed to apply model (WHISPER_ASR_SETTINGS.MODEL not configured correctly)",
+        )
+
+    if (
+        cfg.WHISPER_ASR_SETTINGS.DEVICE != "cuda"
+        or cfg.WHISPER_ASR_SETTINGS.DEVICE != "cpu"
+    ):
+        return WhisperASROutput(
+            500,
+            "Failed to apply model (WHISPER_ASR_SETTINGS.DEVICE not configured correctly)",
+        )
 
     # float16 only works on GPU, float32 or int8 are recommended for CPU
     model = faster_whisper.WhisperModel(
