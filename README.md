@@ -16,7 +16,7 @@ The pre-trained Whisper model version can be adjusted in the `config.yml` file b
 
 We recommend version `large-v2` as it performs better than `large-v3` in our benchmarks.
 
-You can also specify an S3 URI bucket if you have your own custom model available in an S3 bucket.
+You can also specify an S3 URI if you have your own custom model available via S3.
 
 ## Running via Docker using a CUDA compatible GPU
 

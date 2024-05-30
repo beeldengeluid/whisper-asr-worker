@@ -316,7 +316,7 @@ def check_model_availability() -> bool:
     else:
         logger.info("Model not found locally, attempting to download from S3")
         if not validate_s3_uri(cfg.WHISPER_ASR_SETTINGS.MODEL):
-            logger.error("No S3 URI detected")
+            logger.info("No S3 URI detected")
             logger.info(
                 f"Downloading version {cfg.WHISPER_ASR_SETTINGS.MODEL} from Huggingface instead"
             )
