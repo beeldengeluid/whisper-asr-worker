@@ -46,7 +46,6 @@ def run(input_file_path: str) -> Tuple[CallbackResponse, Optional[Provenance]]:
         return {"state": 500, "message": "Input & output dirs not ok"}, []
 
     # create the top-level provenance
-    # TODO: add proper name and description
     top_level_provenance = generate_initial_provenance(
         name="dane-whisper-asr-worker",
         description=(

@@ -305,3 +305,56 @@ def untar_input_file(tar_file_path: str) -> str:
         tar.extractall(path=path, filter="data")  # type: ignore
         filename = tar.getmembers()[0].name
     return path + f"/{filename}"
+
+
+# makes sure the model is available locally, if not download it from S3, if that fails download from Huggingface
+def check_model_availability() -> bool:
+    logger = logging.getLogger(__name__)
+    if os.path.exists(cfg.FILE_SYSTEM.BASE_MOUNT_MODEL + "/model.bin"):
+        logger.info("Model found locally")
+        return True
+    else:
+        logger.info("Model not found locally, attempting to download from S3")
+        if not validate_s3_uri(cfg.WHISPER_ASR_SETTINGS.MODEL):
+            logger.info("No S3 URI detected")
+            logger.info(
+                f"Downloading version {cfg.WHISPER_ASR_SETTINGS.MODEL} from Huggingface instead"
+            )
+            return False
+        s3 = S3Store(cfg.INPUT.S3_ENDPOINT_URL)
+        bucket, object_name = parse_s3_uri(cfg.WHISPER_ASR_SETTINGS.MODEL)
+        success = s3.download_file(
+            bucket, object_name, cfg.FILE_SYSTEM.BASE_MOUNT_MODEL
+        )
+        if not success:
+            logger.error(
+                f"Could not download {cfg.WHISPER_ASR_SETTINGS.MODEL} into {cfg.FILE_SYSTEM.BASE_MOUNT_MODEL}"
+            )
+            return False
+        logger.info(
+            f"Downloaded {cfg.WHISPER_ASR_SETTINGS.MODEL} into {cfg.FILE_SYSTEM.BASE_MOUNT_MODEL}"
+        )
+        logger.info("Extracting the model")
+        tar_path = cfg.FILE_SYSTEM.BASE_MOUNT_MODEL + "/" + object_name
+        with tarfile.open(tar_path) as tar:
+            tar.extractall(path=cfg.FILE_SYSTEM.BASE_MOUNT_MODEL)
+        # cleanup: delete the tar file
+        os.remove(tar_path)
+        return True
+
+
+def check_pretrained_model_availability() -> bool:
+    logger = logging.getLogger(__name__)
+    pretrained_models = [
+        "tiny",
+        "base",
+        "small",
+        "medium",
+        "large",
+        "large-v2",
+        "large-v3",
+    ]
+    if cfg.WHISPER_ASR_SETTINGS.MODEL in pretrained_models:
+        return True
+    logger.error(f"'{cfg.WHISPER_ASR_SETTINGS.MODEL}' is not a valid pretrained model!")
+    return False

@@ -12,6 +12,8 @@ from dane.provenance import Provenance
 from io_util import (
     get_base_output_dir,
     get_output_file_path,
+    check_model_availability,
+    check_pretrained_model_availability,
 )
 import faster_whisper
 
@@ -23,10 +25,33 @@ def run_whisper(
     logger.info("Starting model application")
     start = time.time() * 1000  # convert to ms
     destination = get_output_file_path(input.source_id, OutputType.TRANSCRIPT)
+    model_location = (
+        cfg.FILE_SYSTEM.BASE_MOUNT_MODEL
+        if check_model_availability()
+        else cfg.WHISPER_ASR_SETTINGS.MODEL
+    )
+
+    if (
+        model_location == cfg.WHISPER_ASR_SETTINGS.MODEL
+        and not check_pretrained_model_availability()
+    ):
+        return WhisperASROutput(
+            500,
+            "Failed to apply model (WHISPER_ASR_SETTINGS.MODEL not configured correctly)",
+        )
+
+    if (
+        cfg.WHISPER_ASR_SETTINGS.DEVICE != "cuda"
+        or cfg.WHISPER_ASR_SETTINGS.DEVICE != "cpu"
+    ):
+        return WhisperASROutput(
+            500,
+            "Failed to apply model (WHISPER_ASR_SETTINGS.DEVICE not configured correctly)",
+        )
 
     # float16 only works on GPU, float32 or int8 are recommended for CPU
     model = faster_whisper.WhisperModel(
-        cfg.WHISPER_ASR_SETTINGS.MODEL_VERSION,
+        model_location,
         device=cfg.WHISPER_ASR_SETTINGS.DEVICE,
         compute_type=(
             "float16" if cfg.WHISPER_ASR_SETTINGS.DEVICE == "cuda" else "float32"

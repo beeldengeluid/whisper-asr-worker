@@ -16,6 +16,7 @@ fn_tar_in = f"{resource_id}.tar.gz"
 key_in = f"{cfg.INPUT.S3_FOLDER_IN_BUCKET}/{fn_tar_in}"
 tar_out = f"{carrier_id}/out__{carrier_id}.tar.gz"
 key_out = f"{cfg.OUTPUT.S3_FOLDER_IN_BUCKET}/{tar_out}"
+model_tar = "model.tar.gz"
 
 
 @pytest.fixture

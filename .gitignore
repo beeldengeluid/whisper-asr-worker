@@ -1,4 +1,5 @@
 /data/*
+model/*
 !/data/README.md
 __pycache__
 .pytest_cache
