@@ -10,6 +10,7 @@ readme = "README.md"
 python = "^3.10"
 dane = "^0.4.2"
 faster-whisper = "^1.0.1"
+mock = "^5.1.0"
 
 [tool.poetry.group.dev.dependencies]
 moto = "^5.0.3"

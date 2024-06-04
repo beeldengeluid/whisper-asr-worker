@@ -18,56 +18,7 @@ from io_util import (
 import faster_whisper
 
 
-def run_whisper(
-    input: WhisperASRInput,
-) -> WhisperASROutput:
-    logger = logging.getLogger(__name__)
-    logger.info("Starting model application")
-    start = time.time() * 1000  # convert to ms
-    destination = get_output_file_path(input.source_id, OutputType.TRANSCRIPT)
-    model_location = (
-        cfg.FILE_SYSTEM.BASE_MOUNT_MODEL
-        if check_model_availability()
-        else cfg.WHISPER_ASR_SETTINGS.MODEL
-    )
-
-    if (
-        model_location == cfg.WHISPER_ASR_SETTINGS.MODEL
-        and not check_pretrained_model_availability()
-    ):
-        return WhisperASROutput(
-            500,
-            "Failed to apply model (WHISPER_ASR_SETTINGS.MODEL not configured correctly)",
-        )
-
-    if (
-        cfg.WHISPER_ASR_SETTINGS.DEVICE != "cuda"
-        or cfg.WHISPER_ASR_SETTINGS.DEVICE != "cpu"
-    ):
-        return WhisperASROutput(
-            500,
-            "Failed to apply model (WHISPER_ASR_SETTINGS.DEVICE not configured correctly)",
-        )
-
-    # float16 only works on GPU, float32 or int8 are recommended for CPU
-    model = faster_whisper.WhisperModel(
-        model_location,
-        device=cfg.WHISPER_ASR_SETTINGS.DEVICE,
-        compute_type=(
-            "float16" if cfg.WHISPER_ASR_SETTINGS.DEVICE == "cuda" else "float32"
-        ),
-    )
-
-    segments, _ = model.transcribe(
-        input.input_file_path,
-        vad_filter=cfg.WHISPER_ASR_SETTINGS.VAD,
-        beam_size=cfg.WHISPER_ASR_SETTINGS.BEAM_SIZE,
-        best_of=cfg.WHISPER_ASR_SETTINGS.BEST_OF,
-        temperature=ast.literal_eval(cfg.WHISPER_ASR_SETTINGS.TEMPERATURE),
-        language="nl",
-        word_timestamps=cfg.WHISPER_ASR_SETTINGS.WORD_TIMESTAMPS,
-    )
-
+def output_formatting(segments):
     segments_to_add = []
     for segment in segments:
         words_to_add = []
@@ -96,7 +47,58 @@ def run_whisper(
                 "words": words_to_add,
             }
         )
-    result = {"segments": segments_to_add}
+
+    return {"segments": segments_to_add}
+
+
+def run_whisper(
+    input: WhisperASRInput,
+) -> WhisperASROutput:
+    logger = logging.getLogger(__name__)
+    logger.info("Starting model application")
+    start = time.time() * 1000  # convert to ms
+    destination = get_output_file_path(input.source_id, OutputType.TRANSCRIPT)
+    model_location = (
+        cfg.FILE_SYSTEM.BASE_MOUNT_MODEL
+        if check_model_availability()
+        else cfg.WHISPER_ASR_SETTINGS.MODEL
+    )
+
+    if (
+        model_location == cfg.WHISPER_ASR_SETTINGS.MODEL
+        and not check_pretrained_model_availability()
+    ):
+        return WhisperASROutput(
+            500,
+            "Failed to apply model (WHISPER_ASR_SETTINGS.MODEL not configured correctly)",
+        )
+
+    if cfg.WHISPER_ASR_SETTINGS.DEVICE not in ["cuda", "cpu"]:
+        return WhisperASROutput(
+            500,
+            "Failed to apply model (WHISPER_ASR_SETTINGS.DEVICE not configured correctly)",
+        )
+
+    # float16 only works on GPU, float32 or int8 are recommended for CPU
+    model = faster_whisper.WhisperModel(
+        model_location,
+        device=cfg.WHISPER_ASR_SETTINGS.DEVICE,
+        compute_type=(
+            "float16" if cfg.WHISPER_ASR_SETTINGS.DEVICE == "cuda" else "float32"
+        ),
+    )
+
+    segments, _ = model.transcribe(
+        input.input_file_path,
+        vad_filter=cfg.WHISPER_ASR_SETTINGS.VAD,
+        beam_size=cfg.WHISPER_ASR_SETTINGS.BEAM_SIZE,
+        best_of=cfg.WHISPER_ASR_SETTINGS.BEST_OF,
+        temperature=ast.literal_eval(cfg.WHISPER_ASR_SETTINGS.TEMPERATURE),
+        language="nl",
+        word_timestamps=cfg.WHISPER_ASR_SETTINGS.WORD_TIMESTAMPS,
+    )
+
+    result = output_formatting(segments)
 
     with open(destination, "w", encoding="utf-8") as f:
         json.dump(result, f, indent=2, ensure_ascii=False)

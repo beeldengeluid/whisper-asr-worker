@@ -14,7 +14,7 @@ ELASTICSEARCH:
     SCHEME: http
     INDEX: dane-index-k8s
 FILE_SYSTEM:
-    BASE_MOUNT: data # data when running S3 integration test, /data when running via Docker
+    BASE_MOUNT: /data # data when running S3 integration test, /data when running via Docker
     BASE_MOUNT_MODEL: model # model when running S3 integration test, /model when running via Docker
     INPUT_DIR: input-files
     OUTPUT_DIR: output-files
@@ -34,9 +34,9 @@ OUTPUT:
     S3_FOLDER_IN_BUCKET: folder  # folder within the bucket
 WHISPER_ASR_SETTINGS:
     WORD_TIMESTAMPS: True
-    DEVICE: cuda  # "cpu" to run on CPU, otherwise "cuda" to run on GPU
+    DEVICE: cpu  # "cpu" to run on CPU, otherwise "cuda" to run on GPU
     VAD: True  # whether to use voice activity detection (VAD) or not
-    MODEL: large-v2  # check the README for available options
+    MODEL: tiny  # check the README for available options
     BEAM_SIZE: 5
     BEST_OF: 5
     TEMPERATURE: (0.0,0.2,0.4,0.6,0.8,1.0)

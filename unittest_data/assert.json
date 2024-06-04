@@ -1,0 +1,44 @@
+{
+  "segments": [
+    {
+      "id": 1,
+      "seek": 240,
+      "start": 0.47999999999999987,
+      "end": 1.1,
+      "text": "Lukt het ook?",
+      "tokens": [
+        50364,
+        441,
+        46315,
+        3639,
+        7839,
+        30,
+        50464
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.7788086086511612,
+      "compression_ratio": 0.6190476190476191,
+      "no_speech_prob": 0.12188720703125,
+      "words": [
+        {
+          "text": "Lukt",
+          "start": 0.47999999999999987,
+          "end": 0.82,
+          "confidence": 0.57373046875
+        },
+        {
+          "text": "het",
+          "start": 0.82,
+          "end": 0.96,
+          "confidence": 0.62060546875
+        },
+        {
+          "text": "ook?",
+          "start": 0.96,
+          "end": 1.1,
+          "confidence": 0.146484375
+        }
+      ]
+    }
+  ]
+}
