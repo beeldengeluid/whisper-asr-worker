@@ -935,6 +935,21 @@ gmpy = ["gmpy2 (>=2.1.0a4)"]
 tests = ["pytest (>=4.6)"]
 
 [[package]]
+name = "munch"
+version = "4.0.0"
+description = "A dot-accessible dictionary (a la JavaScript objects)"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "munch-4.0.0-py2.py3-none-any.whl", hash = "sha256:71033c45db9fb677a0b7eb517a4ce70ae09258490e419b0e7f00d1e386ecb1b4"},
+    {file = "munch-4.0.0.tar.gz", hash = "sha256:542cb151461263216a4e37c3fd9afc425feeaf38aaa3025cd2a981fadb422235"},
+]
+
+[package.extras]
+testing = ["astroid (>=2.0)", "coverage", "pylint (>=2.3.1,<2.4.0)", "pytest"]
+yaml = ["PyYAML (>=5.1.0)"]
+
+[[package]]
 name = "mypy"
 version = "0.982"
 description = "Optional static typing for Python"
@@ -1676,4 +1691,4 @@ PyYAML = "*"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "944d803128415547480bea8ee60b71ce72be34bf9c0483657acc8ee7972364d1"
+content-hash = "9026810041efdfea3b8c89a3f2358ca9d255d8050e957e20aacc9b2881a98788"

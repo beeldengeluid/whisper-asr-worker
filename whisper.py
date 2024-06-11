@@ -20,7 +20,7 @@ import faster_whisper
 
 def output_formatting(segments):
     segments_to_add = []
-    for segment in segments:
+    for segment in segments.segments:
         words_to_add = []
         if cfg.WHISPER_ASR_SETTINGS.WORD_TIMESTAMPS:
             for word in segment.words:

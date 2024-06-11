@@ -1,0 +1,238 @@
+{
+    "segments": [
+      {
+        "id": 1,
+        "seek": 948,
+        "start": 0.0,
+        "end": 5.46,
+        "text": " De raketmotoren leveren stuwkracht door de chemische energie van de oxidatie van waterstof te gebruiken ",
+        "tokens": [
+          50364,
+          1346,
+          35544,
+          302,
+          29778,
+          10948,
+          12451,
+          268,
+          342,
+          84,
+          86,
+          38553,
+          3589,
+          2853,
+          368,
+          4771,
+          7864,
+          2043,
+          9997,
+          3161,
+          368,
+          19924,
+          16921,
+          3161,
+          1281,
+          372,
+          2670,
+          535,
+          33857,
+          19640,
+          50614
+        ],
+        "temperature": 0.0,
+        "avg_logprob": -0.24034091396765275,
+        "compression_ratio": 1.403225806451613,
+        "no_speech_prob": 0.0008835792541503906,
+        "words": [
+          {
+            "word": " De ",
+            "start": 0.0,
+            "end": 0.56,
+            "probability": 0.7529296875
+          },
+          {
+            "word": " raketmotoren ",
+            "start": 0.56,
+            "end": 1.34,
+            "probability": 0.934326171875
+          },
+          {
+            "word": " leveren ",
+            "start": 1.34,
+            "end": 1.68,
+            "probability": 0.83154296875
+          },
+          {
+            "word": " stuwkracht ",
+            "start": 1.68,
+            "end": 2.32,
+            "probability": 0.710107421875
+          },
+          {
+            "word": " door ",
+            "start": 2.32,
+            "end": 2.46,
+            "probability": 0.82275390625
+          },
+          {
+            "word": " de ",
+            "start": 2.46,
+            "end": 2.6,
+            "probability": 0.88134765625
+          },
+          {
+            "word": " chemische ",
+            "start": 2.6,
+            "end": 3.0,
+            "probability": 0.895751953125
+          },
+          {
+            "word": " energie ",
+            "start": 3.0,
+            "end": 3.32,
+            "probability": 0.88671875
+          },
+          {
+            "word": " van ",
+            "start": 3.32,
+            "end": 3.48,
+            "probability": 0.91650390625
+          },
+          {
+            "word": " de ",
+            "start": 3.48,
+            "end": 3.58,
+            "probability": 0.888671875
+          },
+          {
+            "word": " oxidatie ",
+            "start": 3.58,
+            "end": 4.1,
+            "probability": 0.851318359375
+          },
+          {
+            "word": " van ",
+            "start": 4.1,
+            "end": 4.24,
+            "probability": 0.9033203125
+          },
+          {
+            "word": " waterstof ",
+            "start": 4.24,
+            "end": 4.82,
+            "probability": 0.7840169270833334
+          },
+          {
+            "word": " te ",
+            "start": 4.82,
+            "end": 4.94,
+            "probability": 0.90478515625
+          },
+          {
+            "word": " gebruiken ",
+            "start": 4.94,
+            "end": 5.46,
+            "probability": 0.921630859375
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "seek": 948,
+        "start": 5.46,
+        "end": 8.88,
+        "text": " om de reactieproducten weg te stuwen in de tegenovergestelde richting. ",
+        "tokens": [
+          50614,
+          3406,
+          368,
+          4515,
+          414,
+          33244,
+          268,
+          15565,
+          535,
+          342,
+          84,
+          15615,
+          294,
+          368,
+          30945,
+          3570,
+          2629,
+          338,
+          1479,
+          22136,
+          278,
+          13,
+          50814
+        ],
+        "temperature": 0.0,
+        "avg_logprob": -0.24034091396765275,
+        "compression_ratio": 1.403225806451613,
+        "no_speech_prob": 0.0008835792541503906,
+        "words": [
+          {
+            "word": " om ",
+            "start": 5.46,
+            "end": 5.9,
+            "probability": 0.77685546875
+          },
+          {
+            "word": " de ",
+            "start": 5.9,
+            "end": 6.02,
+            "probability": 0.7587890625
+          },
+          {
+            "word": " reactieproducten ",
+            "start": 6.02,
+            "end": 6.94,
+            "probability": 0.886962890625
+          },
+          {
+            "word": " weg ",
+            "start": 6.94,
+            "end": 7.12,
+            "probability": 0.796875
+          },
+          {
+            "word": " te ",
+            "start": 7.12,
+            "end": 7.24,
+            "probability": 0.92919921875
+          },
+          {
+            "word": " stuwen ",
+            "start": 7.24,
+            "end": 7.5,
+            "probability": 0.8343098958333334
+          },
+          {
+            "word": " in ",
+            "start": 7.5,
+            "end": 7.62,
+            "probability": 0.900390625
+          },
+          {
+            "word": " de ",
+            "start": 7.62,
+            "end": 7.72,
+            "probability": 0.79541015625
+          },
+          {
+            "word": " tegenovergestelde ",
+            "start": 7.72,
+            "end": 8.56,
+            "probability": 0.94296875
+          },
+          {
+            "word": " richting. ",
+            "start": 8.56,
+            "end": 8.88,
+            "probability": 0.823974609375
+          }
+        ]
+      }
+    ]
+  }

@@ -1,7 +1,7 @@
 from whisper import output_formatting
 import json
-from typing import List, NamedTuple, Optional, Iterable
-import logging
+from typing import List, NamedTuple, Optional
+from munch import Munch
 
 
 class MockWord(NamedTuple):
@@ -26,10 +26,17 @@ class MockSegment(NamedTuple):
 
 
 def test_output_formatting():
-    logger = logging.getLogger("__name__")
-    wh_output = json.load(open("unittest_data/input.json"), object_hook=lambda d: MockSegment(**d))
-    logger.info(wh_output)
-    # wh_output = MockSegment(wh_output["segments"][0])
-    final_output = output_formatting(Iterable(wh_output))
+    wh_json1 = json.load(open("unittest_data/input_1segment.json"))
+    wh_json2 = json.load(open("unittest_data/input_1word.json"))
+    wh_json3 = json.load(open("unittest_data/input_multisegments.json"))
 
-    assert final_output == json.loads("unittest_data/assert.json")
+    wh_output1 = Munch.fromDict(wh_json1)
+    wh_output2 = Munch.fromDict(wh_json2)
+    wh_output3 = Munch.fromDict(wh_json3)
+    final_output1 = output_formatting(wh_output1)
+    final_output2 = output_formatting(wh_output2)
+    final_output3 = output_formatting(wh_output3)
+
+    assert final_output1 == json.load(open("unittest_data/assert_1segment.json"))
+    assert final_output2 == json.load(open("unittest_data/assert_1word.json"))
+    assert final_output3 == json.load(open("unittest_data/assert_multisegments.json"))

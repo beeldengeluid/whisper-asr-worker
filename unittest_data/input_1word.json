@@ -1,0 +1,28 @@
+{
+  "segments": [
+    {
+      "id": 1,
+      "seek": 177,
+      "start": 0.0,
+      "end": 0.86,
+      "text": " Firefox ",
+      "tokens": [
+        50364,
+        46613,
+        50464
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.4465332180261612,
+      "compression_ratio": 0.4666666666666667,
+      "no_speech_prob": 0.073974609375,
+      "words": [
+        {
+          "word": " Firefox ",
+          "start": 0.0,
+          "end": 0.86,
+          "probability": 0.83203125
+        }
+      ]
+    }
+  ]
+}
