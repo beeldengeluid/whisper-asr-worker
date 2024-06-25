@@ -363,5 +363,3 @@ def check_pretrained_model_availability() -> bool:
         return True
     logger.error(f"'{cfg.WHISPER_ASR_SETTINGS.MODEL}' is not a valid pretrained model!")
     return False
-
-
