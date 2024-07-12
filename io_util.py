@@ -43,7 +43,7 @@ def validate_data_dirs() -> bool:  # TODO: perhaps add model dir
     output_dir_created = create_directory(o_dir)
 
     return input_dir_created and output_dir_created
-    
+
 
 def create_directory(path: Path) -> bool:
     """Create a directory if it doesn't exist."""
