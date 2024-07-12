@@ -40,10 +40,7 @@ def run_whisper(
             "Failed to apply model (WHISPER_ASR_SETTINGS.MODEL not configured correctly)",
         )
 
-    if (
-        cfg.WHISPER_ASR_SETTINGS.DEVICE != "cuda"
-        or cfg.WHISPER_ASR_SETTINGS.DEVICE != "cpu"
-    ):
+    if cfg.WHISPER_ASR_SETTINGS.DEVICE not in ["cuda", "cpu"]:
         return WhisperASROutput(
             500,
             "Failed to apply model (WHISPER_ASR_SETTINGS.DEVICE not configured correctly)",

@@ -71,12 +71,6 @@ def validate_config(config: CfgNode, validate_file_paths: bool = True) -> bool:
             config.INPUT.S3_ENDPOINT_URL, str, True
         ), "INPUT.S3_ENDPOINT_URL"
         assert check_setting(
-            config.INPUT.MODEL_CHECKPOINT_S3_URI, str, True
-        ), "INPUT.MODEL_CHECKPOINT_S3_URI"
-        assert check_setting(
-            config.INPUT.MODEL_CONFIG_S3_URI, str, True
-        ), "INPUT.MODEL_CONFIG_S3_URI"
-        assert check_setting(
             config.INPUT.DELETE_ON_COMPLETION, bool
         ), "INPUT.DELETE_ON_COMPLETION"
 
