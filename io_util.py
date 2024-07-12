@@ -39,19 +39,24 @@ def validate_data_dirs() -> bool:  # TODO: perhaps add model dir
         return False
 
     # make sure the input and output dirs are there
-    try:
-        os.makedirs(i_dir, 0o755)
-        logger.info("created input dir: {}".format(i_dir))
-    except FileExistsError as e:
-        logger.info(e)
+    input_dir_created = create_directory(i_dir)
+    output_dir_created = create_directory(o_dir)
 
-    try:
-        os.makedirs(o_dir, 0o755)
-        logger.info("created output dir: {}".format(o_dir))
-    except FileExistsError as e:
-        logger.info(e)
+    return input_dir_created and output_dir_created
 
-    return True
+
+def create_directory(path: Path) -> bool:
+    """Create a directory if it doesn't exist."""
+    if path.exists():
+        logger.info(f"Directory already exists: {path}")
+        return True
+    try:
+        os.makedirs(path, mode=0o755)
+        logger.info(f"Created directory: {path}")
+        return True
+    except Exception as e:
+        logger.error(f"Failed to create directory {path}: {e}")
+        return False
 
 
 # for each OutputType a subdir is created inside the base output dir
