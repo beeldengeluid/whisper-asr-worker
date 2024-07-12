@@ -27,8 +27,8 @@ class WhisperASRWorker(base_worker):
             logger.error("Invalid config, quitting")
             sys.exit()
 
-        self.__queue_name = "QUEUE_NAME"
-        self.__binding_key = "#.BINDING_KEY"
+        self.__queue_name = "WHISPER_ASR"
+        self.__binding_key = "#.WHISPER_ASR"
         self.__depends_on = (
             list(config.DANE_DEPENDENCIES) if "DANE_DEPENDENCIES" in config else []
         )
