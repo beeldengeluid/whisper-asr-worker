@@ -134,13 +134,18 @@ if __name__ == "__main__":
     if args.run_test_file != "n":
         logger.info("Running feature extraction with INPUT.TEST_INPUT_PATH ")
         if cfg.INPUT.TEST_INPUT_PATH:
-            processing_result, full_provenance_chain = main_data_processor.run(
-                os.path.join(
+            if (
+                "s3" in cfg.INPUT.TEST_INPUT_PATH
+                or "https" in cfg.INPUT.TEST_INPUT_PATH
+            ):
+                path = cfg.INPUT.TEST_INPUT_PATH
+            else:
+                path = os.path.join(
                     cfg.FILE_SYSTEM.BASE_MOUNT,
                     cfg.FILE_SYSTEM.INPUT_DIR,
                     cfg.INPUT.TEST_INPUT_PATH,
                 )
-            )
+            processing_result, full_provenance_chain = main_data_processor.run(path)
             logger.info("Results after applying desired I/O")
             logger.info(processing_result)
             logger.info("Full provenance chain")
