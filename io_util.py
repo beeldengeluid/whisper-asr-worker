@@ -277,7 +277,7 @@ def obtain_input_file(s3_uri: str) -> WhisperASRInput:
             activity_name="download",
             activity_description="Download input data",
             start_time_unix=start_time,
-            processing_time_ms=time() - start_time,
+            processing_time_ms=(time() - start_time) * 1000,
             input_data={},
             output_data={"file_path": input_file_path},
         )

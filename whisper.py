@@ -23,7 +23,7 @@ def run_whisper(
 ) -> WhisperASROutput:
     logger = logging.getLogger(__name__)
     logger.info("Starting model application")
-    start = time.time() * 1000  # convert to ms
+    start = time.time()
     destination = get_output_file_path(input.source_id, OutputType.TRANSCRIPT)
     model_location = (
         cfg.FILE_SYSTEM.BASE_MOUNT_MODEL
@@ -99,17 +99,15 @@ def run_whisper(
         json.dump(result, f, indent=2, ensure_ascii=False)
         logger.info("Transcription finished, saved at " + destination)
 
-    end = time.time() * 1000  # convert to ms
-
     model_application_provenance = Provenance(
         activity_name="whisper_asr",
-        activity_description="transcribed an audio file using Whisper",
+        activity_description="Transcribe an audio file using Whisper",
         input_data=input.input_file_path,
         start_time_unix=start,
         parameters=cfg.WHISPER_ASR_SETTINGS,
         software_version=faster_whisper.__version__,
         output_data=destination,
-        processing_time_ms=end - start,
+        processing_time_ms=(time.time() - start) * 1000,
     )
 
     if not model_application_provenance:
