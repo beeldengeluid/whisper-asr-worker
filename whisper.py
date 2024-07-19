@@ -23,7 +23,7 @@ def run_whisper(
 ) -> WhisperASROutput:
     logger = logging.getLogger(__name__)
     logger.info("Starting model application")
-    start = time.time()  # convert to ms
+    start = time.time()
     destination = get_output_file_path(input.source_id, OutputType.TRANSCRIPT)
     model_location = (
         cfg.FILE_SYSTEM.BASE_MOUNT_MODEL
