@@ -9,7 +9,7 @@ from typing import Dict, List
 from dane import Document
 from dane.config import cfg
 from dane.s3_util import S3Store, parse_s3_uri, validate_s3_uri
-from models import (
+from .models import (
     OutputType,
     Provenance,
     WhisperASRInput,

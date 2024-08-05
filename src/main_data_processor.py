@@ -2,7 +2,7 @@ import logging
 from typing import Tuple, Optional
 from dane.config import cfg
 from dane.s3_util import validate_s3_uri
-from io_util import (
+from .io_util import (  # type:ignore
     get_base_output_dir,
     get_output_file_path,
     get_s3_output_file_uri,
@@ -14,7 +14,7 @@ from io_util import (
     delete_input_file,
     validate_data_dirs,
 )
-from models import (
+from .models import (  # type:ignore
     CallbackResponse,
     WhisperASRInput,
     WhisperASROutput,
@@ -26,7 +26,7 @@ from dane.provenance import (
     generate_initial_provenance,
     stop_timer_and_persist_provenance_chain,
 )
-from whisper import run_whisper
+from .whisper import run_whisper  # type:ignore
 
 
 logger = logging.getLogger(__name__)

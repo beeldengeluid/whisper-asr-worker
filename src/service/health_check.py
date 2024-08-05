@@ -2,6 +2,7 @@ import logging
 import json
 from typing import Dict, Any
 from flask import Response
+import requests
 
 
 logger = logging.getLogger(f"search.{__name__}")

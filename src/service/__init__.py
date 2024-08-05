@@ -1,8 +1,8 @@
 from flask import Flask
-import api
+from .rest_api import api
 # from flask_cors import CORS
-from flask import send_from_directory, url_for
-from app.health_check import HealthCheckProxy
+from flask import url_for  # , send_from_directory
+from .health_check import HealthCheckProxy
 
 
 def create_app():
@@ -22,9 +22,9 @@ def create_app():
         app.logger.debug("Entered function")
         return url_for(self.endpoint("specs"), _external=True, _scheme="https")
 
-    @app.route("/robots.txt")
-    def static_from_root():
-        return send_from_directory(app.static_folder, "robots.txt")
+    # @app.route("/robots.txt")
+    # def static_from_root():
+    #     return send_from_directory(app.static_folder, "robots.txt")
 
     # wires up the ping and ready check
     HealthCheckProxy(app)

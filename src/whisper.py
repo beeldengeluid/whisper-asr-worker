@@ -1,4 +1,4 @@
-from models import (
+from .models import (
     WhisperASRInput,
     WhisperASROutput,
     OutputType,
@@ -9,7 +9,7 @@ import json
 import ast
 from dane.config import cfg
 from dane.provenance import Provenance
-from io_util import (
+from .io_util import (
     get_base_output_dir,
     get_output_file_path,
     check_model_availability,

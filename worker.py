@@ -1,19 +1,19 @@
 import logging
 import sys
 import os
-from base_util import validate_config
+from src.base_util import validate_config
 from dane import Document, Task, Result
 from dane.base_classes import base_worker
 from dane.config import cfg
 from dane.provenance import Provenance
-from models import CallbackResponse
-from io_util import (
+from src.models import CallbackResponse
+from src.io_util import (
     fetch_input_s3_uri,
     source_id_from_s3_uri,
     get_s3_output_file_uri,
 )
 from pika.exceptions import ChannelClosedByBroker  # type: ignore
-import main_data_processor
+import src.main_data_processor as main_data_processor
 
 
 logger = logging.getLogger()
