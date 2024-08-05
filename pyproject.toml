@@ -5,6 +5,7 @@ description = "DANE worker for Whisper"
 authors = ["Dragos Alexandru Balan <d.a.balan@utwente.nl>"]
 license = "MIT"
 readme = "README.md"
+packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
