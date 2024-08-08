@@ -25,3 +25,11 @@ You can also specify an S3 URI if you have your own custom model available via S
 To run it using a GPU via Docker, check [the instructions from the dane-example-worker](https://github.com/beeldengeluid/dane-example-worker/wiki/Containerization#running-the-container-locally-using-cuda-compatible-gpu).
 
 Make sure to replace `dane-example-worker` in the `docker run` command with `dane-whisper-asr-worker`.
+
+
+## Running as a service
+This is work in progress. 
+The worker can also run separately from DANE, as a service based on Flask. An API endpoint is defined to get the worker to transcribe an audio file and transfer the results to S3. 
+
+For this functionality to work, install the dependency group: `tool.poetry.group.service.dependencies` using `poetry install --with service`.
+The service can be started by running `poetry run flask --app src/service run <--debug>`
