@@ -9,10 +9,10 @@ logger = logging.getLogger(f"search.{__name__}")
 
 
 class HealthCheckProxy:
-    def __init__(self, app):
-        self.app = app
-        self.app.add_url_rule("/ping", view_func=self.ping, methods=["GET"])
-        self.app.add_url_rule("/ready", view_func=self.ready, methods=["GET"])
+    def __init__(self, service):
+        self.service = service
+        self.service.add_url_rule("/ping", view_func=self.ping, methods=["GET"])
+        self.service.add_url_rule("/ready", view_func=self.ready, methods=["GET"])
 
     def ping(self) -> Response:
         logger.debug("Received ping")
