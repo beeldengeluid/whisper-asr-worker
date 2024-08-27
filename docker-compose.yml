@@ -1,0 +1,14 @@
+services:
+  dane-worker:
+    image: dane-whisper-worker:latest
+    volumes:
+      - ./models:/models
+      - ./data:/data
+    container_name: whisper-worker
+    # args: ["--output-uri"]
+    env_file:
+      - .env.override
+    logging:
+      options:
+        max-size: 20m
+    restart: no
