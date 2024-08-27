@@ -7,3 +7,4 @@ __pycache__
 /config.yml
 s3-creds.env
 .vscode/*
+.env.override

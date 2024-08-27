@@ -13,3 +13,5 @@
 __pycache__
 s3-creds.env
 .vscode
+.env
+.env.override
