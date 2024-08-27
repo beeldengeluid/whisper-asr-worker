@@ -28,11 +28,11 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
 testpaths = [
-  "tests/unit",
-  "tests/integration",
+  "tests/",
 ]
 addopts = [
   "--cov",
+  "--ignore=tests/ignored",
 ]
 
 [tool.coverage.run]
