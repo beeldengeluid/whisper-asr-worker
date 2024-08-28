@@ -24,7 +24,7 @@ def assert_tuple(param: str) -> str:
     except ValueError:
         assert (
             False
-        ), f"Please enter a valid tuple, e.g. (0.0,0.2,0.4,0.6,0.8,1.0), for {param}"
+        ), f"Please enter a valid tuple, e.g. (0.0, 0.2, 0.4, 0.6, 0.8, 1.0), for {param}"
 
 
 # main input & output params
