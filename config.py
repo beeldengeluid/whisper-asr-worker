@@ -4,7 +4,7 @@ import validators
 
 def assert_bool(param: str) -> bool:
     value = os.environ.get(param, "y")
-    assert value in ["y", "n"], f"Please use y or n for {param}"
+    assert value in ["y", "n"], f"Please use y or n for {param}, not |{value}|"
     return value == "y"
 
 
@@ -13,7 +13,7 @@ def assert_int(param: str) -> int:
     try:
         return int(value)
     except ValueError:
-        assert False, f"Please enter a valid number for {param}"
+        assert False, f"Please enter a valid number for {param}, not |{value}|"
 
 
 def assert_tuple(param: str) -> str:
@@ -24,7 +24,7 @@ def assert_tuple(param: str) -> str:
     except ValueError:
         assert (
             False
-        ), f"Please enter a valid tuple, e.g. (0.0, 0.2, 0.4, 0.6, 0.8, 1.0), for {param}"
+        ), f"Please enter a valid tuple, e.g. (0.0, 0.2, 0.4, 0.6, 0.8, 1.0), for {param}, not |{value}|"
 
 
 # main input & output params
