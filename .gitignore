@@ -5,7 +5,8 @@
 /data/output/*
 !/data/output/testsource__testcarrier
 !/data/output/testsource__testcarrier/*
-/model/*
+/models/*
+!/models/README.md
 __pycache__
 .pytest_cache
 .coverage
