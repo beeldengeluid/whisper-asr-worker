@@ -1,6 +1,11 @@
 /data/*
-model/*
 !/data/README.md
+!/data/testsource__testcarrier.wav
+!/data/output
+/data/output/*
+!/data/output/testsource__testcarrier
+!/data/output/testsource__testcarrier/*
+/model/*
 __pycache__
 .pytest_cache
 .coverage

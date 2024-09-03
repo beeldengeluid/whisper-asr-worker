@@ -6,6 +6,7 @@ import os
 from typing import TypedDict, List
 
 
+# TODO ADAPT FOR WHISPER!
 logger = logging.getLogger(__name__)
 CTM_FILE = "1Best.ctm"  # contains the word timings
 TXT_FILE = "1Best.txt"  # contains the words

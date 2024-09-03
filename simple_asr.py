@@ -4,10 +4,10 @@ import os
 from base_util import get_asset_info, asr_output_dir
 from config import s3_endpoint_url, s3_bucket, s3_folder_in_bucket
 from download import download_uri
-from whisper import run_asr
+from whisper import run_asr, WHISPER_JSON_FILE
 from s3_util import S3Store
 from transcode import try_transcode
-from transcript import TXT_FILE, CTM_FILE, JSON_FILE, generate_transcript
+from transcript import generate_transcript, JSON_FILE
 
 logger = logging.getLogger(__name__)
 
@@ -82,20 +82,16 @@ def transfer_asr_output(output_path: str, asset_id: str) -> bool:
             s3_folder_in_bucket, asset_id
         ),  # assets/<program ID>__<carrier ID>
         [
-            os.path.join(output_path, CTM_FILE),
-            os.path.join(output_path, TXT_FILE),
+            os.path.join(output_path, JSON_FILE),
         ],
     )
 
 
-# check if there is both a 1Best.txt and 1Best.ctm
+# check if there is both a transcript.json
 def asr_already_done(output_dir):
-    return all(
-        [
-            os.path.exists(os.path.join(output_dir, output_file))
-            for output_file in [TXT_FILE, CTM_FILE]
-        ]
-    )
+    whisper_transcript = os.path.join(output_dir, WHISPER_JSON_FILE)
+    logger.info(f"Checking existence of {whisper_transcript}")
+    return os.path.exists(os.path.join(output_dir, WHISPER_JSON_FILE))
 
 
 # check if there is a transcript.json

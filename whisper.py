@@ -4,7 +4,6 @@ import logging
 import os
 
 import faster_whisper
-
 from config import (
     model_base_dir,
     w_beam_size,
@@ -17,8 +16,8 @@ from config import (
 )
 
 
+WHISPER_JSON_FILE = "whisper-transcript.json"
 logger = logging.getLogger(__name__)
-JSON_FILE = "whisper-transcript.json"
 
 
 def run_asr(input_path, output_dir) -> bool:
@@ -71,7 +70,7 @@ def run_asr(input_path, output_dir) -> bool:
         )
     transcript = {"segments": segments_to_add}
 
-    with open(os.path.join(output_dir, JSON_FILE), "w+", encoding="utf-8") as f:
+    with open(os.path.join(output_dir, WHISPER_JSON_FILE), "w+", encoding="utf-8") as f:
         logger.info(transcript)
         json.dump(transcript, f, ensure_ascii=False, indent=4)
 
