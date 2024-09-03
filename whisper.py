@@ -1,4 +1,4 @@
-import ast
+# import ast
 import json
 import logging
 import os
@@ -10,7 +10,7 @@ from config import (
     w_best_of,
     w_device,
     # w_model, TODO handle model download later
-    w_temperature,
+    # w_temperature,
     w_vad,
     w_word_timestamps,
 )
@@ -29,13 +29,13 @@ def run_asr(input_path, output_dir) -> bool:
             "float16" if w_device == "cuda" else "float32"
         ),
     )
-
+    logger.info("Model loaded, now getting segments")
     segments, _ = model.transcribe(
         input_path,
         vad_filter=w_vad,
         beam_size=w_beam_size,
         best_of=w_best_of,
-        temperatures=ast.literal_eval(w_temperature),
+        # temperatures=ast.literal_eval(w_temperature),
         language="nl",
         word_timestamps=w_word_timestamps,
     )
