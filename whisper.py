@@ -35,7 +35,7 @@ def run_asr(input_path, output_dir) -> bool:
         vad_filter=w_vad,
         beam_size=w_beam_size,
         best_of=w_best_of,
-        temperature=ast.literal_eval(w_temperature),
+        temperatures=ast.literal_eval(w_temperature),
         language="nl",
         word_timestamps=w_word_timestamps,
     )
