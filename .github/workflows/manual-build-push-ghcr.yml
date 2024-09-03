@@ -1,0 +1,13 @@
+name: Manual deploy to ghcr
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-push-image:
+    uses: beeldengeluid/gha-workflows/.github/workflows/build-push-image.yml@4794ca839b14ce2b5205c1614d2651cf9f160352 # v2024.08.16
+    secrets: inherit
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
