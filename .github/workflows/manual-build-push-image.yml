@@ -1,4 +1,4 @@
-name: Deploy dane-whisper-asr-worker to ghcr
+name: Manual deploy to ghcr
 
 on:
   workflow_dispatch:
