@@ -1,15 +1,12 @@
-import codecs
-from codecs import StreamReaderWriter
 import json
 import logging
 import os
-from typing import TypedDict, List
+from typing import TypedDict, List, Optional
+from whisper import WHISPER_JSON_FILE
 
 
 # TODO ADAPT FOR WHISPER!
 logger = logging.getLogger(__name__)
-CTM_FILE = "1Best.ctm"  # contains the word timings
-TXT_FILE = "1Best.txt"  # contains the words
 JSON_FILE = "transcript.json"  # transcript used for indexing
 
 
@@ -26,25 +23,15 @@ class ParsedResult(TypedDict):
 # NOTE: only handles Kaldi_NL generated files at this moment
 def generate_transcript(asr_output_dir: str) -> bool:
     logger.info(f"Generating transcript from: {asr_output_dir}")
-    if not _is_valid_kaldi_output(asr_output_dir):
+    whisper_transcript = load_whisper_transcript(asr_output_dir)
+    if not whisper_transcript:
+        logger.error("No whisper_transcript.json found")
         return False
 
-    transcript = None
+    transcript = parse_whisper_transcript(whisper_transcript)
+
+    # TODO parse the whisper_transcript
     try:
-        with codecs.open(
-            os.path.join(asr_output_dir, CTM_FILE), encoding="utf-8"
-        ) as times_file:
-            times = _extract_time_info(times_file)
-
-        with codecs.open(
-            os.path.join(asr_output_dir, TXT_FILE), encoding="utf-8"
-        ) as asr_file:
-            transcript = _parse_asr_results(asr_file, times)
-
-        if not transcript:
-            logger.error("Failed to generate transcript.json")
-            return False
-
         # write transcript.json
         with open(os.path.join(asr_output_dir, JSON_FILE), "w+", encoding="utf-8") as f:
             logger.info(transcript)
@@ -56,74 +43,16 @@ def generate_transcript(asr_output_dir: str) -> bool:
     return True
 
 
-def _is_valid_kaldi_output(path: str) -> bool:
-    if not all(
-        [
-            os.path.exists(p)
-            for p in [
-                path,
-                os.path.join(path, CTM_FILE),
-                os.path.join(path, TXT_FILE),
-            ]
-        ]
-    ):
-        logger.error("Error: ASR output dir does not exist")
-        return False
-
-    return True
+def load_whisper_transcript(asr_output_dir: str) -> Optional[dict]:
+    path = os.path.join(asr_output_dir, WHISPER_JSON_FILE)
+    try:
+        whisper_transcript = json.load(open(path))
+    except Exception:
+        logger.exception(f"Could not load {path}")
+    return whisper_transcript
 
 
-def _parse_asr_results(
-    asr_file: StreamReaderWriter, times: List[int]
-) -> List[ParsedResult]:
-    transcript = []
-    i = 0
-    cur_pos = 0
-
-    for line in asr_file:
-        parts = line.replace("\n", "").split("(")
-
-        # extract the text
-        words = parts[0].strip()
-        num_words = len(words.split(" "))
-        word_times = times[cur_pos : cur_pos + num_words]
-        cur_pos = cur_pos + num_words
-
-        # Check number of words matches the number of word_times
-        if not len(word_times) == num_words:
-            logger.info(
-                "Number of words does not match word-times for file: {}, "
-                "current position in file: {}".format(asr_file.name, cur_pos)
-            )
-
-        # extract the carrier and fragment ID
-        carrier_fragid = parts[1].split(" ")[0].split(".")
-        carrier = carrier_fragid[0]
-        fragid = carrier_fragid[1]
-
-        # extract the starttime
-        sTime = parts[1].split(" ")[1].replace(")", "").split(".")
-        starttime = int(sTime[0]) * 1000
-
-        subtitle: ParsedResult = {
-            "words": words,
-            "wordTimes": word_times,
-            "start": float(starttime),
-            "sequenceNr": i,
-            "fragmentId": fragid,
-            "carrierId": carrier,
-        }
-        transcript.append(subtitle)
-        i += 1
-    return transcript
-
-
-def _extract_time_info(times_file: StreamReaderWriter) -> List[int]:
-    times = []
-
-    for line in times_file:
-        time_string = line.split(" ")[2]
-        ms_value = int(float(time_string) * 1000)
-        times.append(ms_value)
-
-    return times
+# TODO implement converting whisper output into elasticsearch index doc format
+def parse_whisper_transcript(whisper_transcript: dict):  # -> List[ParsedResult]:
+    logger.warning("Not implemented yet, just returning the whisper_transcript.json")
+    return whisper_transcript

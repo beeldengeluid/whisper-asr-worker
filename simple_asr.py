@@ -35,10 +35,10 @@ def run(input_uri: str, output_uri: str) -> bool:
 
     # 3. run ASR
     if not asr_already_done(output_path):
-        logger.info("No Kaldi_NL output found")
+        logger.info("No Whisper output found")
         run_asr(input_path, output_path)
     else:
-        logger.info(f"Kaldi_NL output already present in {output_path}")
+        logger.info(f"Whisper output already present in {output_path}")
 
     # 4. generate JSON transcript
     if not transcript_already_done(output_path):
