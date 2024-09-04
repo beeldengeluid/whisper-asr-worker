@@ -70,8 +70,22 @@ def run_asr(input_path, output_dir) -> bool:
         )
     transcript = {"segments": segments_to_add}
 
-    with open(os.path.join(output_dir, WHISPER_JSON_FILE), "w+", encoding="utf-8") as f:
-        logger.info(transcript)
-        json.dump(transcript, f, ensure_ascii=False, indent=4)
+    return write_whisper_json(transcript, output_dir)
 
+
+def write_whisper_json(transcript: dict, output_dir: str) -> bool:
+    logger.info("Writing whisper-transcript.json")
+    try:
+        if not os.path.exists(output_dir):
+            logger.info(f"{output_dir} does not exist creating it now")
+            os.makedirs(output_dir)
+
+        with open(
+            os.path.join(output_dir, WHISPER_JSON_FILE), "w+", encoding="utf-8"
+        ) as f:
+            logger.info(transcript)
+            json.dump(transcript, f, ensure_ascii=False, indent=4)
+    except EnvironmentError as e:  # OSError or IOError...
+        logger.exception(os.strerror(e.errno))
+        return False
     return True
