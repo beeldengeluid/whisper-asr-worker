@@ -1,30 +1,34 @@
-FROM nvidia/cuda:12.2.2-cudnn8-runtime-ubuntu22.04
+FROM docker.io/python:3.10@sha256:c6b64ba9c0f03c41e10f1e6053ca2ecf2dbced44098f8d56ed579aa50e839889 AS req
+
+RUN python3 -m pip install pipx && \
+  python3 -m pipx ensurepath
+
+RUN pipx install poetry==1.7.1 && \
+  pipx inject poetry poetry-plugin-export && \
+  pipx run poetry config warnings.export false
+
+COPY ./poetry.lock ./poetry.lock
+COPY ./pyproject.toml ./pyproject.toml
+RUN pipx run poetry export --format requirements.txt --output requirements.txt
+
+FROM docker.io/python:3.10@sha256:c6b64ba9c0f03c41e10f1e6053ca2ecf2dbced44098f8d56ed579aa50e839889
 
 # Create dirs for:
 # - Injecting config.yml: /root/.DANE
-# - Mount point for input & output files: /mnt/dane-fs
+# - Mount point for input & output files: /data
 # - Storing the source code: /src
-# - Storing the model: /model
-RUN mkdir /root/.DANE /mnt/dane-fs /src /data /model
-
-RUN apt-get update && \
-    apt-get install -y python3-pip python3-dev python-is-python3 && \
-    rm -rf /var/lib/apt/lists/*
+RUN mkdir \
+  /data \
+  /mnt/dane-fs \
+  /model \
+  /root/.DANE \
+  /src
 
 WORKDIR /src
 
-ENV POETRY_NO_INTERACTION=1 \
-    POETRY_VIRTUALENVS_IN_PROJECT=1 \
-    POETRY_VIRTUALENVS_CREATE=1 \
-    POETRY_CACHE_DIR=/tmp/poetry_cache
+COPY --from=req ./requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN pip install poetry==1.8.2
-
-COPY pyproject.toml poetry.lock ./
-
-RUN poetry install --without dev --no-root && rm -rf $POETRY_CACHE_DIR
-
-# copy the rest into the source dir
 COPY ./ /src
 
 # Write provenance info about software versions to file
