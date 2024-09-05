@@ -1,6 +1,6 @@
 services:
-  dane-worker:
-    image: dane-whisper-worker:latest
+  whisper-worker:
+    image: whisper-worker:latest
     volumes:
       - ./models:/models
       - ./data:/data
