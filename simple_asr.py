@@ -7,7 +7,7 @@ from download import download_uri
 from whisper import run_asr, WHISPER_JSON_FILE
 from s3_util import S3Store
 from transcode import try_transcode
-from transcript import generate_transcript, JSON_FILE
+from daan_transcript import generate_transcript, DAAN_JSON_FILE
 
 logger = logging.getLogger(__name__)
 
@@ -41,7 +41,7 @@ def run(input_uri: str, output_uri: str) -> bool:
         logger.info(f"Whisper output already present in {output_path}")
 
     # 4. generate JSON transcript
-    if not transcript_already_done(output_path):
+    if not daan_transcript_already_done(output_path):
         logger.info("No transcript.json found")
         success = generate_transcript(output_path)
         if not success:
@@ -82,7 +82,8 @@ def transfer_asr_output(output_path: str, asset_id: str) -> bool:
             s3_folder_in_bucket, asset_id
         ),  # assets/<program ID>__<carrier ID>
         [
-            os.path.join(output_path, JSON_FILE),
+            os.path.join(output_path, DAAN_JSON_FILE),
+            os.path.join(output_path, WHISPER_JSON_FILE),
         ],
     )
 
@@ -95,5 +96,5 @@ def asr_already_done(output_dir):
 
 
 # check if there is a transcript.json
-def transcript_already_done(output_dir):
-    return os.path.exists(os.path.join(output_dir, JSON_FILE))
+def daan_transcript_already_done(output_dir):
+    return os.path.exists(os.path.join(output_dir, DAAN_JSON_FILE))

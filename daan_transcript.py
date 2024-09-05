@@ -5,9 +5,8 @@ from typing import TypedDict, List, Optional
 from whisper import WHISPER_JSON_FILE
 
 
-# TODO ADAPT FOR WHISPER!
 logger = logging.getLogger(__name__)
-JSON_FILE = "transcript.json"  # transcript used for indexing
+DAAN_JSON_FILE = "daan-es-transcript.json"  # transcript used for indexing
 
 
 class ParsedResult(TypedDict):
@@ -33,7 +32,9 @@ def generate_transcript(asr_output_dir: str) -> bool:
     # TODO parse the whisper_transcript
     try:
         # write transcript.json
-        with open(os.path.join(asr_output_dir, JSON_FILE), "w+", encoding="utf-8") as f:
+        with open(
+            os.path.join(asr_output_dir, DAAN_JSON_FILE), "w+", encoding="utf-8"
+        ) as f:
             logger.info(transcript)
             json.dump(transcript, f, ensure_ascii=False, indent=4)
     except EnvironmentError as e:  # OSError or IOError...
