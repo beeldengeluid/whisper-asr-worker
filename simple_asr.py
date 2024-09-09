@@ -7,7 +7,7 @@ from download import download_uri
 from whisper import run_asr, WHISPER_JSON_FILE
 from s3_util import S3Store
 from transcode import try_transcode
-from daan_transcript import generate_transcript, DAAN_JSON_FILE
+from daan_transcript import generate_daan_transcript, DAAN_JSON_FILE
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +43,7 @@ def run(input_uri: str, output_uri: str) -> bool:
     # 4. generate JSON transcript
     if not daan_transcript_already_done(output_path):
         logger.info("No transcript.json found")
-        success = generate_transcript(output_path)
+        success = generate_daan_transcript(output_path)
         if not success:
             logger.warning("Could not generate transcript.json")
     else:

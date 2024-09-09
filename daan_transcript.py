@@ -19,8 +19,7 @@ class ParsedResult(TypedDict):
 
 
 # asr_output_dir e.g mount/asr-output/1272-128104-0000
-# NOTE: only handles Kaldi_NL generated files at this moment
-def generate_transcript(asr_output_dir: str) -> bool:
+def generate_daan_transcript(asr_output_dir: str) -> bool:
     logger.info(f"Generating transcript from: {asr_output_dir}")
     whisper_transcript = load_whisper_transcript(asr_output_dir)
     if not whisper_transcript:
@@ -29,7 +28,6 @@ def generate_transcript(asr_output_dir: str) -> bool:
 
     transcript = parse_whisper_transcript(whisper_transcript)
 
-    # TODO parse the whisper_transcript
     try:
         # write transcript.json
         with open(

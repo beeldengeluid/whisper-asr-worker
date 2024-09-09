@@ -3,7 +3,7 @@ import ntpath
 import os
 import subprocess
 from typing import Tuple
-from config import output_base_dir
+from config import data_base_dir
 
 
 LOG_FORMAT = "%(asctime)s|%(levelname)s|%(process)d|%(module)s|%(funcName)s|%(lineno)d|%(message)s"
@@ -20,7 +20,18 @@ def get_asset_info(input_file: str) -> Tuple[str, str]:
 
 # i.e. {output_base_dir}/output/{input_filename_without_extension}
 def asr_output_dir(input_path):
-    return os.path.join(output_base_dir, "output", get_asset_info(input_path)[0])
+    return os.path.join(data_base_dir, "output", get_asset_info(input_path)[0])
+
+
+def extension_to_mime_type(extension: str) -> str:
+    mime_dict = {
+        ".mov": "video/quicktime",
+        ".mp4": "video/mp4",
+        ".mp3": "audio/mpeg",
+        ".wav": "audio/wav"
+    }
+    
+    return mime_dict.get(extension, "application/octet-stream")
 
 
 # used by asr.py and transcode.py

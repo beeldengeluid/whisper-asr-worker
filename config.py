@@ -32,7 +32,7 @@ input_uri = os.environ.get("INPUT_URI", "")
 output_uri = os.environ.get("OUTPUT_URI", "")
 
 # mounting dirs
-output_base_dir = os.environ.get("OUTPUT_BASE_DIR", "")
+data_base_dir = os.environ.get("DATA_BASE_DIR", "")
 model_base_dir = os.environ.get("MODEL_BASE_DIR", "")
 
 # s3 connection params
@@ -62,9 +62,9 @@ if output_uri:
         assert validators.url(output_uri), "Please provide a valid OUTPUT_URI"
 
 
-assert output_base_dir, "Please add OUTPUT_BASE_DIR to your environment"
-assert output_base_dir not in [".", "/"], "Please enter an absolute, non-root path"
-assert os.path.exists(output_base_dir), "OUTPUT_BASE_DIR does not exist"
+assert data_base_dir, "Please add DATA_BASE_DIR to your environment"
+assert data_base_dir not in [".", "/"], "Please enter an absolute, non-root path"
+assert os.path.exists(data_base_dir), "DATA_BASE_DIR does not exist"
 
 assert model_base_dir, "Please add MODEL_BASE_DIR to your environment"
 assert model_base_dir not in [".", "/"], "Please enter an absolute, non-root path"

@@ -56,4 +56,4 @@ def _is_audio_file(extension):
 
 
 def _is_transcodable(extension):
-    return extension in [".mov", ".mp4", ".m4a", ".3gp", ".3g2", ".mj2"]
+    return extension in [".mov", ".mp4"]

@@ -2,7 +2,7 @@ services:
   whisper-worker:
     image: whisper-worker:latest
     volumes:
-      - ./models:/models
+      - ./model:/model
       - ./data:/data
     container_name: whisper-worker
     # args: ["--output-uri"]

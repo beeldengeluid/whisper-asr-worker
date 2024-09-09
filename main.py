@@ -21,7 +21,7 @@ if __name__ == "__main__":
     from base_util import LOG_FORMAT
 
     # first read the CLI arguments
-    parser = ArgumentParser(description="dane-video-segmentation-worker")
+    parser = ArgumentParser(description="whisper-asr-worker")
     parser.add_argument("--input", action="store", dest="input_uri", default=input_uri)
     parser.add_argument(
         "--output", action="store", dest="output_uri", default=output_uri

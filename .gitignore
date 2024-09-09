@@ -1,6 +1,8 @@
 /data/*
 !/data/README.md
-!/data/testsource__testcarrier.wav
+!/data/input/
+/data/input/*
+!/data/input/testsource__testcarrier.wav
 !/data/output
 /data/output/*
 !/data/output/testsource__testcarrier
