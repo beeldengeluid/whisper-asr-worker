@@ -28,7 +28,7 @@ def extension_to_mime_type(extension: str) -> str:
         ".mov": "video/quicktime",
         ".mp4": "video/mp4",
         ".mp3": "audio/mpeg",
-        ".wav": "audio/wav"
+        ".wav": "audio/wav",
     }
 
     return mime_dict.get(extension, "application/octet-stream")

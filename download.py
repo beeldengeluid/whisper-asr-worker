@@ -48,9 +48,7 @@ def http_download(url: str) -> Optional[DownloadResult]:
             file.close()
     download_time = (time.time() - start_time) * 1000  # time in ms
     return DownloadResult(
-        input_file,
-        download_time,
-        mime_type  # TODO add content_length
+        input_file, download_time, mime_type  # TODO add content_length
     )
 
 
@@ -84,7 +82,5 @@ def s3_download(s3_uri: str) -> Optional[DownloadResult]:
             return None
     download_time = time.time() - start_time
     return DownloadResult(
-        input_file,
-        download_time,
-        mime_type  # TODO add content_length
+        input_file, download_time, mime_type  # TODO add content_length
     )
