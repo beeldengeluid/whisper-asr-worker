@@ -51,7 +51,23 @@ def load_whisper_transcript(asr_output_dir: str) -> Optional[dict]:
     return whisper_transcript
 
 
-# TODO implement converting whisper output into elasticsearch index doc format
-def parse_whisper_transcript(whisper_transcript: dict):  # -> List[ParsedResult]:
-    logger.warning("Not implemented yet, just returning the whisper_transcript.json")
-    return whisper_transcript
+def parse_whisper_transcript(whisper_transcript: dict) -> List[ParsedResult]:
+    i = 0  # sequenceNr counter
+    daan_transcript = []
+    for segment in whisper_transcript["segments"]:
+        wordTimes = []
+        for word in segment["words"]:
+            wordTimes.append(int(word * 1000))  # as seen in dane-asr-worker
+
+        subtitle: ParsedResult = {
+            "wordTimes": wordTimes,
+            "sequenceNr": i,
+            "start": segment["start"],
+            # converts i to a 5-char long string prepended with 0s
+            # (similar to kaldi output)
+            "fragmentId": f"{i:05d}",
+            "words": segment["text"],
+            "carrierId": whisper_transcript["carrierId"],
+        }
+        daan_transcript.append(subtitle)
+    return daan_transcript

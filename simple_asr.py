@@ -88,13 +88,15 @@ def transfer_asr_output(output_path: str, asset_id: str) -> bool:
     )
 
 
-# check if there is both a transcript.json
+# check if there is a whisper-transcript.json
 def asr_already_done(output_dir):
     whisper_transcript = os.path.join(output_dir, WHISPER_JSON_FILE)
     logger.info(f"Checking existence of {whisper_transcript}")
     return os.path.exists(os.path.join(output_dir, WHISPER_JSON_FILE))
 
 
-# check if there is a transcript.json
+# check if there is a daan-transcript.json
 def daan_transcript_already_done(output_dir):
+    daan_transcript = os.path.join(output_dir, DAAN_JSON_FILE)
+    logger.info(f"Checking existence of {daan_transcript}")
     return os.path.exists(os.path.join(output_dir, DAAN_JSON_FILE))

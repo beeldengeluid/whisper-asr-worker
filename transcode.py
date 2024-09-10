@@ -3,7 +3,7 @@ import os
 from typing import Optional
 
 import base_util
-from base_util import output_base_dir
+from base_util import data_base_dir
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +24,7 @@ def try_transcode(input_path, asset_id, extension) -> Optional[str]:
         return None
 
     # check if the input file was already transcoded
-    transcoded_file_path = os.path.join(output_base_dir, f"{asset_id}.mp3")
+    transcoded_file_path = os.path.join(data_base_dir, f"{asset_id}.mp3")
     if os.path.exists(transcoded_file_path):
         logger.info("Transcoded file is already available, no new transcode needed")
         return transcoded_file_path

@@ -14,6 +14,7 @@ from config import (
     w_vad,
     w_word_timestamps,
 )
+from base_util import get_asset_info
 
 
 WHISPER_JSON_FILE = "whisper-transcript.json"
@@ -68,7 +69,9 @@ def run_asr(input_path, output_dir) -> bool:
                 "words": words_to_add,
             }
         )
-    transcript = {"segments": segments_to_add}
+    asset_id, _ = get_asset_info(input_path)
+    # Also added "carrierId" because the DAAN format requires it
+    transcript = {"carriedId": asset_id, "segments": segments_to_add}
 
     return write_whisper_json(transcript, output_dir)
 
