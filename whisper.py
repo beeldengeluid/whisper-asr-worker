@@ -9,12 +9,13 @@ from config import (
     w_beam_size,
     w_best_of,
     w_device,
-    # w_model, TODO handle model download later
+    w_model,
     # w_temperature,
     w_vad,
     w_word_timestamps,
 )
 from base_util import get_asset_info
+from model_download import check_model_availability
 
 
 WHISPER_JSON_FILE = "whisper-transcript.json"
@@ -23,8 +24,14 @@ logger = logging.getLogger(__name__)
 
 def run_asr(input_path, output_dir) -> bool:
     logger.info(f"Starting ASR on {input_path}")
+    # checking if model needs to be downloaded from HF or not
+    model_location = (
+        model_base_dir
+        if check_model_availability()
+        else w_model
+    )
     model = faster_whisper.WhisperModel(
-        model_base_dir,
+        model_location,
         device=w_device,
         compute_type=(  # float16 only works on GPU, float32 or int8 are recommended for CPU
             "float16" if w_device == "cuda" else "float32"
@@ -71,7 +78,7 @@ def run_asr(input_path, output_dir) -> bool:
         )
     asset_id, _ = get_asset_info(input_path)
     # Also added "carrierId" because the DAAN format requires it
-    transcript = {"carriedId": asset_id, "segments": segments_to_add}
+    transcript = {"carrierId": asset_id, "segments": segments_to_add}
 
     return write_whisper_json(transcript, output_dir)
 

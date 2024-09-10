@@ -57,7 +57,7 @@ def parse_whisper_transcript(whisper_transcript: dict) -> List[ParsedResult]:
     for segment in whisper_transcript["segments"]:
         wordTimes = []
         for word in segment["words"]:
-            wordTimes.append(int(word * 1000))  # as seen in dane-asr-worker
+            wordTimes.append(int(word["start"] * 1000))  # as seen in dane-asr-worker
 
         subtitle: ParsedResult = {
             "wordTimes": wordTimes,

@@ -24,7 +24,7 @@ def try_transcode(input_path, asset_id, extension) -> Optional[str]:
         return None
 
     # check if the input file was already transcoded
-    transcoded_file_path = os.path.join(data_base_dir, f"{asset_id}.mp3")
+    transcoded_file_path = os.path.join(data_base_dir, "input", f"{asset_id}.mp3")
     if os.path.exists(transcoded_file_path):
         logger.info("Transcoded file is already available, no new transcode needed")
         return transcoded_file_path

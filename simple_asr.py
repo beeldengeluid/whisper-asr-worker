@@ -35,19 +35,19 @@ def run(input_uri: str, output_uri: str) -> bool:
 
     # 3. run ASR
     if not asr_already_done(output_path):
-        logger.info("No Whisper output found")
+        logger.info("No Whisper transcript found")
         run_asr(input_path, output_path)
     else:
-        logger.info(f"Whisper output already present in {output_path}")
+        logger.info(f"Whisper transcript already present in {output_path}")
 
     # 4. generate JSON transcript
     if not daan_transcript_already_done(output_path):
-        logger.info("No transcript.json found")
+        logger.info("No DAAN transcript found")
         success = generate_daan_transcript(output_path)
         if not success:
-            logger.warning("Could not generate transcript.json")
+            logger.warning("Could not generate DAAN transcript")
     else:
-        logger.info(f"transcript.json already present in {output_path}")
+        logger.info(f"DAAN transcript already present in {output_path}")
 
     # 5. transfer output
     if output_uri:

@@ -11,7 +11,7 @@ from base_util import get_asset_info, extension_to_mime_type
 
 logger = logging.getLogger(__name__)
 
-input_file_dir = os.path.join(data_base_dir, "/input/")
+input_file_dir = os.path.join(data_base_dir, "input/")
 
 
 @dataclass
