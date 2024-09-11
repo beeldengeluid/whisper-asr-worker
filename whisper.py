@@ -24,6 +24,7 @@ logger = logging.getLogger(__name__)
 
 def run_asr(input_path, output_dir) -> bool:
     logger.info(f"Starting ASR on {input_path}")
+    logger.info(f"Device used: {w_device}")
     # checking if model needs to be downloaded from HF or not
     model_location = model_base_dir if check_model_availability() else w_model
     model = faster_whisper.WhisperModel(

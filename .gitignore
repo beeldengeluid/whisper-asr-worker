@@ -7,8 +7,7 @@
 /data/output/*
 !/data/output/testsource__testcarrier
 !/data/output/testsource__testcarrier/*
-/models/*
-!/models/README.md
+/model/*
 __pycache__
 .pytest_cache
 .coverage

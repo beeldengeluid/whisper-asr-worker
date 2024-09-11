@@ -12,3 +12,9 @@ services:
       options:
         max-size: 20m
     restart: no
+    # Uncomment below to use the GPU/CUDA
+    deploy:
+      resources:
+        reservations:
+          devices: 
+          - capabilities: [gpu]
