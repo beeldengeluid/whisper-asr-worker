@@ -1,74 +1,54 @@
-from models import (
-    WhisperASRInput,
-    WhisperASROutput,
-    OutputType,
-)
-import logging
-import time
+# import ast
 import json
-import ast
-from dane.config import cfg
-from dane.provenance import Provenance
-from io_util import (
-    get_base_output_dir,
-    get_output_file_path,
-    check_model_availability,
-    check_pretrained_model_availability,
-)
+import logging
+import os
+
 import faster_whisper
+from config import (
+    model_base_dir,
+    w_beam_size,
+    w_best_of,
+    w_device,
+    w_model,
+    # w_temperature,
+    w_vad,
+    w_word_timestamps,
+)
+from base_util import get_asset_info
+from model_download import check_model_availability
 
 
-def run_whisper(
-    input: WhisperASRInput,
-) -> WhisperASROutput:
-    logger = logging.getLogger(__name__)
-    logger.info("Starting model application")
-    start = time.time()
-    destination = get_output_file_path(input.source_id, OutputType.TRANSCRIPT)
-    model_location = (
-        cfg.FILE_SYSTEM.BASE_MOUNT_MODEL
-        if check_model_availability()
-        else cfg.WHISPER_ASR_SETTINGS.MODEL
-    )
+WHISPER_JSON_FILE = "whisper-transcript.json"
+logger = logging.getLogger(__name__)
 
-    if (
-        model_location == cfg.WHISPER_ASR_SETTINGS.MODEL
-        and not check_pretrained_model_availability()
-    ):
-        return WhisperASROutput(
-            500,
-            "Failed to apply model (WHISPER_ASR_SETTINGS.MODEL not configured correctly)",
-        )
 
-    if cfg.WHISPER_ASR_SETTINGS.DEVICE not in ["cuda", "cpu"]:
-        return WhisperASROutput(
-            500,
-            "Failed to apply model (WHISPER_ASR_SETTINGS.DEVICE not configured correctly)",
-        )
-
-    # float16 only works on GPU, float32 or int8 are recommended for CPU
+def run_asr(input_path, output_dir) -> bool:
+    logger.info(f"Starting ASR on {input_path}")
+    logger.info(f"Device used: {w_device}")
+    # checking if model needs to be downloaded from HF or not
+    model_location = model_base_dir if check_model_availability() else w_model
     model = faster_whisper.WhisperModel(
         model_location,
-        device=cfg.WHISPER_ASR_SETTINGS.DEVICE,
-        compute_type=(
-            "float16" if cfg.WHISPER_ASR_SETTINGS.DEVICE == "cuda" else "float32"
+        device=w_device,
+        compute_type=(  # float16 only works on GPU, float32 or int8 are recommended for CPU
+            "float16" if w_device == "cuda" else "float32"
         ),
     )
-
+    logger.info("Model loaded, now getting segments")
     segments, _ = model.transcribe(
-        input.input_file_path,
-        vad_filter=cfg.WHISPER_ASR_SETTINGS.VAD,
-        beam_size=cfg.WHISPER_ASR_SETTINGS.BEAM_SIZE,
-        best_of=cfg.WHISPER_ASR_SETTINGS.BEST_OF,
-        temperature=ast.literal_eval(cfg.WHISPER_ASR_SETTINGS.TEMPERATURE),
+        input_path,
+        vad_filter=w_vad,
+        beam_size=w_beam_size,
+        best_of=w_best_of,
+        # temperatures=ast.literal_eval(w_temperature),
         language="nl",
-        word_timestamps=cfg.WHISPER_ASR_SETTINGS.WORD_TIMESTAMPS,
+        word_timestamps=w_word_timestamps,
     )
 
     segments_to_add = []
     for segment in segments:
         words_to_add = []
-        if cfg.WHISPER_ASR_SETTINGS.WORD_TIMESTAMPS:
+        if w_word_timestamps:
             for word in segment.words:
                 words_to_add.append(
                     {
@@ -93,29 +73,26 @@ def run_whisper(
                 "words": words_to_add,
             }
         )
-    result = {"segments": segments_to_add}
+    asset_id, _ = get_asset_info(input_path)
+    # Also added "carrierId" because the DAAN format requires it
+    transcript = {"carrierId": asset_id, "segments": segments_to_add}
 
-    with open(destination, "w", encoding="utf-8") as f:
-        json.dump(result, f, indent=2, ensure_ascii=False)
-        logger.info("Transcription finished, saved at " + destination)
+    return write_whisper_json(transcript, output_dir)
 
-    model_application_provenance = Provenance(
-        activity_name="whisper_asr",
-        activity_description="Transcribe an audio file using Whisper",
-        input_data=input.input_file_path,
-        start_time_unix=start,
-        parameters=cfg.WHISPER_ASR_SETTINGS,
-        software_version=faster_whisper.__version__,
-        output_data=destination,
-        processing_time_ms=(time.time() - start) * 1000,
-    )
 
-    if not model_application_provenance:
-        return WhisperASROutput(500, "Failed to apply model")
+def write_whisper_json(transcript: dict, output_dir: str) -> bool:
+    logger.info("Writing whisper-transcript.json")
+    try:
+        if not os.path.exists(output_dir):
+            logger.info(f"{output_dir} does not exist, creating it now")
+            os.makedirs(output_dir)
 
-    return WhisperASROutput(
-        200,
-        "Succesfully applied model",
-        get_base_output_dir(input.source_id),
-        model_application_provenance,
-    )
+        with open(
+            os.path.join(output_dir, WHISPER_JSON_FILE), "w+", encoding="utf-8"
+        ) as f:
+            logger.info(transcript)
+            json.dump(transcript, f, ensure_ascii=False, indent=4)
+    except EnvironmentError as e:  # OSError or IOError...
+        logger.exception(os.strerror(e.errno))
+        return False
+    return True

@@ -1,6 +1,6 @@
 /data
 /misc
-/model
+/models
 /config
 /tests
 .venv
@@ -13,3 +13,6 @@
 __pycache__
 s3-creds.env
 .vscode
+.env
+.env.override
+/data
