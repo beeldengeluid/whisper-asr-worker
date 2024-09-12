@@ -42,6 +42,10 @@ def http_download(url: str) -> Optional[DownloadResult]:
     start_time = time.time()
     if not os.path.exists(input_file):
         logger.info(f"File {input_file} not downloaded yet")
+        # Create /data/input/ folder if not exists
+        if not os.path.exists(input_file_dir):
+            logger.info(f"{input_file_dir} does not exist, creating it now")
+            os.makedirs(input_file_dir)
         with open(input_file, "wb") as file:
             response = requests.get(url)
             file.write(response.content)
@@ -75,6 +79,10 @@ def s3_download(s3_uri: str) -> Optional[DownloadResult]:
         # source_id = get_source_id(s3_uri)
         start_time = time.time()
         s3 = S3Store(s3_endpoint_url)
+        # Create /data/input/ folder if not exists
+        if not os.path.exists(input_file_dir):
+            logger.info(f"{input_file_dir} does not exist, creating it now")
+            os.makedirs(input_file_dir)
         success = s3.download_file(bucket, object_name, input_file_dir)
 
         if not success:

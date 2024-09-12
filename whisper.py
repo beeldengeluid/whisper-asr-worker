@@ -84,7 +84,7 @@ def write_whisper_json(transcript: dict, output_dir: str) -> bool:
     logger.info("Writing whisper-transcript.json")
     try:
         if not os.path.exists(output_dir):
-            logger.info(f"{output_dir} does not exist creating it now")
+            logger.info(f"{output_dir} does not exist, creating it now")
             os.makedirs(output_dir)
 
         with open(
