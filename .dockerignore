@@ -15,4 +15,3 @@ s3-creds.env
 .vscode
 .env
 .env.override
-/data

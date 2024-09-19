@@ -2,11 +2,11 @@
 !/data/README.md
 !/data/input/
 /data/input/*
-!/data/input/testsource__testcarrier.wav
+!/data/input/kaldi-nl-test.mp3
 !/data/output
 /data/output/*
-!/data/output/testsource__testcarrier
-!/data/output/testsource__testcarrier/*
+!/data/output/kaldi-nl-test
+!/data/output/kaldi-nl-test/*
 /model/*
 __pycache__
 .pytest_cache

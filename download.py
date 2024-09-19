@@ -17,8 +17,8 @@ input_file_dir = os.path.join(data_base_dir, "input/")
 @dataclass
 class DownloadResult:
     file_path: str  # target_file_path,  # TODO harmonize with dane-download-worker
-    download_time: float = -1  # time (secs) taken to receive data after request
-    mime_type: str = "unknown"  # download_data.get("mime_type", "unknown"),
+    mime_type: str  # download_data.get("mime_type", "unknown"),
+    download_time: float = -1  # time (ms) taken to receive data after request
     content_length: int = -1  # download_data.get("content_length", -1),
 
 
@@ -34,7 +34,6 @@ def http_download(url: str) -> Optional[DownloadResult]:
     logger.info(f"Checking if {url} was already downloaded")
     fn = os.path.basename(urlparse(url).path)
     input_file = os.path.join(input_file_dir, fn)
-    # TODO rethink how to return mime_type
     _, extension = get_asset_info(input_file)
     mime_type = extension_to_mime_type(extension)
 
@@ -52,11 +51,10 @@ def http_download(url: str) -> Optional[DownloadResult]:
             file.close()
     download_time = (time.time() - start_time) * 1000  # time in ms
     return DownloadResult(
-        input_file, download_time, mime_type  # TODO add content_length
+        input_file, mime_type, download_time  # TODO add content_length
     )
 
 
-# e.g. s3://dane-asset-staging-gb/assets/2101608170158176431__NOS_JOURNAAL_-WON01513227.mp4
 def s3_download(s3_uri: str) -> Optional[DownloadResult]:
     logger.info(f"Checking if {s3_uri} was already downloaded")
 
@@ -88,7 +86,7 @@ def s3_download(s3_uri: str) -> Optional[DownloadResult]:
         if not success:
             logger.error("Failed to download input data from S3")
             return None
-    download_time = time.time() - start_time
+    download_time = (time.time() - start_time) * 1000  # time in ms
     return DownloadResult(
-        input_file, download_time, mime_type  # TODO add content_length
+        input_file, mime_type, download_time  # TODO add content_length
     )
