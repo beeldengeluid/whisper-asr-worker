@@ -1,10 +1,10 @@
 services:
   whisper-worker:
-    image: whisper-worker:latest
+    image: whisper-asr-worker:latest
     volumes:
       - ./model:/model
       - ./data:/data
-    container_name: whisper-worker
+    container_name: whisper-asr-worker
     # args: ["--output-uri"]
     env_file:
       - .env.override
@@ -16,5 +16,5 @@ services:
     deploy:
       resources:
         reservations:
-          devices: 
+          devices:
           - capabilities: [gpu]
