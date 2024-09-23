@@ -2,11 +2,11 @@
 !/data/README.md
 !/data/input/
 /data/input/*
-!/data/input/testsource__testcarrier.wav
+!/data/input/whisper-test.mp3
 !/data/output
 /data/output/*
-!/data/output/testsource__testcarrier
-!/data/output/testsource__testcarrier/*
+!/data/output/whisper-test
+!/data/output/whisper-test/*
 /model/*
 __pycache__
 .pytest_cache

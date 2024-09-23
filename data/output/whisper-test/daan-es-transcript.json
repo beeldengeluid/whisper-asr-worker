@@ -1,0 +1,27 @@
+[
+    {
+        "wordTimes": [
+            3220,
+            3440,
+            3640,
+            3900,
+            4240,
+            5400,
+            5580,
+            5800,
+            6180,
+            6440,
+            6740,
+            7540,
+            7760,
+            8080,
+            8320,
+            8520
+        ],
+        "sequenceNr": 0,
+        "start": 3.22,
+        "fragmentId": "00000",
+        "words": "En dat je er bent, ben je voor het eerst hierof, ben je al de kef.",
+        "carrierId": "whisper-test"
+    }
+]

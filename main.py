@@ -3,7 +3,7 @@ import sys
 
 from base_util import LOG_FORMAT
 from config import input_uri, output_uri
-import simple_asr
+import asr
 
 
 # initialises the root logger
@@ -42,6 +42,6 @@ if __name__ == "__main__":
     logger.info(f"Got the following CMD line arguments: {args}")
 
     if args.input_uri:
-        simple_asr.run(args.input_uri, args.output_uri)
+        asr.run(args.input_uri, args.output_uri)
     else:
         logger.error("Please supply the --input param (--output is optional)")

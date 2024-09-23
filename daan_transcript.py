@@ -18,7 +18,7 @@ class ParsedResult(TypedDict):
     carrierId: str
 
 
-# asr_output_dir e.g mount/asr-output/1272-128104-0000
+# asr_output_dir e.g /data/output/whisper-test/
 def generate_daan_transcript(asr_output_dir: str) -> bool:
     logger.info(f"Generating transcript from: {asr_output_dir}")
     whisper_transcript = load_whisper_transcript(asr_output_dir)
@@ -29,7 +29,7 @@ def generate_daan_transcript(asr_output_dir: str) -> bool:
     transcript = parse_whisper_transcript(whisper_transcript)
 
     try:
-        # write transcript.json
+        # write daan-es-transcript.json
         with open(
             os.path.join(asr_output_dir, DAAN_JSON_FILE), "w+", encoding="utf-8"
         ) as f:

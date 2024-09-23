@@ -31,7 +31,7 @@ def extension_to_mime_type(extension: str) -> str:
         ".wav": "audio/wav",
     }
 
-    return mime_dict.get(extension, "application/octet-stream")
+    return mime_dict.get(extension, "unknown")
 
 
 # used by asr.py and transcode.py

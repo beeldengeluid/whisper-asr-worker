@@ -17,14 +17,14 @@ def assert_int(param: str) -> int:
 
 
 def assert_tuple(param: str) -> str:
-    value = os.environ.get(param, "(0.0, 0.2, 0.4, 0.6, 0.8, 1.0)")
+    value = os.environ.get(param, "(0.0,0.2,0.4,0.6,0.8,1.0)")
     try:
         tuple(eval(value))
         return value
     except ValueError:
         assert (
             False
-        ), f"Please enter a valid tuple, e.g. (0.0, 0.2, 0.4, 0.6, 0.8, 1.0), for {param}, not |{value}|"
+        ), f"Please enter a valid tuple, e.g. (0.0,0.2,0.4,0.6,0.8,1.0), for {param}, not |{value}|"
 
 
 # main input & output params
