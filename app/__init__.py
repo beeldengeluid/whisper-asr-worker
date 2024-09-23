@@ -54,8 +54,8 @@ def create_app():
     app.logger.info("initializing api")
     api.init_app(
         app,
-        title="Beeld en Geluid Annotation API",
-        description="Annotation API that (mostly) follows the W3C Web Annotation Model",
+        title="Beeld en Geluid transcription API",
+        description="Transcription API that uses Whisper for transcribing speech",
     )
 
     app.logger.info("Initialising server (once)...")
