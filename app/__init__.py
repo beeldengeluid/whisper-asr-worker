@@ -1,31 +1,75 @@
 from flask import Flask
-from whisper_api import api
-from flask import url_for, send_from_directory
+from logging.config import dictConfig
+from apis import api
+
+# from flask import url_for
+from flask_cors import CORS
+
+# from flask_restx import Api as rpapi
 from health_check import HealthCheckProxy
+from base_util import LOG_FORMAT
+
+
+dictConfig(
+    {
+        "version": 1,
+        "formatters": {
+            "default": {
+                "format": LOG_FORMAT,
+            }
+        },
+        "handlers": {
+            "wsgi": {
+                "class": "logging.StreamHandler",
+                "stream": "ext://flask.logging.wsgi_errors_stream",
+                "formatter": "default",
+            },
+        },
+        "loggers": {
+            "transcribe": {  # root logger
+                "handlers": ["wsgi"],
+                "level": "DEBUG",
+                "propagate": False,
+            },
+            "__main__": {  # if __name__ == "__main__"
+                "handlers": ["wsgi"],
+                "level": "DEBUG",
+                "propagate": False,
+            },
+        },
+    }
+)
 
 
 def create_app():
-    service = Flask("transcribe")
-    service.config["DEBUG"] = True
-    # CORS(service)
+    app = Flask("transcribe")
 
-    service.logger.info("initializing api")
+    # Set Flask-specific config variables (from cfg)
+    app.config["DEBUG"] = True
+    app.config["CORS_HEADERS"] = "Content-Type"
+    app.config["RESTPLUS_VALIDATE"] = False
+
+    CORS(app)
+
+    app.logger.info("initializing api")
     api.init_app(
-        service,
-        title="Beeld en Geluid Transcription API",
-        description="Transcribe an audio file using Whisper ASR",
+        app,
+        title="Beeld en Geluid Annotation API",
+        description="Annotation API that (mostly) follows the W3C Web Annotation Model",
     )
 
-    @property  # type: ignore
-    def specs_url(self):
-        service.logger.debug("Entered function")
-        return url_for(self.endpoint("specs"), _external=True, _scheme="https")
+    app.logger.info("Initialising server (once)...")
 
-    @service.route("/robots.txt")
-    def static_from_root():
-        return send_from_directory(service.static_folder, "robots.txt")
+    # making sure the swagger UI shows correctly on HTTPS/HTTP
+    # @property  # type: ignore
+    # def specs_url(self):
+    #     app.logger.debug("Swagger specs_url handling")
+    #     return url_for(self.endpoint("specs"), _external=True, _scheme="https")
 
-    # wires up the ping and ready check
-    HealthCheckProxy(service)
+    # if "FORCE_SWAGGER_JSON_HTTPS" in cfg and cfg["FORCE_SWAGGER_JSON_HTTPS"]:
+    #     rpapi.specs_url = specs_url
 
-    return service
+    # wire up the ping and ready checks
+    HealthCheckProxy(app)
+
+    return app

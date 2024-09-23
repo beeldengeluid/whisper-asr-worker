@@ -1,30 +1,26 @@
 from flask import request, url_for
-from flask_restx import Api, Namespace, Resource  # type: ignore
+from flask_restx import Namespace, Resource
+import logging
 import asyncio
 from time import time
 from asr import run
 
 
+api = Namespace("Transcribe", description="Transcribe audio file")
+logger = logging.getLogger(f"transcribe.{__name__}")
+
 running_transcriptions: dict[str, asyncio.Task] = {}
 
-apiVersion = "v1.1"
-basePath = "/api/%s" % apiVersion
-api = Api(version=apiVersion)
-
-transcribe_api = Namespace("Transcribe", description="Transcribe audio file")
-
-transcribe_request = api.model(
-    "TranscribeRequest",
-    {"doc_id": "this_is_not_a_valid_id", "location": "this_is_not_a_valid_S3_URI"},
-)
-
-
-api.add_namespace(transcribe_api, path="%s/transcribe" % basePath)
+# FIXME this model is not correct. Swagger cannot render this
+# transcribe_request = api.model(
+#     "TranscribeRequest",
+#     {"doc_id": "this_is_not_a_valid_id", "location": "this_is_not_a_valid_S3_URI"},
+# )
 
 
 @api.route("/transcribe", endpoint="Request new audio file transcription")
 class TranscriptionEndpoint(Resource):
-    @api.expect(transcribe_request)
+    # @api.expect(transcribe_request)
     def post(self):
         params = request.get_json(force=True)
 
