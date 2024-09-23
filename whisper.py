@@ -1,28 +1,8 @@
-<<<<<<< HEAD:src/whisper.py
-from .models import (
-    WhisperASRInput,
-    WhisperASROutput,
-    OutputType,
-)
-import logging
-import time
-import json
-import ast
-from dane.config import cfg
-from dane.provenance import Provenance
-from .io_util import (
-    get_base_output_dir,
-    get_output_file_path,
-    check_model_availability,
-    check_pretrained_model_availability,
-)
-=======
 import ast
 import json
 import logging
 import os
 
->>>>>>> main:whisper.py
 import faster_whisper
 from config import (
     model_base_dir,

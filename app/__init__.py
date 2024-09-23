@@ -1,8 +1,7 @@
 from flask import Flask
-from .rest_api import api
-# from flask_cors import CORS
+from whisper_api import api
 from flask import url_for, send_from_directory
-from .health_check import HealthCheckProxy
+from health_check import HealthCheckProxy
 
 
 def create_app():
