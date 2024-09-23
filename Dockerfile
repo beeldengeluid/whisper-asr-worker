@@ -1,15 +1,16 @@
 FROM nvidia/cuda:12.2.2-cudnn8-runtime-ubuntu22.04
 
-# Create dirs for:
-# - Injecting config.yml: /root/.DANE
-# - Mount point for input & output files: /mnt/dane-fs
-# - Storing the source code: /src
-# - Storing the model: /model
-RUN mkdir /root/.DANE /mnt/dane-fs /src /data /model
-
+# Install ffmpeg
 RUN apt-get update && \
-    apt-get install -y python3-pip python3-dev python-is-python3 && \
+    apt-get install -y python3-pip python3.11-dev python-is-python3 ffmpeg && \
     rm -rf /var/lib/apt/lists/*
+
+# Create dirs for:
+# - Storing the source code: /src
+# - Storing the input & output files: /data
+# - Storing the model: /model
+RUN mkdir /src /data /model
+
 
 WORKDIR /src
 
@@ -28,6 +29,6 @@ RUN poetry install --without dev --no-root && rm -rf $POETRY_CACHE_DIR
 COPY ./ /src
 
 # Write provenance info about software versions to file
-RUN echo "dane-whisper-asr-worker;https://github.com/beeldengeluid/dane-whisper-asr-worker/commit/$(git rev-parse HEAD)" >> /software_provenance.txt
+RUN echo "whisper-asr-worker;https://github.com/beeldengeluid/whisper-asr-worker/commit/$(git rev-parse HEAD)" >> /software_provenance.txt
 
 ENTRYPOINT ["./docker-entrypoint.sh"]

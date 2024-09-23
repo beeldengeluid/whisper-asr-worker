@@ -1,0 +1,140 @@
+{
+    "carrierId": "whisper-test",
+    "segments": [
+        {
+            "id": 1,
+            "seek": 544,
+            "start": 3.22,
+            "end": 8.64,
+            "text": "En dat je er bent, ben je voor het eerst hierof, ben je al de kef.",
+            "tokens": [
+                50364,
+                2193,
+                1137,
+                1506,
+                1189,
+                14075,
+                11,
+                3271,
+                1506,
+                7358,
+                3639,
+                308,
+                16398,
+                3296,
+                2670,
+                11,
+                3271,
+                1506,
+                419,
+                368,
+                803,
+                69,
+                13,
+                50648
+            ],
+            "temperature": 0.0,
+            "avg_logprob": -0.8796189308166504,
+            "compression_ratio": 1.064516129032258,
+            "no_speech_prob": 0.27451032400131226,
+            "words": [
+                {
+                    "text": "En",
+                    "start": 3.22,
+                    "end": 3.44,
+                    "confidence": 0.025906914845108986
+                },
+                {
+                    "text": "dat",
+                    "start": 3.44,
+                    "end": 3.64,
+                    "confidence": 0.4648634195327759
+                },
+                {
+                    "text": "je",
+                    "start": 3.64,
+                    "end": 3.9,
+                    "confidence": 0.7070156931877136
+                },
+                {
+                    "text": "er",
+                    "start": 3.9,
+                    "end": 4.24,
+                    "confidence": 0.9283388257026672
+                },
+                {
+                    "text": "bent,",
+                    "start": 4.24,
+                    "end": 4.82,
+                    "confidence": 0.8663867712020874
+                },
+                {
+                    "text": "ben",
+                    "start": 5.4,
+                    "end": 5.58,
+                    "confidence": 0.5708282589912415
+                },
+                {
+                    "text": "je",
+                    "start": 5.58,
+                    "end": 5.8,
+                    "confidence": 0.970710813999176
+                },
+                {
+                    "text": "voor",
+                    "start": 5.8,
+                    "end": 6.18,
+                    "confidence": 0.6190747022628784
+                },
+                {
+                    "text": "het",
+                    "start": 6.18,
+                    "end": 6.44,
+                    "confidence": 0.953304648399353
+                },
+                {
+                    "text": "eerst",
+                    "start": 6.44,
+                    "end": 6.74,
+                    "confidence": 0.5705259814858437
+                },
+                {
+                    "text": "hierof,",
+                    "start": 6.74,
+                    "end": 7.54,
+                    "confidence": 0.22182735800743103
+                },
+                {
+                    "text": "ben",
+                    "start": 7.54,
+                    "end": 7.76,
+                    "confidence": 0.9066421985626221
+                },
+                {
+                    "text": "je",
+                    "start": 7.76,
+                    "end": 8.08,
+                    "confidence": 0.9505867958068848
+                },
+                {
+                    "text": "al",
+                    "start": 8.08,
+                    "end": 8.32,
+                    "confidence": 0.6741507649421692
+                },
+                {
+                    "text": "de",
+                    "start": 8.32,
+                    "end": 8.52,
+                    "confidence": 0.19615402817726135
+                },
+                {
+                    "text": "kef.",
+                    "start": 8.52,
+                    "end": 8.64,
+                    "confidence": 0.3771650791168213
+                }
+            ]
+        }
+    ]
+}

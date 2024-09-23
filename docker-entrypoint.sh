@@ -1,7 +1,7 @@
 #!/bin/sh
 
-echo "Starting DANE Whisper ASR worker"
+echo "Starting Whisper ASR worker"
 
-poetry run python worker.py "$@"
+poetry run python main.py "$@"
 
 echo "The worker has finished"

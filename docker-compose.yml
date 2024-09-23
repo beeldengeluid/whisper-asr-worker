@@ -1,0 +1,20 @@
+services:
+  whisper-worker:
+    image: whisper-asr-worker:latest
+    volumes:
+      - ./model:/model
+      - ./data:/data
+    container_name: whisper-asr-worker
+    # args: ["--output-uri"]
+    env_file:
+      - .env.override
+    logging:
+      options:
+        max-size: 20m
+    restart: no
+    # Comment below to use the CPU instead of the GPU/CUDA
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - capabilities: [gpu]
