@@ -66,8 +66,7 @@ class TranscriptionEndpoint(Resource):
 
     async def start_task(self, document_id, input_uri, processing_id):
         loop = asyncio.get_event_loop()
-        loop.run_until_complete(dummy_task(60))
-        task = asyncio.create_task(
+        loop.create_task(
             dummy_task(60)
             # run(
             #     input_uri=input_uri, output_uri="TODO"
