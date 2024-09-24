@@ -1,5 +1,5 @@
 from flask import request, url_for
-from flask_restx import Namespace, Resource
+from flask_restx import Namespace, Resource, fields
 import logging
 import asyncio
 from time import time
@@ -12,15 +12,18 @@ logger = logging.getLogger(f"transcribe.{__name__}")
 running_transcriptions: dict[str, asyncio.Task] = {}
 
 # FIXME this model is not correct. Swagger cannot render this
-# transcribe_request = api.model(
-#     "TranscribeRequest",
-#     {"doc_id": "this_is_not_a_valid_id", "location": "this_is_not_a_valid_S3_URI"},
-# )
+transcribe_request = api.model(
+    name="TranscribeRequest",
+    model={
+        "doc_id": fields.String,
+        "location": fields.String
+    },
+)
 
 
 @api.route("/transcribe", endpoint="Request new audio file transcription")
 class TranscriptionEndpoint(Resource):
-    # @api.expect(transcribe_request)
+    @api.marshal_with(transcribe_request)
     def post(self):
         params = request.get_json(force=True)
 
