@@ -5,4 +5,4 @@ apiVersion = "v1.0"
 basePath = "/api"
 api = Api(version=apiVersion)
 
-api.add_namespace(transcribe_api, path="%s/transcribe" % basePath)
+api.add_namespace(transcribe_api, path="%s" % basePath)
