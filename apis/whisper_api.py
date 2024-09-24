@@ -23,7 +23,7 @@ transcribe_request = api.model(
 
 @api.route("/transcribe", endpoint="Request new audio file transcription")
 class TranscriptionEndpoint(Resource):
-    @api.marshal_with(transcribe_request)
+    @api.expect(transcribe_request)
     def post(self):
         params = request.get_json(force=True)
 
