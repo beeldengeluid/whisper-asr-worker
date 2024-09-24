@@ -2,11 +2,11 @@ from flask import request, url_for
 from flask_restx import Namespace, Resource, fields
 import logging
 import asyncio
-from time import time
+from time import time, sleep
 from asr import run
 
 
-api = Namespace("Transcribe", description="Transcribe audio file")
+api = Namespace("ASR", description="Transcribe audio file")
 logger = logging.getLogger(f"transcribe.{__name__}")
 
 running_transcriptions: dict[str, asyncio.Task] = {}
@@ -21,35 +21,62 @@ transcribe_request = api.model(
 )
 
 
-@api.route("/transcribe", endpoint="Request new audio file transcription")
+def dummy_task(sec=60):
+    logger.info(f"I'm going to sleep for {sec} seconds")
+    sleep(60)
+    logger.info("Just woke op")
+
+@api.route("/transcribe")#, endpoint="Request new audio file transcription")
 class TranscriptionEndpoint(Resource):
     @api.expect(transcribe_request)
     def post(self):
         params = request.get_json(force=True)
 
         # if busy processing something else: refuse
-        task = asyncio.current_task()
-        if task is not None:
-            return {"status": 503, "message": "Busy on another transcription"}
+        import pdb
+        #pdb.set_trace()
+        try:
+            task = asyncio.current_task()
+            if task is not None:
+                return {"status": 503, "message": "Busy on another transcription"}
+            logger.debug(f"Currently processing {task}")
+        except RuntimeError:
+            logger.debug("No running event loop")
+            pass
         # if available: spin up processing
         document_id = params["doc_id"]
-        processing_id = document_id + str(time)
-        task = asyncio.create_task(
-            run(
-                input_uri=params["location"], output_uri="TODO"
-            )  # TODO determine output_uri
-        )
-        running_transcriptions[processing_id] = task
+        processing_id = document_id + str(time())
+        #pdb.set_trace()
+
+        logger.info(f"Going to start a new task for {document_id}")
+        asyncio.run(self.start_task(
+            document_id=document_id,
+            input_uri=params["location"],
+            processing_id=processing_id
+        ))
+        logger.info(f"Started processing for {document_id}")
+
         response = {
             "processing_id": processing_id,
-            "status_handler": url_for(StatusEndpoint, processing_id),
+            "status_handler": url_for('ASR_status_endpoint', processing_id=processing_id),
             "message": f"Transciption task created for document {document_id}.",
-            "status": 201,
+            "state": 201,
         }
-        return response
+        return response, response['state']
+
+    async def start_task(self, document_id, input_uri, processing_id):
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(dummy_task(60))
+        task = asyncio.create_task(
+            dummy_task(60)
+            # run(
+            #     input_uri=input_uri, output_uri="TODO"
+            # )  # TODO determine output_uri
+        )
+        running_transcriptions[processing_id] = task
 
 
-@api.route("/tasks/<processing_id>", endpoint="Audio file transcription Task")
+@api.route("/task/<processing_id>")
 class StatusEndpoint(Resource):
 
     def get(self, processing_id):
@@ -67,11 +94,14 @@ class StatusEndpoint(Resource):
                 response["state"] = 204
             else:
                 # other cases
+                logger.info("What is the case here?!")
                 True
         except KeyError:
             response["message"] = f"Processing id {processing_id} Unknown"
+            import pdb
+            pdb.set_trace()
             response["state"] = 404
-        return response
+        return response, response['state']
 
     def delete(self, processing_id):
         try:
@@ -86,4 +116,4 @@ class StatusEndpoint(Resource):
                 "message": f"Processing id Unknown: {processing_id}",
                 "state": 404,
             }
-        return response
+        return response, response['state']
