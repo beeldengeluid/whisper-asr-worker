@@ -1,4 +1,4 @@
-import ast
+# import ast
 import json
 import logging
 import os
@@ -10,7 +10,7 @@ from config import (
     w_best_of,
     w_device,
     w_model,
-    w_temperature,
+    # w_temperature,
     w_vad,
     w_word_timestamps,
 )
@@ -40,7 +40,7 @@ def run_asr(input_path, output_dir) -> bool:
         vad_filter=w_vad,
         beam_size=w_beam_size,
         best_of=w_best_of,
-        temperature=ast.literal_eval(w_temperature),
+        # temperature=ast.literal_eval(w_temperature),
         language="nl",
         word_timestamps=w_word_timestamps,
     )
