@@ -30,7 +30,7 @@ def download_uri(uri: str) -> Optional[DownloadResult]:
     return http_download(uri)
 
 
-def http_download(url: str) -> DownloadResult:
+def http_download(url: str) -> Optional[DownloadResult]:
     logger.info(f"Checking if {url} was already downloaded")
     fn = os.path.basename(urlparse(url).path)
     input_file = os.path.join(input_file_dir, fn)
