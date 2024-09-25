@@ -3,7 +3,7 @@ import os
 from typing import Optional
 
 import base_util
-from base_util import data_base_dir
+from config import data_base_dir
 
 logger = logging.getLogger(__name__)
 
