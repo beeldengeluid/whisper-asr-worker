@@ -5,9 +5,28 @@ from asr import run
 from enum import Enum
 from typing import Optional
 from pydantic import BaseModel
+from config import (
+    model_base_dir,
+    w_device,
+    w_model,
+)
+import faster_whisper
+from model_download import check_model_availability
 
 logger = logging.getLogger(__name__)
 api = FastAPI()
+
+logger.info(f"Loading model on device {w_device}")
+# checking if model needs to be downloaded from HF or not
+model_location = model_base_dir if check_model_availability() else w_model
+model = faster_whisper.WhisperModel(
+    model_location,
+    device=w_device,
+    compute_type=(  # float16 only works on GPU, float32 or int8 are recommended for CPU
+        "float16" if w_device == "cuda" else "float32"
+    ),
+)
+logger.info("Model loaded!")
 
 
 class Status(Enum):
@@ -69,7 +88,7 @@ def try_whisper(task: Task):
     try:
         task.status = Status.PROCESSING
         update_task(task)
-        run(task.input_uri, task.output_uri)
+        run(task.input_uri, task.output_uri, model)
         task.status = Status.DONE
     except Exception:
         logger.exception("Failed to run whisper")

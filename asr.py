@@ -2,7 +2,7 @@ import logging
 import os
 
 from base_util import get_asset_info, asr_output_dir
-from config import s3_endpoint_url, s3_bucket, s3_folder_in_bucket
+from config import s3_endpoint_url, s3_bucket, s3_folder_in_bucket, model_base_dir
 from download import download_uri
 from whisper import run_asr, WHISPER_JSON_FILE
 from s3_util import S3Store
@@ -10,9 +10,10 @@ from transcode import try_transcode
 from daan_transcript import generate_daan_transcript, DAAN_JSON_FILE
 
 logger = logging.getLogger(__name__)
+os.environ['HF_HOME'] = model_base_dir  # change dir where model is downloaded
 
 
-def run(input_uri: str, output_uri: str) -> bool:
+def run(input_uri: str, output_uri: str, model=None) -> bool:
     logger.info(f"Processing {input_uri} (save to --> {output_uri})")
     # 1. download input
     result = download_uri(input_uri)
@@ -36,7 +37,7 @@ def run(input_uri: str, output_uri: str) -> bool:
     # 3. run ASR
     if not asr_already_done(output_path):
         logger.info("No Whisper transcript found")
-        run_asr(input_path, output_path)
+        run_asr(input_path, output_path, model)
     else:
         logger.info(f"Whisper transcript already present in {output_path}")
 
