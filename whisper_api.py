@@ -5,7 +5,6 @@ from asr import run
 from enum import Enum
 from typing import Optional
 from pydantic import BaseModel
-from base_util import LOG_FORMAT
 
 logger = logging.getLogger(__name__)
 api = FastAPI()
@@ -55,6 +54,9 @@ def delete_task(task_id) -> bool:
 
 
 def update_task(task: Task) -> bool:
+    if not task or not task.id:
+        logger.warning("Tried to update task without ID")
+        return False
     task_index = get_task_index(task.id)
     if task_index == -1:
         return False
@@ -123,10 +125,33 @@ async def ping():
 if __name__ == "__main__":
     import sys
     import uvicorn
+    from argparse import ArgumentParser
+    from base_util import LOG_FORMAT
 
+    # first read the CLI arguments
+    parser = ArgumentParser(description="whisper-api")
+    parser.add_argument("--port", action="store", dest="port", default="5333")
+    parser.add_argument("--log", action="store", dest="loglevel", default="INFO")
+    args = parser.parse_args()
+
+    # initialises the root logger
     logging.basicConfig(
-        stream=sys.stdout,
-        level="INFO",
+        stream=sys.stdout,  # configure a stream handler only for now (single handler)
         format=LOG_FORMAT,
     )
-    uvicorn.run(api, port=8081, host="0.0.0.0")
+
+    # setting the loglevel
+    log_level = args.loglevel.upper()
+    logger.setLevel(log_level)
+    logger.info(f"Logger initialized (log level: {log_level})")
+    logger.info(f"Got the following CMD line arguments: {args}")
+
+    port = 5333
+    try:
+        port = int(args.port)
+    except ValueError:
+        logger.error(
+            f"--port must be a valid integer, starting with default port {port}"
+        )
+
+    uvicorn.run(api, port=port, host="0.0.0.0")
