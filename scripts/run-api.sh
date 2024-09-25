@@ -13,4 +13,4 @@ fi
 
 cd "$SCRIPTPATH/.."
 
-poetry run python whisper_api.py "$@"
+poetry run python main.py --service=y "$@"

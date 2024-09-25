@@ -67,6 +67,8 @@ def update_task(task: Task) -> bool:
 def try_whisper(task: Task):
     logger.info(f"Trying to call Whisper for task {task.id}")
     try:
+        task.status = Status.PROCESSING
+        update_task(task)
         run(task.input_uri, task.output_uri)
         task.status = Status.DONE
     except Exception:
