@@ -2,7 +2,7 @@ import logging
 from uuid import uuid4
 from fastapi import BackgroundTasks, FastAPI, HTTPException, status
 from asr import run
-
+from enum import Enum
 from typing import Optional
 from pydantic import BaseModel
 from base_util import LOG_FORMAT
@@ -11,11 +11,18 @@ logger = logging.getLogger(__name__)
 api = FastAPI()
 
 
+class Status(Enum):
+    CREATED = "CREATED"
+    PROCESSING = "PROCESSING"
+    DONE = "DONE"
+    ERROR = "ERROR"
+
+
 class Task(BaseModel):
     input_uri: str
     output_uri: str
+    status: Status = Status.CREATED
     id: str | None = None
-    status: str | None = None
 
 
 all_tasks = [
@@ -39,7 +46,6 @@ def get_task_index(task_id: str) -> int:
     return -1
 
 
-# delete after processing is done or if client calls for it
 def delete_task(task_id) -> bool:
     task_index = get_task_index(task_id)
     if task_index == -1:
@@ -48,13 +54,24 @@ def delete_task(task_id) -> bool:
     return True
 
 
+def update_task(task: Task) -> bool:
+    task_index = get_task_index(task.id)
+    if task_index == -1:
+        return False
+    all_tasks[task_index] = task.dict()
+    return True
+
+
 def try_whisper(task: Task):
     logger.info(f"Trying to call Whisper for task {task.id}")
     try:
         run(task.input_uri, task.output_uri)
+        task.status = Status.DONE
     except Exception:
         logger.exception("Failed to run whisper")
-    logger.info(f"Successfully ran Whisper for task {task.id}")
+        task.status = Status.ERROR
+    update_task(task)
+    logger.info(f"Done running Whisper for task {task.id}")
 
 
 @api.get("/tasks")
@@ -96,6 +113,11 @@ async def remove_task(task_id: str):
         ),
         "task_id": task_id,
     }
+
+
+@api.get("/ping")
+async def ping():
+    return "pong"
 
 
 if __name__ == "__main__":
