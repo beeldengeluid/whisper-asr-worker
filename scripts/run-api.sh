@@ -23,4 +23,4 @@ fi
 
 cd "$SCRIPTPATH/.."
 
-flask --app app run --debug -p $PORT
+poetry run python whisper_api.py

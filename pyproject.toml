@@ -12,8 +12,8 @@ python = "^3.11"
 faster-whisper = "^1.0.1"
 validators = "^0.33.0"
 boto3 = "^1.35.10"
-flask-restx = "^1.3.0"
-flask-cors = "^5.0.0"
+fastapi = "^0.115.0"
+uvicorn = "^0.30.6"
 
 [tool.poetry.group.dev.dependencies]
 moto = "^5.0.13"
@@ -29,7 +29,6 @@ optional = true
 
 [tool.poetry.group.service.dependencies]
 flask = "^3.0.3"
-flask-restx = "^1.3.0"
 
 [build-system]
 requires = ["poetry-core"]
