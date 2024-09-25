@@ -10,7 +10,7 @@ from transcode import try_transcode
 from daan_transcript import generate_daan_transcript, DAAN_JSON_FILE
 
 logger = logging.getLogger(__name__)
-os.environ['HF_HOME'] = model_base_dir  # change dir where model is downloaded
+os.environ["HF_HOME"] = model_base_dir  # change dir where model is downloaded
 
 
 def run(input_uri: str, output_uri: str, model=None) -> bool:
