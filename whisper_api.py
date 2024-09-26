@@ -39,7 +39,7 @@ class Status(Enum):
 class Task(BaseModel):
     input_uri: str
     output_uri: str
-    status: Status = Status.CREATED
+    status: Status | None = Status.CREATED
     id: str | None = None
 
     def __init__(self, input_uri, output_uri, status):
@@ -120,6 +120,7 @@ async def create_task(
         return {"msg": "The worker is currently processing a task. Try again later!"}
     background_tasks.add_task(try_whisper, task)
     task.id = str(uuid4())
+    task.status = Status.CREATED
     current_task = task
     task_dict = task.dict()
     all_tasks.append(task_dict)
