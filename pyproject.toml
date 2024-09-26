@@ -10,6 +10,8 @@ readme = "README.md"
 python = "^3.10"
 dane = "^0.4.3"
 faster-whisper = "^1.0.1"
+nvidia-cudnn-cu12 = "^8"
+nvidia-cublas-cu12 = "^12.6.1.4"
 
 [tool.poetry.group.dev.dependencies]
 moto = "^5.0.13"
