@@ -42,10 +42,6 @@ class Task(BaseModel):
     status: Status = Status.CREATED
     id: str | None = None
 
-    def __init__(self, input_uri, output_uri):
-        self.input_uri = input_uri
-        self.output_uri = output_uri
-
 
 all_tasks = [
     {
