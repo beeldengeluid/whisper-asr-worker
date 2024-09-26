@@ -1,10 +1,9 @@
 import logging
 from typing import Optional
 from uuid import uuid4
-from fastapi import BackgroundTasks, FastAPI, HTTPException, status
+from fastapi import BackgroundTasks, FastAPI, HTTPException, status, Response
 from asr import run
 from enum import Enum
-from typing import Optional
 from pydantic import BaseModel
 from config import (
     model_base_dir,
@@ -45,17 +44,17 @@ class Task(BaseModel):
 
     def __init__(self, input_uri, output_uri, status):
         self.input_uri = input_uri
-        self. output_uri = output_uri
+        self.output_uri = output_uri
         self.status = status
 
 
-all_tasks: dict[str, Task] = {
-    'dummy_id': Task(
-        input_uri="http://modelhosting.beng.nl/whisper-asr.mp3",
-        output_uri="http://modelhosting.beng.nl/assets/whisper-asr",
-        status=Status.DONE
-    )
-}
+all_tasks = [
+    {
+        "input_uri": "http://modelhosting.beng.nl/whisper-asr.mp3",
+        "output_uri": "http://modelhosting.beng.nl/assets/whisper-asr",
+        "id": "test1",
+    }
+]
 
 current_task: Optional[Task] = None
 
@@ -79,6 +78,7 @@ def delete_task(task_id) -> bool:
     del all_tasks[task_index]
     return True
 
+
 def update_task(task: Task) -> bool:
     if not task or not task.id:
         logger.warning("Tried to update task without ID")
@@ -92,7 +92,7 @@ def update_task(task: Task) -> bool:
 
 def try_whisper(task: Task):
     logger.info(f"Trying to call Whisper for task {task.id}")
-    
+
     try:
         task.status = Status.PROCESSING
         update_task(task)
@@ -111,11 +111,18 @@ def get_all_tasks():
 
 
 @api.post("/tasks", status_code=status.HTTP_201_CREATED)
-async def create_task(task: Task, background_tasks: BackgroundTasks):
+async def create_task(
+    task: Task, background_tasks: BackgroundTasks, response: Response
+):
+    global current_task
+    if current_task and current_task.status == "PROCESSING":
+        response.status_code = status.HTTP_503_SERVICE_UNAVAILABLE
+        return {"msg": "The worker is currently processing a task. Try again later!"}
     background_tasks.add_task(try_whisper, task)
     task.id = str(uuid4())
+    current_task = task
     task_dict = task.dict()
-    all_tasks[task.id] = task
+    all_tasks.append(task_dict)
     return {"data": task_dict, "msg": "Successfully added task", "task_id": task.id}
 
 
