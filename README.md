@@ -78,6 +78,6 @@ The pre-trained Whisper model version can be adjusted in the `.env` file by edit
 |`large-v2`|1550 M|
 |`large-v3`|1550 M|
 
-We recommend version `large-v2` as it performs better than `large-v3` in our [benchmarks](https://opensource-spraakherkenning-nl.github.io/ASR_NL_results/).
+We recommend version `large-v2` as it performs better than `large-v3` in our [benchmarks](https://opensource-spraakherkenning-nl.github.io/ASR_NL_results/NISV/bn_nl/res_labelled.html).
 
 You can also specify an S3 URI if you have your own custom model available via S3 (by modifying the `W_MODEL` parameter).
