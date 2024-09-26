@@ -1,6 +1,8 @@
+from dataclasses import dataclass
 import logging
 import os
 from typing import Optional
+import time
 
 import base_util
 from config import data_base_dir
@@ -8,15 +10,38 @@ from config import data_base_dir
 logger = logging.getLogger(__name__)
 
 
-def try_transcode(input_path, asset_id, extension) -> Optional[str]:
+@dataclass
+class TranscodeOutput:
+    transcoded_file_path: str
+    provenance: dict
+
+
+def try_transcode(input_path, asset_id, extension) -> Optional[TranscodeOutput]:
     logger.info(
         f"Determining if transcode is required for input_path: {input_path} asset_id: ({asset_id}) extension: ({extension})"
     )
+    start_time = time.time()
+
+    provenance = {
+        "activity_name": "Transcoding",
+        "activity_description": "Checks if input needs transcoding, then transcodes if so",
+        "processing_time_ms": 0,
+        "start_time_unix": start_time,
+        "parameters": [],
+        "software_version": "",
+        "input_data": input_path,
+        "output_data": "",
+        "steps": [],
+    }
 
     # if it's alrady valid audio no transcode necessary
     if _is_audio_file(extension):
         logger.info("No transcode required, input is audio")
-        return input_path
+        end_time = (time.time() - start_time) * 1000
+        provenance["processing_time_ms"] = end_time
+        provenance["output_data"] = input_path
+        provenance["steps"].append("No transcode required, input is audio")
+        return TranscodeOutput(input_path, provenance)
 
     # if the input format is not supported, fail
     if not _is_transcodable(extension):
@@ -27,7 +52,13 @@ def try_transcode(input_path, asset_id, extension) -> Optional[str]:
     transcoded_file_path = os.path.join(data_base_dir, "input", f"{asset_id}.mp3")
     if os.path.exists(transcoded_file_path):
         logger.info("Transcoded file is already available, no new transcode needed")
-        return transcoded_file_path
+        end_time = (time.time() - start_time) * 1000
+        provenance["processing_time_ms"] = end_time
+        provenance["output_data"] = transcoded_file_path
+        provenance["steps"].append(
+            "Transcoded file is already available, no new transcode needed"
+        )
+        return TranscodeOutput(transcoded_file_path, provenance)
 
     # go ahead and transcode the input file
     success = transcode_to_mp3(
@@ -41,8 +72,11 @@ def try_transcode(input_path, asset_id, extension) -> Optional[str]:
     logger.info(
         f"Transcode of {extension} successful, returning: {transcoded_file_path}"
     )
-
-    return transcoded_file_path
+    end_time = (time.time() - start_time) * 1000
+    provenance["processing_time_ms"] = end_time
+    provenance["output_data"] = transcoded_file_path
+    provenance["steps"].append("Transcode successful")
+    return TranscodeOutput(transcoded_file_path, provenance)
 
 
 def transcode_to_mp3(path: str, asr_path: str) -> bool:

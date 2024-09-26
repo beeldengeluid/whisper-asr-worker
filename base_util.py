@@ -1,11 +1,13 @@
 import logging
 import os
 import subprocess
+import json
 from typing import Tuple
 from config import data_base_dir
 
 
 LOG_FORMAT = "%(asctime)s|%(levelname)s|%(process)d|%(module)s|%(funcName)s|%(lineno)d|%(message)s"
+PROVENANCE_JSON_FILE = "provenance.json"
 logger = logging.getLogger(__name__)
 
 
@@ -55,3 +57,19 @@ def run_shell_command(cmd: str) -> bool:
     except Exception:
         logger.exception("Exception")
         return False
+
+
+def save_provenance(provenance: dict, asr_output_dir: str) -> bool:
+    logger.info(f"Saving provenance to: {asr_output_dir}")
+    try:
+        # write provenance.json
+        with open(
+            os.path.join(asr_output_dir, PROVENANCE_JSON_FILE), "w+", encoding="utf-8"
+        ) as f:
+            logger.info(provenance)
+            json.dump(provenance, f, ensure_ascii=False, indent=4)
+    except EnvironmentError as e:  # OSError or IOError...
+        logger.exception(os.strerror(e.errno))
+        return False
+
+    return True
