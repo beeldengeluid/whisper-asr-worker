@@ -105,7 +105,7 @@ def s3_download(s3_uri: str) -> Optional[DownloadResult]:
         download_time = int((time.time() - start_time) * 1000)  # time in ms
     else:
         download_time = -1  # Report back?
-    
+
     provenance = {
         "activity_name": "Input download",
         "activity_description": "Downloads the input file from INPUT_URI",
