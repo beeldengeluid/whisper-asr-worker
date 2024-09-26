@@ -89,7 +89,9 @@ def s3_download(s3_uri: str) -> Optional[DownloadResult]:
         if not success:
             logger.error("Failed to download input data from S3")
             return None
-    download_time = (time.time() - start_time) * 1000  # time in ms
+        download_time = int((time.time() - start_time) * 1000)  # time in ms
+    else:
+        download_time = -1  # Report back?
     return DownloadResult(
         input_file, mime_type, download_time  # TODO add content_length
     )
