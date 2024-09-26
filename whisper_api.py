@@ -39,13 +39,12 @@ class Status(Enum):
 class Task(BaseModel):
     input_uri: str
     output_uri: str
-    status: Status | None = Status.CREATED
+    status: Status = Status.CREATED
     id: str | None = None
 
-    def __init__(self, input_uri, output_uri, status):
+    def __init__(self, input_uri, output_uri):
         self.input_uri = input_uri
         self.output_uri = output_uri
-        self.status = status
 
 
 all_tasks = [
