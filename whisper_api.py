@@ -1,4 +1,5 @@
 import logging
+from typing import Optional
 from uuid import uuid4
 from fastapi import BackgroundTasks, FastAPI, HTTPException, status
 from asr import run
@@ -42,14 +43,21 @@ class Task(BaseModel):
     status: Status = Status.CREATED
     id: str | None = None
 
+    def __init__(self, input_uri, output_uri, status):
+        self.input_uri = input_uri
+        self. output_uri = output_uri
+        self.status = status
 
-all_tasks = [
-    {
-        "input_uri": "http://modelhosting.beng.nl/whisper-asr.mp3",
-        "output_uri": "http://modelhosting.beng.nl/assets/whisper-asr",
-        "id": "test1",
-    }
-]
+
+all_tasks: dict[str, Task] = {
+    'dummy_id': Task(
+        input_uri="http://modelhosting.beng.nl/whisper-asr.mp3",
+        output_uri="http://modelhosting.beng.nl/assets/whisper-asr",
+        status=Status.DONE
+    )
+}
+
+current_task: Optional[Task] = None
 
 
 def get_task_by_id(task_id: str) -> Optional[dict]:
@@ -71,7 +79,6 @@ def delete_task(task_id) -> bool:
     del all_tasks[task_index]
     return True
 
-
 def update_task(task: Task) -> bool:
     if not task or not task.id:
         logger.warning("Tried to update task without ID")
@@ -85,6 +92,7 @@ def update_task(task: Task) -> bool:
 
 def try_whisper(task: Task):
     logger.info(f"Trying to call Whisper for task {task.id}")
+    
     try:
         task.status = Status.PROCESSING
         update_task(task)
@@ -107,7 +115,7 @@ async def create_task(task: Task, background_tasks: BackgroundTasks):
     background_tasks.add_task(try_whisper, task)
     task.id = str(uuid4())
     task_dict = task.dict()
-    all_tasks.append(task_dict)
+    all_tasks[task.id] = task
     return {"data": task_dict, "msg": "Successfully added task", "task_id": task.id}
 
 
