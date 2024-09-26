@@ -110,6 +110,7 @@ async def create_task(
     task: Task, background_tasks: BackgroundTasks, response: Response
 ):
     global current_task
+    print(current_task)
     if current_task and current_task.status == "PROCESSING":
         response.status_code = status.HTTP_503_SERVICE_UNAVAILABLE
         return {"msg": "The worker is currently processing a task. Try again later!"}
