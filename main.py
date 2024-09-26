@@ -19,7 +19,7 @@ def run_api(port: int):
     uvicorn.run(api, port=port, host="0.0.0.0")
 
 
-def run_job(intput_uri: str, output_uri: str):
+def run_job(input_uri: str, output_uri: str):
     import asr
 
     logger.info("Running Whisper as a one time job")

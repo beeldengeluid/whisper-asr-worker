@@ -22,19 +22,20 @@ WHISPER_JSON_FILE = "whisper-transcript.json"
 logger = logging.getLogger(__name__)
 
 
-def run_asr(input_path, output_dir) -> bool:
+def run_asr(input_path, output_dir, model=None) -> bool:
     logger.info(f"Starting ASR on {input_path}")
-    logger.info(f"Device used: {w_device}")
-    # checking if model needs to be downloaded from HF or not
-    model_location = model_base_dir if check_model_availability() else w_model
-    model = faster_whisper.WhisperModel(
-        model_location,
-        device=w_device,
-        compute_type=(  # float16 only works on GPU, float32 or int8 are recommended for CPU
-            "float16" if w_device == "cuda" else "float32"
-        ),
-    )
-    logger.info("Model loaded, now getting segments")
+    if not model:
+        logger.info(f"Device used: {w_device}")
+        # checking if model needs to be downloaded from HF or not
+        model_location = model_base_dir if check_model_availability() else w_model
+        model = faster_whisper.WhisperModel(
+            model_location,
+            device=w_device,
+            compute_type=(  # float16 only works on GPU, float32 or int8 are recommended for CPU
+                "float16" if w_device == "cuda" else "float32"
+            ),
+        )
+        logger.info("Model loaded, now getting segments")
     segments, _ = model.transcribe(
         input_path,
         vad_filter=w_vad,

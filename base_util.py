@@ -1,5 +1,4 @@
 import logging
-import ntpath
 import os
 import subprocess
 from typing import Tuple
@@ -12,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 # the file name without extension is used as asset ID
 def get_asset_info(input_file: str) -> Tuple[str, str]:
-    file_name = ntpath.basename(input_file)
+    file_name = os.path.basename(input_file)
     asset_id, extension = os.path.splitext(file_name)
     logger.info(f"working with this asset ID {asset_id}")
     return asset_id, extension
