@@ -25,7 +25,7 @@ def try_transcode(input_path, asset_id, extension) -> Optional[TranscodeOutput]:
     provenance = {
         "activity_name": "Transcoding",
         "activity_description": "Checks if input needs transcoding, then transcodes if so",
-        "processing_time_ms": 0,
+        "processing_time_ms": -1,
         "start_time_unix": start_time,
         "parameters": [],
         "software_version": "",

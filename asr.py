@@ -1,7 +1,7 @@
 import logging
 import os
 import time
-import pkg_resources
+import tomli
 
 from base_util import get_asset_info, asr_output_dir, save_provenance
 from config import (
@@ -25,9 +25,15 @@ from daan_transcript import generate_daan_transcript, DAAN_JSON_FILE
 
 logger = logging.getLogger(__name__)
 os.environ["HF_HOME"] = model_base_dir  # change dir where model is downloaded
-my_version = pkg_resources.get_distribution(
-    "whisper-asr-worker"
-).version  # get worker version
+
+
+def _get_project_meta():
+    with open('pyproject.toml', mode='rb') as pyproject:
+        return tomli.load(pyproject)['tool']['poetry']
+
+
+pkg_meta = _get_project_meta()
+version = str(pkg_meta['version'])
 
 
 def run(input_uri: str, output_uri: str, model=None) -> bool:
@@ -114,7 +120,7 @@ def run(input_uri: str, output_uri: str, model=None) -> bool:
             "beam_size": w_beam_size,
             "best_of": w_best_of,
         },
-        "software_version": my_version,
+        "software_version": version,
         "input_data": input_uri,
         "output_data": output_uri if output_uri else output_path,
         "steps": prov_steps,
