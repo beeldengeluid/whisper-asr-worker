@@ -28,12 +28,12 @@ os.environ["HF_HOME"] = model_base_dir  # change dir where model is downloaded
 
 
 def _get_project_meta():
-    with open('pyproject.toml', mode='rb') as pyproject:
-        return tomli.load(pyproject)['tool']['poetry']
+    with open("pyproject.toml", mode="rb") as pyproject:
+        return tomli.load(pyproject)["tool"]["poetry"]
 
 
 pkg_meta = _get_project_meta()
-version = str(pkg_meta['version'])
+version = str(pkg_meta["version"])
 
 
 def run(input_uri: str, output_uri: str, model=None) -> bool:
