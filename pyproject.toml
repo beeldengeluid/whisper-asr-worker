@@ -75,8 +75,6 @@ exclude = "misc"
 module = [
   'yaml',
   'faster_whisper.*',
-  'boto3.*',
-  "flask_restx",
-  "flask_cors"
+  'boto3.*'
 ]
 ignore_missing_imports = true
