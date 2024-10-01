@@ -1,4 +1,5 @@
 import logging
+import os
 from typing import Optional
 from uuid import uuid4
 from fastapi import BackgroundTasks, FastAPI, HTTPException, status, Response
@@ -17,8 +18,14 @@ logger = logging.getLogger(__name__)
 api = FastAPI()
 
 logger.info(f"Loading model on device {w_device}")
+
+
+# change hugging face home dir where model is downloaded
+os.environ["HF_HOME"] = model_base_dir
+
 # checking if model needs to be downloaded from HF or not
 model_location = model_base_dir if check_model_availability() else w_model
+
 model = faster_whisper.WhisperModel(
     model_location,
     device=w_device,

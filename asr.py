@@ -8,7 +8,6 @@ from config import (
     s3_endpoint_url,
     s3_bucket,
     s3_folder_in_bucket,
-    model_base_dir,
     w_word_timestamps,
     w_device,
     w_model,
@@ -24,7 +23,6 @@ from transcode import try_transcode
 from daan_transcript import generate_daan_transcript, DAAN_JSON_FILE
 
 logger = logging.getLogger(__name__)
-os.environ["HF_HOME"] = model_base_dir  # change dir where model is downloaded
 
 
 def _get_project_meta():
