@@ -6,6 +6,7 @@ from config import model_base_dir, w_model, s3_endpoint_url
 
 
 # makes sure the model is available locally, if not download it from S3, if that fails download from Huggingface
+# FIXME should also check if the correct w_model type is available locally!
 def check_model_availability() -> bool:
     logger = logging.getLogger(__name__)
     if os.path.exists(model_base_dir + "/model.bin"):

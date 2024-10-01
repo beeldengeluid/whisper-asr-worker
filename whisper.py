@@ -6,6 +6,7 @@ import time
 from typing import Optional
 
 import faster_whisper
+from faster_whisper import WhisperModel
 from config import (
     model_base_dir,
     w_beam_size,
@@ -24,21 +25,34 @@ WHISPER_JSON_FILE = "whisper-transcript.json"
 logger = logging.getLogger(__name__)
 
 
+# loads the whisper model
+# FIXME does not check if the specific model_type is available locally!
+def load_model(model_base_dir: str, model_type: str, device: str) -> WhisperModel:
+    logger.info(f"Loading Whisper model {model_type} for device: {device}")
+
+    # change HuggingFace dir to where model is downloaded
+    os.environ["HF_HOME"] = model_base_dir
+
+    # determine loading locally or have Whisper download from HuggingFace
+    model_location = model_base_dir if check_model_availability() else model_type
+    model = WhisperModel(
+        model_location,  # either local path or e.g. large-v2 (means HuggingFace download)
+        device=device,
+        compute_type=(  # float16 only works on GPU, float32 or int8 are recommended for CPU
+            "float16" if device == "cuda" else "float32"
+        ),
+    )
+    logger.info(f"Model loaded from location: {model_location}")
+    return model
+
+
 def run_asr(input_path, output_dir, model=None) -> Optional[dict]:
     logger.info(f"Starting ASR on {input_path}")
     start_time = time.time()
     if not model:
-        logger.info(f"Device used: {w_device}")
-        # checking if model needs to be downloaded from HF or not
-        model_location = model_base_dir if check_model_availability() else w_model
-        model = faster_whisper.WhisperModel(
-            model_location,
-            device=w_device,
-            compute_type=(  # float16 only works on GPU, float32 or int8 are recommended for CPU
-                "float16" if w_device == "cuda" else "float32"
-            ),
-        )
-        logger.info("Model loaded, now getting segments")
+        logger.info("Model not passed as param, need to obtain it first")
+        model = load_model(model_base_dir, w_model, w_device)
+    logger.info("Processing segments")
     segments, _ = model.transcribe(
         input_path,
         vad_filter=w_vad,

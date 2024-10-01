@@ -1,9 +1,9 @@
 import logging
-import os
 from typing import Optional
 from uuid import uuid4
 from fastapi import BackgroundTasks, FastAPI, HTTPException, status, Response
 from asr import run
+from whisper import load_model
 from enum import Enum
 from pydantic import BaseModel
 from config import (
@@ -11,29 +11,14 @@ from config import (
     w_device,
     w_model,
 )
-import faster_whisper
-from model_download import check_model_availability
 
 logger = logging.getLogger(__name__)
 api = FastAPI()
 
 logger.info(f"Loading model on device {w_device}")
 
-
-# change hugging face home dir where model is downloaded
-os.environ["HF_HOME"] = model_base_dir
-
-# checking if model needs to be downloaded from HF or not
-model_location = model_base_dir if check_model_availability() else w_model
-
-model = faster_whisper.WhisperModel(
-    model_location,
-    device=w_device,
-    compute_type=(  # float16 only works on GPU, float32 or int8 are recommended for CPU
-        "float16" if w_device == "cuda" else "float32"
-    ),
-)
-logger.info("Model loaded!")
+# load the model in memory on API startup
+model = load_model(model_base_dir, w_model, w_device)
 
 
 class Status(Enum):
