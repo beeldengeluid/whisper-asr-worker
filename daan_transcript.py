@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import time
 from typing import TypedDict, List, Optional
 from whisper import WHISPER_JSON_FILE
 
@@ -19,12 +20,13 @@ class ParsedResult(TypedDict):
 
 
 # asr_output_dir e.g /data/output/whisper-test/
-def generate_daan_transcript(asr_output_dir: str) -> bool:
+def generate_daan_transcript(asr_output_dir: str) -> Optional[dict]:
     logger.info(f"Generating transcript from: {asr_output_dir}")
+    start_time = time.time()
     whisper_transcript = load_whisper_transcript(asr_output_dir)
     if not whisper_transcript:
         logger.error("No whisper_transcript.json found")
-        return False
+        return None
 
     transcript = parse_whisper_transcript(whisper_transcript)
 
@@ -37,9 +39,21 @@ def generate_daan_transcript(asr_output_dir: str) -> bool:
             json.dump(transcript, f, ensure_ascii=False, indent=4)
     except EnvironmentError as e:  # OSError or IOError...
         logger.exception(os.strerror(e.errno))
-        return False
+        return None
 
-    return True
+    end_time = (time.time() - start_time) * 1000
+    provenance = {
+        "activity_name": "Whisper transcript -> DAAN transcript",
+        "activity_description": "Converts the output of Whisper to the DAAN index format",
+        "processing_time_ms": end_time,
+        "start_time_unix": start_time,
+        "parameters": [],
+        "software_version": "",
+        "input_data": whisper_transcript,
+        "output_data": transcript,
+        "steps": [],
+    }
+    return provenance
 
 
 def load_whisper_transcript(asr_output_dir: str) -> Optional[dict]:

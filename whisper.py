@@ -2,6 +2,8 @@
 import json
 import logging
 import os
+import time
+from typing import Optional
 
 import faster_whisper
 from config import (
@@ -22,8 +24,9 @@ WHISPER_JSON_FILE = "whisper-transcript.json"
 logger = logging.getLogger(__name__)
 
 
-def run_asr(input_path, output_dir, model=None) -> bool:
+def run_asr(input_path, output_dir, model=None) -> Optional[dict]:
     logger.info(f"Starting ASR on {input_path}")
+    start_time = time.time()
     if not model:
         logger.info(f"Device used: {w_device}")
         # checking if model needs to be downloaded from HF or not
@@ -77,8 +80,24 @@ def run_asr(input_path, output_dir, model=None) -> bool:
     asset_id, _ = get_asset_info(input_path)
     # Also added "carrierId" because the DAAN format requires it
     transcript = {"carrierId": asset_id, "segments": segments_to_add}
+    end_time = time.time() - start_time
 
-    return write_whisper_json(transcript, output_dir)
+    provenance = {
+        "activity_name": "Running Whisper",
+        "activity_description": "Runs Whisper to transcribe the input audio file",
+        "processing_time_ms": end_time,
+        "start_time_unix": start_time,
+        "parameters": [],
+        "software_version": faster_whisper.__version__,
+        "input_data": input_path,
+        "output_data": transcript,
+        "steps": [],
+    }
+
+    if write_whisper_json(transcript, output_dir):
+        return provenance
+    else:
+        return None
 
 
 def write_whisper_json(transcript: dict, output_dir: str) -> bool:

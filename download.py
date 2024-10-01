@@ -17,7 +17,8 @@ input_file_dir = os.path.join(data_base_dir, "input/")
 @dataclass
 class DownloadResult:
     file_path: str  # target_file_path,  # TODO harmonize with dane-download-worker
-    mime_type: str  # download_data.get("mime_type", "unknown"),
+    mime_type: str
+    provenance: dict
     download_time: float = -1  # time (ms) taken to receive data after request
     content_length: int = -1  # download_data.get("content_length", -1),
 
@@ -53,8 +54,19 @@ def http_download(url: str) -> Optional[DownloadResult]:
             file.write(response.content)
             file.close()
     download_time = (time.time() - start_time) * 1000  # time in ms
+    provenance = {
+        "activity_name": "Input download",
+        "activity_description": "Downloads the input file from INPUT_URI",
+        "processing_time_ms": download_time,
+        "start_time_unix": start_time,
+        "parameters": [],
+        "software_version": "",
+        "input_data": url,
+        "output_data": input_file,
+        "steps": [],
+    }
     return DownloadResult(
-        input_file, mime_type, download_time  # TODO add content_length
+        input_file, mime_type, provenance, download_time  # TODO add content_length
     )
 
 
@@ -89,9 +101,23 @@ def s3_download(s3_uri: str) -> Optional[DownloadResult]:
         if not success:
             logger.error("Failed to download input data from S3")
             return None
+
         download_time = int((time.time() - start_time) * 1000)  # time in ms
     else:
         download_time = -1  # Report back?
+
+    provenance = {
+        "activity_name": "Input download",
+        "activity_description": "Downloads the input file from INPUT_URI",
+        "processing_time_ms": download_time,
+        "start_time_unix": start_time,
+        "parameters": [],
+        "software_version": "",
+        "input_data": s3_uri,
+        "output_data": input_file,
+        "steps": [],
+    }
+
     return DownloadResult(
-        input_file, mime_type, download_time  # TODO add content_length
+        input_file, mime_type, provenance, download_time  # TODO add content_length
     )
