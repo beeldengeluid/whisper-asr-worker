@@ -1,0 +1,22 @@
+name: main branch - test; build & push to ghcr
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - README.md
+      - LICENSE
+
+jobs:
+  test:
+    uses: ./.github/workflows/check-project.yml
+
+  build-push-image:
+    uses: beeldengeluid/gha-workflows/.github/workflows/build-push-image.yml@71d9cba5e50f829007d4ba9391e827ddc3864d0c # v2024.09.02
+    secrets: inherit
+    needs: [test]
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
