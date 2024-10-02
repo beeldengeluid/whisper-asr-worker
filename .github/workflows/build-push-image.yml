@@ -2,6 +2,7 @@ name: Deploy dane-whisper-asr-worker to ghcr
 
 on:
   workflow_call:
+  workflow_dispatch:
 
 jobs:
   build-push-image:
