@@ -1,0 +1,13 @@
+name: non-main branch - test
+
+on:
+  push:
+    branches-ignore:
+      - main
+    paths-ignore:
+      - README.md
+      - LICENSE
+
+jobs:
+  test:
+    uses: ./.github/workflows/_test.yml

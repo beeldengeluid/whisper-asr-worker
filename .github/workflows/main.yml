@@ -10,7 +10,7 @@ on:
 
 jobs:
   test:
-    uses: ./.github/workflows/check-project.yml
+    uses: ./.github/workflows/_test.yml
 
   build-push-image:
     uses: beeldengeluid/gha-workflows/.github/workflows/build-push-image.yml@71d9cba5e50f829007d4ba9391e827ddc3864d0c # v2024.09.02
