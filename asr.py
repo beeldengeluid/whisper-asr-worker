@@ -3,7 +3,12 @@ import os
 import time
 import tomli
 
-from base_util import get_asset_info, asr_output_dir, save_provenance
+from base_util import (
+    get_asset_info,
+    asr_output_dir,
+    save_provenance,
+    PROVENANCE_JSON_FILE,
+)
 from config import (
     s3_endpoint_url,
     s3_bucket,
@@ -164,6 +169,7 @@ def transfer_asr_output(output_path: str, asset_id: str) -> bool:
         [
             os.path.join(output_path, DAAN_JSON_FILE),
             os.path.join(output_path, WHISPER_JSON_FILE),
+            os.path.join(output_path, PROVENANCE_JSON_FILE),
         ],
     )
 
