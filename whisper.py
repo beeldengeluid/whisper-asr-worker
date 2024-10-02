@@ -1,16 +1,19 @@
-import ast
+# import ast
 import json
 import logging
 import os
+import time
+from typing import Optional
 
 import faster_whisper
+from faster_whisper import WhisperModel
 from config import (
     model_base_dir,
     w_beam_size,
     w_best_of,
     w_device,
     w_model,
-    w_temperature,
+    # w_temperature,
     w_vad,
     w_word_timestamps,
 )
@@ -22,25 +25,40 @@ WHISPER_JSON_FILE = "whisper-transcript.json"
 logger = logging.getLogger(__name__)
 
 
-def run_asr(input_path, output_dir) -> bool:
-    logger.info(f"Starting ASR on {input_path}")
-    logger.info(f"Device used: {w_device}")
-    # checking if model needs to be downloaded from HF or not
-    model_location = model_base_dir if check_model_availability() else w_model
-    model = faster_whisper.WhisperModel(
-        model_location,
-        device=w_device,
+# loads the whisper model
+# FIXME does not check if the specific model_type is available locally!
+def load_model(model_base_dir: str, model_type: str, device: str) -> WhisperModel:
+    logger.info(f"Loading Whisper model {model_type} for device: {device}")
+
+    # change HuggingFace dir to where model is downloaded
+    os.environ["HF_HOME"] = model_base_dir
+
+    # determine loading locally or have Whisper download from HuggingFace
+    model_location = model_base_dir if check_model_availability() else model_type
+    model = WhisperModel(
+        model_location,  # either local path or e.g. large-v2 (means HuggingFace download)
+        device=device,
         compute_type=(  # float16 only works on GPU, float32 or int8 are recommended for CPU
-            "float16" if w_device == "cuda" else "float32"
+            "float16" if device == "cuda" else "float32"
         ),
     )
-    logger.info("Model loaded, now getting segments")
+    logger.info(f"Model loaded from location: {model_location}")
+    return model
+
+
+def run_asr(input_path, output_dir, model=None) -> Optional[dict]:
+    logger.info(f"Starting ASR on {input_path}")
+    start_time = time.time()
+    if not model:
+        logger.info("Model not passed as param, need to obtain it first")
+        model = load_model(model_base_dir, w_model, w_device)
+    logger.info("Processing segments")
     segments, _ = model.transcribe(
         input_path,
         vad_filter=w_vad,
         beam_size=w_beam_size,
         best_of=w_best_of,
-        temperature=ast.literal_eval(w_temperature),
+        # temperature=ast.literal_eval(w_temperature),
         language="nl",
         word_timestamps=w_word_timestamps,
     )
@@ -76,8 +94,24 @@ def run_asr(input_path, output_dir) -> bool:
     asset_id, _ = get_asset_info(input_path)
     # Also added "carrierId" because the DAAN format requires it
     transcript = {"carrierId": asset_id, "segments": segments_to_add}
+    end_time = time.time() - start_time
 
-    return write_whisper_json(transcript, output_dir)
+    provenance = {
+        "activity_name": "Running Whisper",
+        "activity_description": "Runs Whisper to transcribe the input audio file",
+        "processing_time_ms": end_time,
+        "start_time_unix": start_time,
+        "parameters": [],
+        "software_version": faster_whisper.__version__,
+        "input_data": input_path,
+        "output_data": transcript,
+        "steps": [],
+    }
+
+    if write_whisper_json(transcript, output_dir):
+        return provenance
+    else:
+        return None
 
 
 def write_whisper_json(transcript: dict, output_dir: str) -> bool:

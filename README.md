@@ -41,7 +41,7 @@ apt-get -y update && apt-get -y upgrade && apt-get install -y --no-install-recom
 ## Running the worker using a CUDA-compatible GPU
 
 To run the worker with a CUDA-compatible GPU instead of the CPU, either:
-- skip steps 3 & 4 from "Docker CPU run" 
+- skip steps 3 & 4 from "Docker CPU run"
 - skip step 3 from "Local run"
 
 **(OUTDATED BUT STILL MIGHT BE RELEVANT)** To run it using a GPU via Docker, check [the instructions from the dane-example-worker](https://github.com/beeldengeluid/dane-example-worker/wiki/Containerization#running-the-container-locally-using-cuda-compatible-gpu).
@@ -50,7 +50,7 @@ Make sure to replace `dane-example-worker` in the `docker run` command with `dan
 
 ## Expected run
 
-The expected run of this worker (whose pipeline is defined in `asr.py`) should 
+The expected run of this worker (whose pipeline is defined in `asr.py`) should
 
 1. download the input file if it isn't downloaded already in `/data/input/` via `download.py`
 

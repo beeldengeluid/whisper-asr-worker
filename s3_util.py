@@ -1,10 +1,10 @@
 import boto3
 import logging
-import ntpath
 import os
 from pathlib import Path
 import tarfile
 from typing import List, Tuple, Optional
+from urllib.parse import urlparse
 
 
 logger = logging.getLogger(__name__)
@@ -16,12 +16,12 @@ def generate_asset_id_from_input_file(
     input_file: str, with_extension: bool = False
 ) -> str:
     logger.info(f"generating asset ID for {input_file}")
-    file_name = ntpath.basename(input_file)  # grab the file_name from the path
+    file_name = os.path.basename(input_file)  # grab the file_name from the path
     if with_extension:
         return file_name
 
     # otherwise cut off the extension
-    asset_id, extension = os.path.splitext(file_name)
+    asset_id, _ = os.path.splitext(file_name)
     return asset_id
 
 
@@ -60,10 +60,11 @@ def tar_list_of_files(archive_path: str, file_list: List[str]) -> bool:
 
 
 def validate_s3_uri(s3_uri: str) -> bool:
-    if s3_uri[0:5] != "s3://":
+    o = urlparse(s3_uri, allow_fragments=False)
+    if o.scheme != "s3":
         logger.error(f"Invalid protocol in {s3_uri}")
         return False
-    if len(s3_uri[5:].split("/")) < 2:
+    if o.path == "":
         logger.error(f"No object_name specified {s3_uri}")
         return False
     return True
@@ -72,9 +73,9 @@ def validate_s3_uri(s3_uri: str) -> bool:
 # e.g. "s3://beng-daan-visxp/jaap-dane-test/dane-test.tar.gz"
 def parse_s3_uri(s3_uri: str) -> Tuple[str, str]:
     logger.info(f"Parsing s3 URI {s3_uri}")
-    tmp = s3_uri[5:]
-    bucket = tmp[: tmp.find("/")]  # beng-daan-visxp
-    object_name = s3_uri[len(bucket) + 6 :]  # jaap-dane-test/dane-test.tar.gz
+    o = urlparse(s3_uri, allow_fragments=False)
+    bucket = o.netloc  # beng-daan-visxp
+    object_name = o.path.lstrip("/")  # jaap-dane-test/dane-test.tar.gz
     return bucket, object_name
 
 
