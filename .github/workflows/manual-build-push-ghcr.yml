@@ -5,7 +5,7 @@ on:
 
 jobs:
   build-push-image:
-    uses: beeldengeluid/gha-workflows/.github/workflows/build-push-image.yml@add-tag-strat # v2024.09.02
+    uses: beeldengeluid/gha-workflows/.github/workflows/build-push-image.yml@77a90a8c2786f689be250dc0f8489bc7c9337fe2 # v2024.09.02
     secrets: inherit
     permissions:
       contents: read
