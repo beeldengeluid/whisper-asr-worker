@@ -1,8 +1,0 @@
-name: Test
-
-on:
-  workflow_call:
-
-jobs:
-  check-project:
-    uses: beeldengeluid/gha-workflows/.github/workflows/check-poetry-project.yml@add-tag-strat # v2024.09.02
