@@ -28,6 +28,14 @@ class Status(Enum):
     ERROR = "ERROR"
 
 
+StatusToHTTP = {
+    Status.CREATED: status.HTTP_201_CREATED,
+    Status.PROCESSING: status.HTTP_202_ACCEPTED,
+    Status.DONE: status.HTTP_200_OK,
+    Status.ERROR: status.HTTP_500_INTERNAL_SERVER_ERROR,
+}
+
+
 class Task(BaseModel):
     input_uri: str
     output_uri: str
@@ -127,12 +135,13 @@ async def create_task(
 
 
 @api.get("/tasks/{task_id}")
-async def get_task(task_id: str):
+async def get_task(task_id: str, response: Response):
     task = get_task_by_id(task_id)
     if not task:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"Task {task_id} not found"
         )
+    response.status_code = StatusToHTTP[task["status"]]
     return {"data": task}
 
 
