@@ -144,9 +144,7 @@ def run(input_uri: str, output_uri: str, model=None) -> bool:
 def transfer_asr_output(output_path: str, output_uri: str) -> bool:
     logger.info(f"Transferring {output_path} to S3 (destination={output_uri})")
     if not s3_endpoint_url:
-        logger.warning(
-            "Transfer to S3 configured without an S3_ENDPOINT_URL!"
-        )
+        logger.warning("Transfer to S3 configured without an S3_ENDPOINT_URL!")
         return False
 
     s3_bucket, s3_folder_in_bucket = parse_s3_uri(output_uri)
@@ -164,14 +162,14 @@ def transfer_asr_output(output_path: str, output_uri: str) -> bool:
 
 
 # check if there is a whisper-transcript.json
-def asr_already_done(output_dir) -> bool:
+def asr_already_done(output_dir: str) -> bool:
     whisper_transcript = os.path.join(output_dir, WHISPER_JSON_FILE)
     logger.info(f"Checking existence of {whisper_transcript}")
     return os.path.exists(os.path.join(output_dir, WHISPER_JSON_FILE))
 
 
 # check if there is a daan-es-transcript.json
-def daan_transcript_already_done(output_dir) -> bool:
+def daan_transcript_already_done(output_dir: str) -> bool:
     daan_transcript = os.path.join(output_dir, DAAN_JSON_FILE)
     logger.info(f"Checking existence of {daan_transcript}")
     return os.path.exists(os.path.join(output_dir, DAAN_JSON_FILE))
