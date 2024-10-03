@@ -133,7 +133,7 @@ def run(input_uri: str, output_uri: str, model=None) -> bool:
 
     # 5. transfer output
     if output_uri:
-        transfer_asr_output(output_path, asset_id)
+        transfer_asr_output(output_path, output_uri)
     else:
         logger.info("No output_uri specified, so all is done")
 
