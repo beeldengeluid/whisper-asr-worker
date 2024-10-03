@@ -11,8 +11,6 @@ from base_util import (
 )
 from config import (
     s3_endpoint_url,
-    s3_bucket,
-    s3_folder_in_bucket,
     w_word_timestamps,
     w_device,
     w_model,
@@ -23,7 +21,7 @@ from config import (
 
 from download import download_uri
 from whisper import run_asr, WHISPER_JSON_FILE
-from s3_util import S3Store
+from s3_util import S3Store, parse_s3_uri
 from transcode import try_transcode
 from daan_transcript import generate_daan_transcript, DAAN_JSON_FILE
 
@@ -135,37 +133,26 @@ def run(input_uri: str, output_uri: str, model=None) -> bool:
 
     # 5. transfer output
     if output_uri:
-        transfer_asr_output(output_path, asset_id)
+        transfer_asr_output(output_path, output_uri)
     else:
         logger.info("No output_uri specified, so all is done")
 
     return True
 
 
-# if (S3) output_uri is supplied transfers data to (S3) location
-def transfer_asr_output(output_path: str, asset_id: str) -> bool:
-    logger.info(f"Transferring {output_path} to S3 (asset={asset_id})")
-    if any(
-        [
-            not x
-            for x in [
-                s3_endpoint_url,
-                s3_bucket,
-                s3_folder_in_bucket,
-            ]
-        ]
-    ):
-        logger.warning(
-            "TRANSFER_ON_COMPLETION configured without all the necessary S3 settings"
-        )
+# if S3 output_uri is supplied transfers data to S3 location
+def transfer_asr_output(output_path: str, output_uri: str) -> bool:
+    logger.info(f"Transferring {output_path} to S3 (destination={output_uri})")
+    if not s3_endpoint_url:
+        logger.warning("Transfer to S3 configured without an S3_ENDPOINT_URL!")
         return False
+
+    s3_bucket, s3_folder_in_bucket = parse_s3_uri(output_uri)
 
     s3 = S3Store(s3_endpoint_url)
     return s3.transfer_to_s3(
         s3_bucket,
-        os.path.join(
-            s3_folder_in_bucket, asset_id
-        ),  # assets/<program ID>__<carrier ID>
+        s3_folder_in_bucket,
         [
             os.path.join(output_path, DAAN_JSON_FILE),
             os.path.join(output_path, WHISPER_JSON_FILE),
@@ -175,14 +162,14 @@ def transfer_asr_output(output_path: str, asset_id: str) -> bool:
 
 
 # check if there is a whisper-transcript.json
-def asr_already_done(output_dir) -> bool:
+def asr_already_done(output_dir: str) -> bool:
     whisper_transcript = os.path.join(output_dir, WHISPER_JSON_FILE)
     logger.info(f"Checking existence of {whisper_transcript}")
     return os.path.exists(os.path.join(output_dir, WHISPER_JSON_FILE))
 
 
 # check if there is a daan-es-transcript.json
-def daan_transcript_already_done(output_dir) -> bool:
+def daan_transcript_already_done(output_dir: str) -> bool:
     daan_transcript = os.path.join(output_dir, DAAN_JSON_FILE)
     logger.info(f"Checking existence of {daan_transcript}")
     return os.path.exists(os.path.join(output_dir, DAAN_JSON_FILE))

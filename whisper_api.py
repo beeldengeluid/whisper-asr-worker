@@ -97,12 +97,23 @@ def get_all_tasks():
     return {"data": all_tasks}
 
 
+@api.get("/status")
+def get_status(response: Response):
+    global current_task
+
+    if current_task and current_task.status == Status.PROCESSING:
+        response.status_code = status.HTTP_503_SERVICE_UNAVAILABLE
+        return {"msg": "The worker is currently processing a task. Try again later!"}
+
+    response.status_code = status.HTTP_200_OK
+    return {"msg": "The worker is available!"}
+
+
 @api.post("/tasks", status_code=status.HTTP_201_CREATED)
 async def create_task(
     task: Task, background_tasks: BackgroundTasks, response: Response
 ):
     global current_task
-    print(current_task)
     if current_task and current_task.status == Status.PROCESSING:
         response.status_code = status.HTTP_503_SERVICE_UNAVAILABLE
         return {"msg": "The worker is currently processing a task. Try again later!"}
