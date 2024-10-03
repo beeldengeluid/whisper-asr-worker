@@ -35,10 +35,8 @@ output_uri = os.environ.get("OUTPUT_URI", "")
 data_base_dir = os.environ.get("DATA_BASE_DIR", "")
 model_base_dir = os.environ.get("MODEL_BASE_DIR", "")
 
-# s3 connection params
+# s3 connection param
 s3_endpoint_url = os.environ.get("S3_ENDPOINT_URL", "")
-s3_bucket = os.environ.get("S3_BUCKET", "")
-s3_folder_in_bucket = os.environ.get("S3_FOLDER_IN_BUCKET", "")
 
 # Whisper params
 w_word_timestamps = assert_bool("W_WORD_TIMESTAMPS")
@@ -70,10 +68,8 @@ assert model_base_dir, "Please add MODEL_BASE_DIR to your environment"
 assert model_base_dir not in [".", "/"], "Please enter an absolute, non-root path"
 assert os.path.exists(model_base_dir), "MODEL_BASE_DIR does not exist"
 
-if s3_bucket or s3_endpoint_url or s3_folder_in_bucket:
-    assert s3_bucket, "Please enter the S3_BUCKET to use"
+if s3_endpoint_url:
     assert validators.url(s3_endpoint_url), "Please enter a valid S3_ENDPOINT_URL"
-    assert s3_folder_in_bucket, "Please enter a path within the supplied S3 bucket"
 
 
 assert w_device in ["cuda", "cpu"], "Please use either cuda|cpu for W_DEVICE"
