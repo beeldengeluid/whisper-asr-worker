@@ -88,9 +88,9 @@ def s3_download(s3_uri: str) -> Optional[DownloadResult]:
     _, extension = get_asset_info(input_file)
     mime_type = extension_to_mime_type(extension)
 
+    start_time = time.time()
+
     if not os.path.exists(input_file):
-        # source_id = get_source_id(s3_uri)
-        start_time = time.time()
         s3 = S3Store(s3_endpoint_url)
         # Create /data/input/ folder if not exists
         if not os.path.exists(input_file_dir):
