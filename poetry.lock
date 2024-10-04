@@ -1031,45 +1031,6 @@ files = [
 ]
 
 [[package]]
-name = "nvidia-cublas-cu12"
-version = "12.6.1.4"
-description = "CUBLAS native runtime libraries"
-optional = false
-python-versions = ">=3"
-files = [
-    {file = "nvidia_cublas_cu12-12.6.1.4-py3-none-manylinux2014_aarch64.whl", hash = "sha256:c25ab29026a265d46c1063b5fb3cb9440f5f2eb88041c6b7c6711bcb3361789f"},
-    {file = "nvidia_cublas_cu12-12.6.1.4-py3-none-manylinux2014_x86_64.whl", hash = "sha256:5dd125ece5469dbdceebe2e9536ad8fc4abd38aa394a7ace42fc8a930a1e81e3"},
-    {file = "nvidia_cublas_cu12-12.6.1.4-py3-none-win_amd64.whl", hash = "sha256:5e5d384583d72ac364064ced3dd92a5caa59a8a57568595c9f82e83d255b2481"},
-]
-
-[[package]]
-name = "nvidia-cuda-nvrtc-cu12"
-version = "12.6.68"
-description = "NVRTC native runtime libraries"
-optional = false
-python-versions = ">=3"
-files = [
-    {file = "nvidia_cuda_nvrtc_cu12-12.6.68-py3-none-manylinux2014_aarch64.whl", hash = "sha256:536ef8c808460c2daed70087ea3b9fcb141668dbb2449de1d708929ddad2592c"},
-    {file = "nvidia_cuda_nvrtc_cu12-12.6.68-py3-none-manylinux2014_x86_64.whl", hash = "sha256:6e34546e94214c30a27d9be40f95aa93777f66ccc680c1d9911158cb4ccfcd0c"},
-    {file = "nvidia_cuda_nvrtc_cu12-12.6.68-py3-none-win_amd64.whl", hash = "sha256:c71076d7fc5e0a1e55af91e59a3ee344048206cc293df4b4c50cf6dfa8fa9796"},
-]
-
-[[package]]
-name = "nvidia-cudnn-cu12"
-version = "8.9.7.29"
-description = "cuDNN runtime libraries"
-optional = false
-python-versions = ">=3"
-files = [
-    {file = "nvidia_cudnn_cu12-8.9.7.29-py3-none-manylinux1_x86_64.whl", hash = "sha256:adf4f59ed7a1341103822ed8df6e144f4d47ea8b10d9bf0ea0047ba738fd7b02"},
-    {file = "nvidia_cudnn_cu12-8.9.7.29-py3-none-win_amd64.whl", hash = "sha256:4447321a2bdc8bd965084c1824575eb04f47a03ab62bbeb6cce7e9f74c3657f3"},
-]
-
-[package.dependencies]
-nvidia-cublas-cu12 = "*"
-nvidia-cuda-nvrtc-cu12 = "*"
-
-[[package]]
 name = "onnxruntime"
 version = "1.18.1"
 description = "ONNX Runtime is a runtime accelerator for Machine Learning models"
@@ -1704,4 +1665,4 @@ PyYAML = "*"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "819180b9276a106189439127a62e4d5d0646e5363ed6539b6e5e404fbe6d54f3"
+content-hash = "aaef42038200a941e26bcef45596b3beab1faec93fffbbf7f08e54a070ce0b2a"
