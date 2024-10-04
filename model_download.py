@@ -8,7 +8,9 @@ from base_util import get_asset_info, validate_http_uri
 from config import model_base_dir, w_model, s3_endpoint_url
 
 
-def extract_model(w_model: str, model_base_dir: str, destination: str, asset_id: str, extension: str) -> str:
+def extract_model(
+    w_model: str, model_base_dir: str, destination: str, asset_id: str, extension: str
+) -> str:
     logger = logging.getLogger(__name__)
     logger.info(f"Downloaded {w_model} into {model_base_dir}")
     if not os.path.exists(destination):  # Create dir for model to be extracted in
