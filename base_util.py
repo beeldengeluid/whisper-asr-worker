@@ -2,6 +2,7 @@ import logging
 import os
 import subprocess
 import json
+from urllib.parse import urlparse
 from typing import Tuple
 from config import data_base_dir
 
@@ -72,4 +73,15 @@ def save_provenance(provenance: dict, asr_output_dir: str) -> bool:
         logger.exception(os.strerror(e.errno))
         return False
 
+    return True
+
+
+def validate_http_uri(http_uri: str) -> bool:
+    o = urlparse(http_uri, allow_fragments=False)
+    if o.scheme != "http" and o.scheme != "https":
+        logger.error(f"Invalid protocol in {http_uri}")
+        return False
+    if o.path == "":
+        logger.error(f"No object_name specified in {http_uri}")
+        return False
     return True
