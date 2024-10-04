@@ -11,7 +11,7 @@ COPY ./poetry.lock ./poetry.lock
 COPY ./pyproject.toml ./pyproject.toml
 RUN pipx run poetry export --format requirements.txt --output requirements.txt
 
-FROM docker.io/python:3.10@sha256:c6b64ba9c0f03c41e10f1e6053ca2ecf2dbced44098f8d56ed579aa50e839889
+FROM docker.io/nvidia/cuda:12.2.2-cudnn8-runtime-ubuntu22.04@sha256:2d913b09e6be8387e1a10976933642c73c840c0b735f0bf3c28d97fc9bc422e0
 
 # Create dirs for:
 # - Injecting config.yml: /root/.DANE
