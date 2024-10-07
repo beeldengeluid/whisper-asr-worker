@@ -34,7 +34,8 @@ def load_model(model_base_dir: str, model_type: str, device: str) -> WhisperMode
     os.environ["HF_HOME"] = model_base_dir
 
     # determine loading locally or have Whisper download from HuggingFace
-    model_location = get_model_location()
+    model_location = get_model_location(model_base_dir, w_model)
+    # FIXME handle cases where model_location is ""
     model = WhisperModel(
         model_location,  # either local path or e.g. large-v2 (means HuggingFace download)
         device=device,
