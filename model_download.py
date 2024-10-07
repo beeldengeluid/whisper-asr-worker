@@ -9,7 +9,7 @@ from config import model_base_dir, w_model, s3_endpoint_url
 
 
 def extract_model(
-    w_model: str, model_base_dir: str, destination: str, asset_id: str, extension: str
+    destination: str, asset_id: str, extension: str
 ) -> str:
     logger = logging.getLogger(__name__)
     logger.info(f"Downloaded {w_model} into {model_base_dir}")
@@ -25,7 +25,7 @@ def extract_model(
 
 
 # makes sure the model is obtained from S3/HTTP/Huggingface, if w_model doesn't exist locally
-def check_model_availability() -> str:
+def get_model_location() -> str:
     logger = logging.getLogger(__name__)
 
     if validate_s3_uri(w_model):
@@ -41,7 +41,7 @@ def check_model_availability() -> str:
         if not success:
             logger.error(f"Could not download {w_model} into {model_base_dir}")
             return ""
-        return extract_model(w_model, model_base_dir, destination, asset_id, extension)
+        return extract_model(destination, asset_id, extension)
 
     elif validate_http_uri(w_model):
         logger.info(f"{w_model} is an HTTP URI. Attempting to download")
@@ -57,7 +57,7 @@ def check_model_availability() -> str:
                 return ""
             file.write(response.content)
             file.close()
-        return extract_model(w_model, model_base_dir, destination, asset_id, extension)
+        return extract_model(destination, asset_id, extension)
 
     # The faster-whisper API can auto-detect if the version exists locally. No need to add extra checks
     logger.info(f"{w_model} is not an S3/HTTP URI. Using HuggingFace instead")

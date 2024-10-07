@@ -18,7 +18,7 @@ from config import (
     w_word_timestamps,
 )
 from base_util import get_asset_info
-from model_download import check_model_availability
+from model_download import get_model_location
 
 
 WHISPER_JSON_FILE = "whisper-transcript.json"
@@ -34,7 +34,7 @@ def load_model(model_base_dir: str, model_type: str, device: str) -> WhisperMode
     os.environ["HF_HOME"] = model_base_dir
 
     # determine loading locally or have Whisper download from HuggingFace
-    model_location = check_model_availability()
+    model_location = get_model_location()
     model = WhisperModel(
         model_location,  # either local path or e.g. large-v2 (means HuggingFace download)
         device=device,
