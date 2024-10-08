@@ -15,7 +15,6 @@ boto3 = "^1.35.10"
 fastapi = "^0.115.0"
 uvicorn = "^0.30.6"
 tomli = "^2.0.1"
-python-dotenv = "^1.0.1"
 
 [tool.poetry.group.dev.dependencies]
 moto = "^5.0.13"

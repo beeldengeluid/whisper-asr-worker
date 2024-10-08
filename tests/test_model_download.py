@@ -1,10 +1,11 @@
 import pytest
 import shutil
 import os
-from dotenv import load_dotenv
 
 # Mocking environment used in model_download (by loading tests/.env)
-load_dotenv()
+os.environ["DATA_BASE_DIR"] = "data"
+os.environ["MODEL_BASE_DIR"] = "tests/input/extract_model_test"
+os.environ["S3_ENDPOINT_URL"] = "http://url.com"
 
 from model_download import extract_model, get_model_location  # noqa
 
