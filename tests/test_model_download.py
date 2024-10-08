@@ -1,17 +1,12 @@
 import pytest
 import shutil
 import os
-import logging
+from dotenv import load_dotenv
 
-# Mocking environment used in model_download
-os.environ["DATA_BASE_DIR"] = "data"
-os.environ["MODEL_BASE_DIR"] = "model"
-os.environ["S3_ENDPOINT_URL"] = "https://someurl.org"
+# Mocking environment used in model_download (by loading tests/.env)
+load_dotenv()
 
 from model_download import extract_model, get_model_location  # noqa
-
-
-logger = logger = logging.getLogger(__name__)
 
 
 @pytest.mark.parametrize(
