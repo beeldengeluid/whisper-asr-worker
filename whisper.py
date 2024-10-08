@@ -26,7 +26,6 @@ logger = logging.getLogger(__name__)
 
 
 # loads the whisper model
-# FIXME does not check if the specific model_type is available locally!
 def load_model(model_base_dir: str, model_type: str, device: str) -> WhisperModel:
     logger.info(f"Loading Whisper model {model_type} for device: {device}")
 
@@ -36,6 +35,8 @@ def load_model(model_base_dir: str, model_type: str, device: str) -> WhisperMode
     # determine loading locally or have Whisper download from HuggingFace
     model_location = get_model_location(model_base_dir, w_model)
     # FIXME handle cases where model_location is ""
+    if model_location == "":
+        raise ValueError("Model could not be loaded! Exiting...")
     model = WhisperModel(
         model_location,  # either local path or e.g. large-v2 (means HuggingFace download)
         device=device,

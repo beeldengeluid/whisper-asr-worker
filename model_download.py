@@ -12,18 +12,28 @@ logger = logging.getLogger(__name__)
 
 
 # e.g. {base_dir}/modelx.tar.gz will be extracted in {base_dir}/modelx
-# FIXME add more error handling here and return "" in case of error
 def extract_model(destination: str, extension: str) -> str:
     tar_path = f"{destination}.{extension}"
     logger.info(f"Extracting  {tar_path} into {destination}")
     if not os.path.exists(destination):  # Create dir for model to be extracted in
         os.makedirs(destination)
     logger.info(f"Extracting the model into {destination}")
-    with tarfile.open(tar_path) as tar:
-        tar.extractall(path=destination)
-    # cleanup: delete the tar file
-    os.remove(tar_path)
-    return destination
+    try:
+        with tarfile.open(tar_path) as tar:
+            tar.extractall(path=destination)
+        # cleanup: delete the tar file
+        os.remove(tar_path)
+        if os.path.exists(os.path.join(destination, "model.bin")):
+            logger.info(
+                f"model.bin found in {destination}. Model extracted successfully!"
+            )
+            return destination
+        else:
+            logger.error(f"{destination} does not contain a model.bin file. Exiting...")
+            return ""
+    except tarfile.ReadError:
+        logger.error("Could not extract the model")
+        return ""
 
 
 # makes sure the model is obtained from S3/HTTP/Huggingface, if w_model doesn't exist locally
