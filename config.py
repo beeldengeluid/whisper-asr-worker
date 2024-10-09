@@ -73,12 +73,13 @@ if s3_endpoint_url:
 
 
 assert w_device in ["cuda", "cpu"], "Please use either cuda|cpu for W_DEVICE"
-assert w_model in [
-    "tiny",
-    "base",
-    "small",
-    "medium",
-    "large",
-    "large-v2",
-    "large-v3",
-], "Please use one of: tiny|base|small|medium|large|large-v2|large-v3 for W_MODEL"
+if input_uri[0:5] != "s3://" and not validators.url(output_uri):
+    assert w_model in [
+        "tiny",
+        "base",
+        "small",
+        "medium",
+        "large",
+        "large-v2",
+        "large-v3",
+    ], "Please use one of: tiny|base|small|medium|large|large-v2|large-v3 for W_MODEL"

@@ -65,7 +65,7 @@ def validate_s3_uri(s3_uri: str) -> bool:
         logger.error(f"Invalid protocol in {s3_uri}")
         return False
     if o.path == "":
-        logger.error(f"No object_name specified {s3_uri}")
+        logger.error(f"No object_name specified in {s3_uri}")
         return False
     return True
 
