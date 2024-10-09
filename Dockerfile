@@ -1,9 +1,25 @@
+FROM docker.io/python:3.11 AS req
+
+RUN python3 -m pip install pipx && \
+  python3 -m pipx ensurepath
+
+RUN pipx install poetry==1.8.2 && \
+  pipx inject poetry poetry-plugin-export && \
+  pipx run poetry config warnings.export false
+
+COPY ./poetry.lock ./poetry.lock
+COPY ./pyproject.toml ./pyproject.toml
+RUN pipx run poetry export --format requirements.txt --output requirements.txt
+
 FROM nvidia/cuda:12.2.2-cudnn8-runtime-ubuntu22.04
 
-# Install ffmpeg
+# Install Python & ffmpeg
 RUN apt-get update && \
-    apt-get install -y python3-pip python3.11-dev python-is-python3 ffmpeg && \
+    apt-get install -y python3.11-dev python3-pip python-is-python3 ffmpeg && \
     rm -rf /var/lib/apt/lists/*
+
+# Ensure Python 3.11 is used (for some reason, 3.10 is also installed...)
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.11 1
 
 # Create dirs for:
 # - Storing the source code: /src
@@ -14,16 +30,8 @@ RUN mkdir /src /data /model
 
 WORKDIR /src
 
-ENV POETRY_NO_INTERACTION=1 \
-    POETRY_VIRTUALENVS_IN_PROJECT=1 \
-    POETRY_VIRTUALENVS_CREATE=1 \
-    POETRY_CACHE_DIR=/tmp/poetry_cache
-
-RUN pip install poetry==1.8.2
-
-COPY pyproject.toml poetry.lock ./
-
-RUN poetry install --without dev --no-root && rm -rf $POETRY_CACHE_DIR
+COPY --from=req ./requirements.txt requirements.txt
+RUN python -m pip install --no-cache-dir -r requirements.txt
 
 # copy the rest into the source dir
 COPY ./ /src
