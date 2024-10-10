@@ -5,7 +5,6 @@
 /tests
 .venv
 .flake8
-.git
 .github
 .mypy_cache
 .pytest_cache
