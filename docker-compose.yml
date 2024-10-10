@@ -5,7 +5,6 @@ services:
       - ./model:/model
       - ./data:/data
     container_name: whisper-asr-worker
-    # args: ["--output-uri"]
     env_file:
       - .env.override
     logging:

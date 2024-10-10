@@ -2,6 +2,7 @@ import logging
 import os
 import time
 import tomli
+from typing import Optional
 
 from base_util import (
     get_asset_info,
@@ -37,7 +38,7 @@ pkg_meta = _get_project_meta()
 version = str(pkg_meta["version"])
 
 
-def run(input_uri: str, output_uri: str, model=None) -> bool:
+def run(input_uri: str, output_uri: str, model=None) -> Optional[str]:
     logger.info(f"Processing {input_uri} (save to --> {output_uri})")
     start_time = time.time()
     prov_steps = []  # track provenance
@@ -46,7 +47,7 @@ def run(input_uri: str, output_uri: str, model=None) -> bool:
     logger.info(result)
     if not result:
         logger.error("Could not obtain input, quitting...")
-        return False
+        return "Input download failed"
 
     prov_steps.append(result.provenance)
 
@@ -58,7 +59,7 @@ def run(input_uri: str, output_uri: str, model=None) -> bool:
     transcode_output = try_transcode(input_path, asset_id, extension)
     if not transcode_output:
         logger.error("The transcode failed to yield a valid file to continue with")
-        return False
+        return "Transcode failed"
     else:
         input_path = transcode_output.transcoded_file_path
         prov_steps.append(transcode_output.provenance)
@@ -137,7 +138,7 @@ def run(input_uri: str, output_uri: str, model=None) -> bool:
     else:
         logger.info("No output_uri specified, so all is done")
 
-    return True
+    return None
 
 
 # if S3 output_uri is supplied transfers data to S3 location
