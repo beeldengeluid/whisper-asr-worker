@@ -36,7 +36,8 @@ RUN python -m pip install --no-cache-dir -r requirements.txt
 # copy the rest into the source dir
 COPY ./ /src
 
-# Write provenance info about software versions to file
-RUN echo "whisper-asr-worker;https://github.com/beeldengeluid/whisper-asr-worker/commit/$(git rev-parse HEAD)" >> /software_provenance.txt
+# Keep commit hash for provenance of the versioning
+ARG GIT_COMMIT
+ENV GIT_COMMIT=$GIT_COMMIT
 
 ENTRYPOINT ["./docker-entrypoint.sh"]

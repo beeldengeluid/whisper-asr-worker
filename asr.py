@@ -34,7 +34,7 @@ def _get_project_meta():
 
 
 pkg_meta = _get_project_meta()
-version = str(pkg_meta["version"])
+version = os.environ["GIT_COMMIT"] if os.environ["GIT_COMMIT"] else str(pkg_meta["version"])
 
 
 def run(input_uri: str, output_uri: str, model=None) -> bool:
