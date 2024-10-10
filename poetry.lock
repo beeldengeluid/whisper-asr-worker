@@ -1778,17 +1778,6 @@ docs = ["setuptools-rust", "sphinx", "sphinx-rtd-theme"]
 testing = ["black (==22.3)", "datasets", "numpy", "pytest", "requests", "ruff"]
 
 [[package]]
-name = "tomli"
-version = "2.0.1"
-description = "A lil' TOML parser"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
-    {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
-]
-
-[[package]]
 name = "tqdm"
 version = "4.66.5"
 description = "Fast, Extensible Progress Meter"
@@ -1913,4 +1902,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "ce109977e1cb0353d5884723b201c7afd36cffd5ba5fc92618274c805b3bced7"
+content-hash = "a5c0e321583664de7845eb7ad87744a6c239c5a19297e5fa7d6f7f1e42c5197c"

@@ -1,7 +1,6 @@
 import logging
 import os
 import time
-import tomli
 
 from base_util import (
     get_asset_info,
@@ -27,14 +26,12 @@ from daan_transcript import generate_daan_transcript, DAAN_JSON_FILE
 
 logger = logging.getLogger(__name__)
 
-
-def _get_project_meta():
-    with open("pyproject.toml", mode="rb") as pyproject:
-        return tomli.load(pyproject)["tool"]["poetry"]
-
-
-pkg_meta = _get_project_meta()
-version = os.environ["GIT_COMMIT"] if os.environ["GIT_COMMIT"] else str(pkg_meta["version"])
+# Get commit hash and use it as version in prov
+version = ""
+if os.path.exists("git_commit"):
+    with open("git_commit", "r") as f:
+        for line in f:
+            version = line.strip()
 
 
 def run(input_uri: str, output_uri: str, model=None) -> bool:

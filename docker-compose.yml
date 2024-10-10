@@ -13,8 +13,8 @@ services:
         max-size: 20m
     restart: no
     # Comment below to use the CPU instead of the GPU/CUDA
-    deploy:
-      resources:
-        reservations:
-          devices:
-          - capabilities: [gpu]
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #       - capabilities: [gpu]
