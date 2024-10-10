@@ -27,7 +27,7 @@ def run_job(input_uri: str, output_uri: str):
         logger.error("Please supply the --input and --output params")
         return False
 
-    return asr.run(input_uri, output_uri)
+    asr.run(input_uri, output_uri)
 
 
 # Start the worker
