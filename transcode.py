@@ -46,7 +46,11 @@ def try_transcode(input_path, asset_id, extension) -> TranscodeOutput:
     # if the input format is not supported, fail
     if not _is_transcodable(extension):
         logger.error(f"input with extension {extension} is not transcodable")
-        return TranscodeOutput(input_path, dict(), f"Transcode failure: Input with extension {extension} is not transcodable")
+        return TranscodeOutput(
+            input_path,
+            dict(),
+            f"Transcode failure: Input with extension {extension} is not transcodable",
+        )
 
     # check if the input file was already transcoded
     transcoded_file_path = os.path.join(data_base_dir, "input", f"{asset_id}.mp3")

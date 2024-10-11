@@ -59,8 +59,10 @@ def run(input_uri: str, output_uri: str, model=None) -> Optional[str]:
     # 2. check if the input file is suitable for processing any further
     transcode_output = try_transcode(input_path, asset_id, extension)
     if transcode_output.error != "":
-        logger.error("The transcode failed to yield a valid file to continue with, quitting...")
-        remove_all_input_output(input_path, asset_id, extension, output_path)
+        logger.error(
+            "The transcode failed to yield a valid file to continue with, quitting..."
+        )
+        remove_all_input_output(input_path, asset_id, output_path)
         return transcode_output.error
     else:
         input_path = transcode_output.transcoded_file_path

@@ -19,8 +19,8 @@ class DownloadResult:
     mime_type: str
     provenance: dict
     download_time: float = -1  # time (ms) taken to receive data after request
-    content_length: int = -1  # download_data.get("content_length", -1),
     error: str = ""
+    content_length: int = -1  # download_data.get("content_length", -1),
 
 
 def download_uri(uri: str) -> DownloadResult:
@@ -47,7 +47,7 @@ def http_download(url: str) -> DownloadResult:
 
     # download if the file is not present (preventing unnecessary downloads)
     start_time = time.time()
-    download_time = -1
+    download_time = -1.0
 
     if not os.path.exists(input_file):
         logger.info(f"File {input_file} not downloaded yet")
@@ -61,7 +61,11 @@ def http_download(url: str) -> DownloadResult:
                 logger.error(f"Could not download url: {response.status_code}")
                 download_time = (time.time() - start_time) * 1000
                 return DownloadResult(
-                    input_file, mime_type, dict(), download_time, f"Input failure: Could not download url. Response code: {response.status_code}"
+                    input_file,
+                    mime_type,
+                    dict(),
+                    download_time,
+                    f"Input failure: Could not download url. Response code: {response.status_code}",
                 )
             file.write(response.content)
             file.close()
@@ -100,7 +104,7 @@ def s3_download(s3_uri: str) -> DownloadResult:
     mime_type = extension_to_mime_type(extension)
 
     start_time = time.time()
-    download_time = -1
+    download_time = -1.0
 
     if not os.path.exists(input_file):
         s3 = S3Store(s3_endpoint_url)
@@ -114,10 +118,14 @@ def s3_download(s3_uri: str) -> DownloadResult:
             logger.error("Failed to download input data from S3")
             download_time = (time.time() - start_time) * 1000
             return DownloadResult(
-                input_file, mime_type, dict(), download_time, "Input failure: Could not download S3 URI"
+                input_file,
+                mime_type,
+                dict(),
+                download_time,
+                "Input failure: Could not download S3 URI",
             )
 
-        download_time = int((time.time() - start_time) * 1000)  # time in ms
+        download_time = (time.time() - start_time) * 1000  # time in ms
     else:
         steps.append("Download skipped: input already exists")
 
