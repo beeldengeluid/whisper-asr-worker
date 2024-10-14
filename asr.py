@@ -153,6 +153,7 @@ def run(input_uri: str, output_uri: str, model=None) -> Optional[str]:
     else:
         logger.info("No output_uri specified, so all is done")
 
+    remove_all_input_output(input_path, asset_id, output_path)
     return None
 
 
