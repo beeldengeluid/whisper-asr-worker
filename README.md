@@ -64,7 +64,7 @@ The expected run of this worker (whose pipeline is defined in `asr.py`) should
 
 ## Model options
 
-If you prefer to use your own model that is stored locally, make sure to set `MODEL_BASE_DIR` to the path where the model files can be found. A model found locally will take precedence over downloading it from Huggingface or S3 (so, no matter how `W_MODEL` is set, it will ignore it if a model is present locally).
+If you prefer to use your own model that is stored locally, make sure to set `MODEL_BASE_DIR` to the path where the model files can be found.
 
 The pre-trained Whisper model version can be adjusted in the `.env` file by editing the `W_MODEL` parameter. Possible options are:
 
@@ -80,4 +80,4 @@ The pre-trained Whisper model version can be adjusted in the `.env` file by edit
 
 We recommend version `large-v2` as it performs better than `large-v3` in our [benchmarks](https://opensource-spraakherkenning-nl.github.io/ASR_NL_results/NISV/bn_nl/res_labelled.html).
 
-You can also specify an S3 URI if you have your own custom model available via S3 (by modifying the `W_MODEL` parameter).
+You can also specify an S3/HTTP URI if you want to load your own (custom) model (by modifying the `W_MODEL` parameter).

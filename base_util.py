@@ -85,3 +85,19 @@ def validate_http_uri(http_uri: str) -> bool:
         logger.error(f"No object_name specified in {http_uri}")
         return False
     return True
+
+
+def remove_all_input_output(input_path: str, asset_id: str, output_path: str) -> bool:
+    try:
+        if os.path.exists(input_path):
+            os.remove(input_path)
+        dirname, _ = os.path.split(input_path)
+        if os.path.exists(os.path.join(dirname, asset_id + ".mp3")):
+            os.remove(os.path.join(dirname, asset_id + ".mp3"))
+        if os.path.exists(output_path):
+            for file in os.listdir(output_path):
+                os.remove(file)
+        return True
+
+    except OSError:
+        return False
