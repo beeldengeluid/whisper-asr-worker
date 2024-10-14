@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "whisper-asr-worker"
-version = "0.3.0"
+version = "1.0.0"
 description = "Whisper speech-to-text worker"
 authors = ["Dragos Alexandru Balan <d.a.balan@utwente.nl>"]
 license = "MIT"

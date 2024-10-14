@@ -71,9 +71,12 @@ def run(input_uri: str, output_uri: str, model=None) -> Optional[str]:
     # 3. run ASR
     if not asr_already_done(output_path):
         logger.info("No Whisper transcript found")
-        whisper_prov = run_asr(input_path, output_path, model)
-        if whisper_prov:
-            prov_steps.append(whisper_prov)
+        whisper_prov_or_error = run_asr(input_path, output_path, model)
+        if isinstance(whisper_prov_or_error, dict):
+            prov_steps.append(whisper_prov_or_error)
+        else:
+            remove_all_input_output(input_path, asset_id, output_path)
+            return whisper_prov_or_error
     else:
         logger.info(f"Whisper transcript already present in {output_path}")
         provenance = {
@@ -96,7 +99,9 @@ def run(input_uri: str, output_uri: str, model=None) -> Optional[str]:
         if daan_prov:
             prov_steps.append(daan_prov)
         else:
-            logger.warning("Could not generate DAAN transcript")
+            logger.error("Could not generate DAAN transcript")
+            remove_all_input_output(input_path, asset_id, output_path)
+            return "DAAN Transcript failure: Could not generate DAAN transcript"
     else:
         logger.info(f"DAAN transcript already present in {output_path}")
         provenance = {
@@ -134,11 +139,17 @@ def run(input_uri: str, output_uri: str, model=None) -> Optional[str]:
 
     prov_success = save_provenance(final_prov, output_path)
     if not prov_success:
-        logger.warning("Could not save the provenance")
+        logger.error("Could not save the provenance")
+        remove_all_input_output(input_path, asset_id, output_path)
+        return "Provenance failure: Could not save the provenance"
 
     # 5. transfer output
     if output_uri:
-        transfer_asr_output(output_path, output_uri)
+        success = transfer_asr_output(output_path, output_uri)
+        if not success:
+            logger.error("Could not upload output to S3")
+            remove_all_input_output(input_path, asset_id, output_path)
+            return "Upload failure: Could not upload output to S3"
     else:
         logger.info("No output_uri specified, so all is done")
 
