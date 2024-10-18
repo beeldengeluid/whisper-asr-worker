@@ -1,6 +1,7 @@
 import logging
 import os
 import time
+from typing import Optional
 
 from base_util import (
     get_asset_info,
@@ -34,7 +35,7 @@ if os.path.exists("git_commit"):
             version = line.strip()
 
 
-def run(input_uri: str, output_uri: str, model=None) -> bool:
+def run(input_uri: str, output_uri: str, model=None) -> Optional[str]:
     logger.info(f"Processing {input_uri} (save to --> {output_uri})")
     start_time = time.time()
     prov_steps = []  # track provenance

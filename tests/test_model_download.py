@@ -2,7 +2,7 @@ import pytest
 import shutil
 import os
 
-# Mocking environment used in model_download (by loading tests/.env)
+# Mocking environment used in model_download
 os.environ["DATA_BASE_DIR"] = "data"
 os.environ["MODEL_BASE_DIR"] = "tests/input/extract_model_test"
 os.environ["S3_ENDPOINT_URL"] = "http://url.com"
