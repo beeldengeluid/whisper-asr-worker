@@ -1,8 +1,10 @@
 # import ast
 import json
 import logging
+import traceback
 import os
 import time
+from typing import Optional
 
 import faster_whisper
 from config import (
@@ -51,7 +53,6 @@ def load_model(
 def run_asr(input_path, output_dir, model=None) -> dict | str:
     logger.info(f"Starting ASR on {input_path}")
     start_time = time.time()
-    # I wanted to add more detailed errors, but function becomes too complex...
     try:
         if not model:
             logger.info("Model not passed as param, need to obtain it first")
@@ -112,16 +113,14 @@ def run_asr(input_path, output_dir, model=None) -> dict | str:
             "steps": [],
         }
 
-        if write_whisper_json(transcript, output_dir):
-            return provenance
-        else:
-            return "Transcribe failure: Could not save the transcript into a JSON file"
+        error = write_whisper_json(transcript, output_dir)
+        return error if error else provenance
     except Exception as e:
         logger.exception(str(e))
-        return "Transcribe failure: Something went wrong during transcribing"
+        return traceback.format_exc()
 
 
-def write_whisper_json(transcript: dict, output_dir: str) -> bool:
+def write_whisper_json(transcript: dict, output_dir: str) -> Optional[str]:
     logger.info("Writing whisper-transcript.json")
     try:
         if not os.path.exists(output_dir):
@@ -135,5 +134,5 @@ def write_whisper_json(transcript: dict, output_dir: str) -> bool:
             json.dump(transcript, f, ensure_ascii=False, indent=4)
     except EnvironmentError as e:  # OSError or IOError...
         logger.exception(os.strerror(e.errno))
-        return False
-    return True
+        return traceback.format_exc()
+    return None

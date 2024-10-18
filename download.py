@@ -10,8 +10,6 @@ from base_util import get_asset_info, extension_to_mime_type, validate_http_uri
 
 logger = logging.getLogger(__name__)
 
-input_file_dir = os.path.join(data_base_dir, "input/")
-
 
 @dataclass
 class DownloadResult:
@@ -41,8 +39,9 @@ def http_download(url: str) -> DownloadResult:
     steps = []  # to report if input is already downloaded
 
     fn = os.path.basename(urlparse(url).path)
-    input_file = os.path.join(input_file_dir, fn)
-    _, extension = get_asset_info(input_file)
+    asset_id, extension = get_asset_info(fn)
+    input_file_dir = os.path.join(data_base_dir, asset_id)
+    input_file = os.path.join(data_base_dir, asset_id, fn)
     mime_type = extension_to_mime_type(extension)
 
     # download if the file is not present (preventing unnecessary downloads)
@@ -58,7 +57,7 @@ def http_download(url: str) -> DownloadResult:
         with open(input_file, "wb") as file:
             response = requests.get(url)
             if response.status_code >= 400:
-                logger.error(f"Could not download url: {response.status_code}")
+                logger.error(f"Could not download url. Response code: {response.status_code}")
                 download_time = (time.time() - start_time) * 1000
                 return DownloadResult(
                     input_file,
@@ -94,6 +93,8 @@ def s3_download(s3_uri: str) -> DownloadResult:
 
     # parse S3 URI
     bucket, object_name = parse_s3_uri(s3_uri)
+    asset_id, extension = get_asset_info(object_name)
+    input_file_dir = os.path.join(data_base_dir, asset_id)
     logger.info(f"OBJECT NAME: {object_name}")
     input_file = os.path.join(
         input_file_dir,

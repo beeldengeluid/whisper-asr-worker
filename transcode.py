@@ -53,7 +53,7 @@ def try_transcode(input_path, asset_id, extension) -> TranscodeOutput:
         )
 
     # check if the input file was already transcoded
-    transcoded_file_path = os.path.join(data_base_dir, "input", f"{asset_id}.mp3")
+    transcoded_file_path = os.path.join(data_base_dir, asset_id, f"{asset_id}.mp3")
     if os.path.exists(transcoded_file_path):
         logger.info("Transcoded file is already available, no new transcode needed")
         end_time = (time.time() - start_time) * 1000

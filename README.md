@@ -81,3 +81,11 @@ The pre-trained Whisper model version can be adjusted in the `.env` file by edit
 We recommend version `large-v2` as it performs better than `large-v3` in our [benchmarks](https://opensource-spraakherkenning-nl.github.io/ASR_NL_results/NISV/bn_nl/res_labelled.html).
 
 You can also specify an S3/HTTP URI if you want to load your own (custom) model (by modifying the `W_MODEL` parameter).
+
+## Config
+
+The parameters used to configure the application can be found under `.env` file. You will also need to create a `.env.override` file that contains secrets related to the S3 connection that should normally not be exposed in the `.env` file. The parameters that should be updated with valid values in the `.env.override` are:
+
+- `S3_ENDPOINT_URL`
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
