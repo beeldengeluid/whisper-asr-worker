@@ -41,6 +41,7 @@ class Task(BaseModel):
     output_uri: str
     status: Status = Status.CREATED
     id: str | None = None
+    error_msg: str | None = None
 
 
 all_tasks = [
@@ -91,8 +92,9 @@ def try_whisper(task: Task):
     try:
         task.status = Status.PROCESSING
         update_task(task)
-        run(task.input_uri, task.output_uri, model)
-        task.status = Status.DONE
+        error_msg = run(task.input_uri, task.output_uri, model)
+        task.status = Status.ERROR if error_msg else Status.DONE
+        task.error_msg = error_msg
     except Exception:
         logger.exception("Failed to run whisper")
         task.status = Status.ERROR
