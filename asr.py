@@ -22,6 +22,7 @@ from config import (
 from download import download_uri
 from whisper import run_asr, WHISPER_JSON_FILE
 from s3_util import S3Store, parse_s3_uri
+from base_util import remove_all_input_output
 from transcode import try_transcode
 from daan_transcript import generate_daan_transcript, DAAN_JSON_FILE
 
@@ -43,9 +44,9 @@ def run(input_uri: str, output_uri: str, model=None) -> Optional[str]:
     # 1. download input
     result = download_uri(input_uri)
     logger.info(result)
-    if not result:
+    if result.error != "":
         logger.error("Could not obtain input, quitting...")
-        return "Input download failed"
+        return result.error
 
     prov_steps.append(result.provenance)
 
@@ -55,9 +56,12 @@ def run(input_uri: str, output_uri: str, model=None) -> Optional[str]:
 
     # 2. check if the input file is suitable for processing any further
     transcode_output = try_transcode(input_path, asset_id, extension)
-    if not transcode_output:
-        logger.error("The transcode failed to yield a valid file to continue with")
-        return "Transcode failed"
+    if transcode_output.error != "":
+        logger.error(
+            "The transcode failed to yield a valid file to continue with, quitting..."
+        )
+        remove_all_input_output(output_path)
+        return transcode_output.error
     else:
         input_path = transcode_output.transcoded_file_path
         prov_steps.append(transcode_output.provenance)
@@ -65,9 +69,12 @@ def run(input_uri: str, output_uri: str, model=None) -> Optional[str]:
     # 3. run ASR
     if not asr_already_done(output_path):
         logger.info("No Whisper transcript found")
-        whisper_prov = run_asr(input_path, output_path, model)
-        if whisper_prov:
-            prov_steps.append(whisper_prov)
+        whisper_prov_or_error = run_asr(input_path, output_path, model)
+        if isinstance(whisper_prov_or_error, dict):
+            prov_steps.append(whisper_prov_or_error)
+        else:
+            remove_all_input_output(output_path)
+            return whisper_prov_or_error
     else:
         logger.info(f"Whisper transcript already present in {output_path}")
         provenance = {
@@ -90,7 +97,9 @@ def run(input_uri: str, output_uri: str, model=None) -> Optional[str]:
         if daan_prov:
             prov_steps.append(daan_prov)
         else:
-            logger.warning("Could not generate DAAN transcript")
+            logger.error("Could not generate DAAN transcript")
+            remove_all_input_output(output_path)
+            return "DAAN Transcript failure: Could not generate DAAN transcript"
     else:
         logger.info(f"DAAN transcript already present in {output_path}")
         provenance = {
@@ -128,14 +137,21 @@ def run(input_uri: str, output_uri: str, model=None) -> Optional[str]:
 
     prov_success = save_provenance(final_prov, output_path)
     if not prov_success:
-        logger.warning("Could not save the provenance")
+        logger.error("Could not save the provenance")
+        remove_all_input_output(output_path)
+        return "Provenance failure: Could not save the provenance"
 
     # 5. transfer output
     if output_uri:
-        transfer_asr_output(output_path, output_uri)
+        success = transfer_asr_output(output_path, output_uri)
+        if not success:
+            logger.error("Could not upload output to S3")
+            remove_all_input_output(output_path)
+            return "Upload failure: Could not upload output to S3"
     else:
         logger.info("No output_uri specified, so all is done")
 
+    remove_all_input_output(output_path)
     return None
 
 
