@@ -57,7 +57,9 @@ def http_download(url: str) -> DownloadResult:
         with open(input_file, "wb") as file:
             response = requests.get(url)
             if response.status_code >= 400:
-                logger.error(f"Could not download url. Response code: {response.status_code}")
+                logger.error(
+                    f"Could not download url. Response code: {response.status_code}"
+                )
                 download_time = (time.time() - start_time) * 1000
                 return DownloadResult(
                     input_file,
