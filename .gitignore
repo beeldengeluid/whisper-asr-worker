@@ -1,12 +1,5 @@
 /data/*
-!/data/README.md
-!/data/input/
-/data/input/*
-!/data/input/whisper-test.mp3
-!/data/output
-/data/output/*
-!/data/output/whisper-test
-!/data/output/whisper-test/*
+!/data/whisper-test
 /model/*
 __pycache__
 .pytest_cache

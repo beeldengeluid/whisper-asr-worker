@@ -20,9 +20,9 @@ def get_asset_info(input_file: str) -> Tuple[str, str]:
     return asset_id, extension
 
 
-# i.e. {output_base_dir}/output/{input_filename_without_extension}
+# i.e. {output_base_dir}/{input_filename_without_extension}
 def asr_output_dir(input_path):
-    return os.path.join(data_base_dir, "output", get_asset_info(input_path)[0])
+    return os.path.join(data_base_dir, get_asset_info(input_path)[0])
 
 
 def extension_to_mime_type(extension: str) -> str:
@@ -85,3 +85,19 @@ def validate_http_uri(http_uri: str) -> bool:
         logger.error(f"No object_name specified in {http_uri}")
         return False
     return True
+
+
+def remove_all_input_output(path: str) -> bool:
+    try:
+        if os.path.exists(path):
+            for file in os.listdir(path):
+                os.remove(os.path.join(path, file))
+                logger.info(f"{file} has been removed successfully")
+            os.rmdir(path)
+            logger.info("All data has been deleted")
+        else:
+            logger.warning(f"{path} not found")
+            return False
+        return True
+    except OSError:
+        return False
