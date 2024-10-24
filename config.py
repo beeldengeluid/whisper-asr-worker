@@ -73,7 +73,7 @@ if s3_endpoint_url:
 
 
 assert w_device in ["cuda", "cpu"], "Please use either cuda|cpu for W_DEVICE"
-if input_uri[0:5] != "s3://" and not validators.url(output_uri):
+if w_model[0:5] != "s3://" and not validators.url(w_model):
     assert w_model in [
         "tiny",
         "base",
