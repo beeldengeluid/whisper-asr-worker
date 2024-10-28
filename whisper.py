@@ -13,7 +13,7 @@ from config import (
     w_best_of,
     w_device,
     w_model,
-    # w_temperature,
+    w_batch_size,
     w_vad,
     w_word_timestamps,
 )
@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 # loads the whisper model
 def load_model(
     model_base_dir: str, model_type: str, device: str
-) -> faster_whisper.WhisperModel:
+) -> faster_whisper.BatchedInferencePipeline | faster_whisper.WhisperModel:
     logger.info(f"Loading Whisper model {model_type} for device: {device}")
 
     # change HuggingFace dir to where model is downloaded
@@ -46,8 +46,9 @@ def load_model(
             "float16" if device == "cuda" else "float32"
         ),
     )
+    batching_model = faster_whisper.BatchedInferencePipeline(model=model)
     logger.info(f"Model loaded from location: {model_location}")
-    return model
+    return batching_model
 
 
 def run_asr(input_path, output_dir, model=None) -> dict | str:
@@ -57,14 +58,16 @@ def run_asr(input_path, output_dir, model=None) -> dict | str:
         if not model:
             logger.info("Model not passed as param, need to obtain it first")
             model = load_model(model_base_dir, w_model, w_device)
+        if w_device == "cpu":
+            logger.warning(f"Device selected is {w_device}: using a batch size of 1")
         logger.info("Processing segments")
         segments, _ = model.transcribe(
             input_path,
             vad_filter=w_vad,
             beam_size=w_beam_size,
             best_of=w_best_of,
-            # temperature=ast.literal_eval(w_temperature),
-            language="nl",
+            batch_size=w_batch_size if w_device == "cuda" else 1,
+            language="nl",  # TODO: experiment without language parameter specified (for programs with foreign speech)
             word_timestamps=w_word_timestamps,
         )
 

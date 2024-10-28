@@ -48,6 +48,8 @@ w_model = os.environ.get("W_MODEL", "large-v2")
 w_beam_size = assert_int("W_BEAM_SIZE")
 w_best_of = assert_int("W_BEST_OF")
 
+w_batch_size = assert_int("W_BATCH_SIZE")
+
 w_temperature = assert_tuple("W_TEMPERATURE")
 
 # validation for each param
