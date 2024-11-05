@@ -25,7 +25,8 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.11 1
 # - Storing the source code: /src
 # - Storing the input & output files: /data
 # - Storing the model: /model
-RUN mkdir /src /data /model
+# - Storing the PyTorch kernel cache: /model/.cache
+RUN mkdir /src /data /model /model/.cache
 
 WORKDIR /src
 

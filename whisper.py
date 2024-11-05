@@ -60,6 +60,8 @@ def run_asr(input_path, output_dir, model=None) -> dict | str:
             model = load_model(model_base_dir, w_model, w_device)
         if w_device == "cpu":
             logger.warning(f"Device selected is {w_device}: using a batch size of 1")
+
+        os.environ["PYTORCH_KERNEL_CACHE_PATH"] = model_base_dir
         logger.info("Processing segments")
         segments, _ = model.transcribe(
             input_path,
