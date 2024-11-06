@@ -9,7 +9,7 @@ package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
-faster-whisper = { url = "https://github.com/greenw0lf/faster-whisper/archive/refs/tags/v1.0.1.zip" }
+faster-whisper = { url = "https://github.com/greenw0lf/faster-whisper/archive/refs/tags/v1.0.2.zip" }
 validators = "^0.34.0"
 boto3 = "^1.35.10"
 fastapi = "^0.115.0"

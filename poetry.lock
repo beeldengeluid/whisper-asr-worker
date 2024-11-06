@@ -606,7 +606,7 @@ description = "Faster Whisper transcription with CTranslate2"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "v1.0.1.zip", hash = "sha256:b3760a2fadbffca1a238de683acf48ddf1cbd2e8751b10a5387cfdcf3dc0bf74"},
+    {file = "v1.0.2.zip", hash = "sha256:5c896b1fdb313424d3044a23eafbbb6b1b97e16d4451ab10a3852bd1464ece8c"},
 ]
 
 [package.dependencies]
@@ -623,7 +623,7 @@ dev = ["black (==23.*)", "flake8 (==6.*)", "isort (==5.*)", "pytest (==7.*)"]
 
 [package.source]
 type = "url"
-url = "https://github.com/greenw0lf/faster-whisper/archive/refs/tags/v1.0.1.zip"
+url = "https://github.com/greenw0lf/faster-whisper/archive/refs/tags/v1.0.2.zip"
 
 [[package]]
 name = "filelock"
@@ -1923,4 +1923,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "0d588c4932425f65216c02b6963e4ac23aaaa4f1bf3b8799c1a0b79e1b518d01"
+content-hash = "5e28e9a52b3962ef51da0577530503d2b8cfb0315ee7a522dfea01ae00f75381"
