@@ -1235,6 +1235,20 @@ files = [
 ]
 
 [[package]]
+name = "py3nvml"
+version = "0.2.7"
+description = "Python 3 Bindings for the NVIDIA Management Library"
+optional = false
+python-versions = "*"
+files = [
+    {file = "py3nvml-0.2.7-py3-none-any.whl", hash = "sha256:30101170d1f51419c8d21fd8ca6cdc333a552b4f8a945c2fc7d107d77e4220dd"},
+    {file = "py3nvml-0.2.7.tar.gz", hash = "sha256:09ee1d04598a6e664e24465f804ce3bfe119a6fdb5362df1c168f8aa929fbd73"},
+]
+
+[package.dependencies]
+xmltodict = "*"
+
+[[package]]
 name = "pycodestyle"
 version = "2.12.1"
 description = "Python style guide checker"
@@ -1924,4 +1938,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "7244adc6bd5be5ce9d05194113665f3ba565d265ecc8b74263785bb96a2439ec"
+content-hash = "e59ccd6a24c8eeeb432b7f653c3a362e0083f27935321e4015ebf64636ad27d0"

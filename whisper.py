@@ -7,6 +7,7 @@ import time
 from typing import Optional
 
 import faster_whisper
+
 from config import (
     model_base_dir,
     w_beam_size,
@@ -18,6 +19,7 @@ from config import (
     w_word_timestamps,
 )
 from base_util import get_asset_info
+from gpu_measure import GpuMemoryMeasure
 from model_download import get_model_location
 
 
@@ -63,6 +65,11 @@ def run_asr(input_path, output_dir, model=None) -> dict | str:
 
         os.environ["PYTORCH_KERNEL_CACHE_PATH"] = model_base_dir
         logger.info("Processing segments")
+
+        if w_device == "cuda":
+            gpu_mem_measure = GpuMemoryMeasure()
+            gpu_mem_measure.start_measure_gpu_mem()
+
         segments, _ = model.transcribe(
             input_path,
             vad_filter=w_vad,
@@ -105,6 +112,18 @@ def run_asr(input_path, output_dir, model=None) -> dict | str:
         # Also added "carrierId" because the DAAN format requires it
         transcript = {"carrierId": asset_id, "segments": segments_to_add}
         end_time = time.time() - start_time
+
+        if w_device == "cuda":
+            max_mem_usage, gpu_limit = gpu_mem_measure.stop_measure_gpu_mem()
+            logger.info(
+                "Maximum GPU memory usage: %dMiB / %dMiB (%.2f%%)"
+                % (
+                    max_mem_usage,
+                    gpu_limit,
+                    (max_mem_usage / gpu_limit) * 100,
+                )
+            )
+            del gpu_mem_measure
 
         provenance = {
             "activity_name": "Running Whisper",
