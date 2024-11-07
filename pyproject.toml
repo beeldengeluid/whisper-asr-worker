@@ -76,6 +76,7 @@ exclude = "misc"
 module = [
   'yaml',
   'faster_whisper.*',
-  'boto3.*'
+  'boto3.*',
+  'py3nvml.*'
 ]
 ignore_missing_imports = true

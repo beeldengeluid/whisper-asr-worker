@@ -30,7 +30,9 @@ class GpuMemoryMeasure:
     def start_measure_gpu_mem(self):
         def _get_mem_usage():
             while True:
-                self.gpu_mem_usage.append(nvml.nvmlDeviceGetMemoryInfo(self.handle).used >> 20)
+                self.gpu_mem_usage.append(
+                    nvml.nvmlDeviceGetMemoryInfo(self.handle).used >> 20
+                )
                 time.sleep(0.5)
 
                 if self.stop:
