@@ -111,7 +111,7 @@ def run_asr(input_path, output_dir, model=None) -> dict | str:
         asset_id, _ = get_asset_info(input_path)
         # Also added "carrierId" because the DAAN format requires it
         transcript = {"carrierId": asset_id, "segments": segments_to_add}
-        end_time = time.time() - start_time
+        end_time = (time.time() - start_time) * 1000
 
         if w_device == "cuda":
             max_mem_usage, gpu_limit = gpu_mem_measure.stop_measure_gpu_mem()
