@@ -16,7 +16,7 @@ fastapi = "^0.115.0"
 uvicorn = "^0.30.6"
 
 [tool.poetry.group.dev.dependencies]
-moto = "^5.0.13"
+moto = "^5.0.21"
 types-requests = "^2.28.11.2"
 mypy = "^1.13.0"
 flake8 = "^7.1.1"
