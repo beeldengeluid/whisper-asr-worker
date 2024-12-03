@@ -78,6 +78,7 @@ def run_asr(input_path, output_dir, model=None) -> dict | str:
             batch_size=w_batch_size if w_device == "cuda" else 1,
             language="nl",  # TODO: experiment without language parameter specified (for programs with foreign speech)
             word_timestamps=w_word_timestamps,
+            log_progress=True,
         )
 
         segments_to_add = []
