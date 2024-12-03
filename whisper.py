@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 # loads the whisper model
 def load_model(
     model_base_dir: str, model_type: str, device: str
-) -> faster_whisper.BatchedInferencePipeline | faster_whisper.WhisperModel:
+) -> faster_whisper.BatchedInferencePipeline:
     logger.info(f"Loading Whisper model {model_type} for device: {device}")
 
     # change HuggingFace dir to where model is downloaded
