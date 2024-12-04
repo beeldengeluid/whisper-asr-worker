@@ -11,7 +11,7 @@ COPY ./poetry.lock ./poetry.lock
 COPY ./pyproject.toml ./pyproject.toml
 RUN pipx run poetry export --format requirements.txt --output requirements.txt
 
-FROM nvidia/cuda:12.2.2-cudnn8-runtime-ubuntu22.04
+FROM nvidia/cuda:12.3.2-cudnn9-runtime-ubuntu22.04
 
 # Install Python & ffmpeg
 RUN apt-get update && \
@@ -25,7 +25,8 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.11 1
 # - Storing the source code: /src
 # - Storing the input & output files: /data
 # - Storing the model: /model
-RUN mkdir /src /data /model
+# - Storing the PyTorch kernel cache: /model/.cache
+RUN mkdir /src /data /model /model/.cache
 
 WORKDIR /src
 

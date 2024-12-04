@@ -92,7 +92,6 @@ def remove_all_input_output(path: str) -> bool:
         if os.path.exists(path):
             for file in os.listdir(path):
                 os.remove(os.path.join(path, file))
-                logger.info(f"{file} has been removed successfully")
             os.rmdir(path)
             logger.info("All data has been deleted")
         else:

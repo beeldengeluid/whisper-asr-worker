@@ -7,17 +7,19 @@ import time
 from typing import Optional
 
 import faster_whisper
+
 from config import (
     model_base_dir,
     w_beam_size,
     w_best_of,
     w_device,
     w_model,
-    # w_temperature,
+    w_batch_size,
     w_vad,
     w_word_timestamps,
 )
 from base_util import get_asset_info
+from gpu_measure import GpuMemoryMeasure
 from model_download import get_model_location
 
 
@@ -28,7 +30,7 @@ logger = logging.getLogger(__name__)
 # loads the whisper model
 def load_model(
     model_base_dir: str, model_type: str, device: str
-) -> faster_whisper.WhisperModel:
+) -> faster_whisper.BatchedInferencePipeline:
     logger.info(f"Loading Whisper model {model_type} for device: {device}")
 
     # change HuggingFace dir to where model is downloaded
@@ -46,8 +48,9 @@ def load_model(
             "float16" if device == "cuda" else "float32"
         ),
     )
+    batching_model = faster_whisper.BatchedInferencePipeline(model=model)
     logger.info(f"Model loaded from location: {model_location}")
-    return model
+    return batching_model
 
 
 def run_asr(input_path, output_dir, model=None) -> dict | str:
@@ -57,14 +60,23 @@ def run_asr(input_path, output_dir, model=None) -> dict | str:
         if not model:
             logger.info("Model not passed as param, need to obtain it first")
             model = load_model(model_base_dir, w_model, w_device)
+        if w_device == "cpu":
+            logger.warning(f"Device selected is {w_device}: using a batch size of 1")
+
+        os.environ["PYTORCH_KERNEL_CACHE_PATH"] = model_base_dir
         logger.info("Processing segments")
+
+        if w_device == "cuda":
+            gpu_mem_measure = GpuMemoryMeasure()
+            gpu_mem_measure.start_measure_gpu_mem()
+
         segments, _ = model.transcribe(
             input_path,
             vad_filter=w_vad,
             beam_size=w_beam_size,
             best_of=w_best_of,
-            # temperature=ast.literal_eval(w_temperature),
-            language="nl",
+            batch_size=w_batch_size if w_device == "cuda" else 1,
+            language="nl",  # TODO: experiment without language parameter specified (for programs with foreign speech)
             word_timestamps=w_word_timestamps,
         )
 
@@ -99,7 +111,19 @@ def run_asr(input_path, output_dir, model=None) -> dict | str:
         asset_id, _ = get_asset_info(input_path)
         # Also added "carrierId" because the DAAN format requires it
         transcript = {"carrierId": asset_id, "segments": segments_to_add}
-        end_time = time.time() - start_time
+        end_time = (time.time() - start_time) * 1000
+
+        if w_device == "cuda":
+            max_mem_usage, gpu_limit = gpu_mem_measure.stop_measure_gpu_mem()
+            logger.info(
+                "Maximum GPU memory usage: %dMiB / %dMiB (%.2f%%)"
+                % (
+                    max_mem_usage,
+                    gpu_limit,
+                    (max_mem_usage / gpu_limit) * 100,
+                )
+            )
+            del gpu_mem_measure
 
         provenance = {
             "activity_name": "Running Whisper",
