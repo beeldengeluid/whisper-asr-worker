@@ -4,7 +4,6 @@ import time
 from typing import Optional
 
 from base_util import (
-    get_asset_info,
     asr_output_dir,
     save_provenance,
     PROVENANCE_JSON_FILE,
@@ -23,7 +22,6 @@ from download import download_uri
 from whisper import run_asr, WHISPER_JSON_FILE
 from s3_util import S3Store, parse_s3_uri
 from base_util import remove_all_input_output
-from transcode import try_transcode
 from daan_transcript import generate_daan_transcript, DAAN_JSON_FILE
 
 logger = logging.getLogger(__name__)
@@ -37,7 +35,7 @@ version = ""
 #             version = line.strip()
 
 
-def run(input_uri: str, output_uri: str, model=None) -> Optional[str]:
+def run(input_uri: str, output_uri: str = "", model=None) -> Optional[str]:
     logger.info(f"Processing {input_uri} (save to --> {output_uri})")
     start_time = time.time()
     prov_steps = []  # track provenance
@@ -51,20 +49,19 @@ def run(input_uri: str, output_uri: str, model=None) -> Optional[str]:
     prov_steps.append(result.provenance)
 
     input_path = result.file_path
-    asset_id, extension = get_asset_info(input_path)
     output_path = asr_output_dir(input_path)
 
-    # 2. check if the input file is suitable for processing any further
-    transcode_output = try_transcode(input_path, asset_id, extension)
-    if transcode_output.error != "":
-        logger.error(
-            "The transcode failed to yield a valid file to continue with, quitting..."
-        )
-        remove_all_input_output(output_path)
-        return transcode_output.error
-    else:
-        input_path = transcode_output.transcoded_file_path
-        prov_steps.append(transcode_output.provenance)
+    # # 2. check if the input file is suitable for processing any further
+    # transcode_output = try_transcode(input_path, asset_id, extension)
+    # if transcode_output.error != "":
+    #     logger.error(
+    #         "The transcode failed to yield a valid file to continue with, quitting..."
+    #     )
+    #     remove_all_input_output(output_path)
+    #     return transcode_output.error
+    # else:
+    #     input_path = transcode_output.transcoded_file_path
+    #     prov_steps.append(transcode_output.provenance)
 
     # 3. run ASR
     if not asr_already_done(output_path):
@@ -144,14 +141,13 @@ def run(input_uri: str, output_uri: str, model=None) -> Optional[str]:
     # 5. transfer output
     if output_uri:
         success = transfer_asr_output(output_path, output_uri)
+        remove_all_input_output(output_path)
         if not success:
             logger.error("Could not upload output to S3")
-            remove_all_input_output(output_path)
             return "Upload failure: Could not upload output to S3"
     else:
         logger.info("No output_uri specified, so all is done")
 
-    remove_all_input_output(output_path)
     return None
 
 
