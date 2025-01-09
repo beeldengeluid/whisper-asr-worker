@@ -12,6 +12,10 @@ from config import (
     w_model,
 )
 
+LOG_FORMAT = "%(asctime)s|%(levelname)s|%(process)d|%(module)s|%(funcName)s|%(lineno)d|%(message)s"
+logging.basicConfig(
+    format=LOG_FORMAT,
+)
 logger = logging.getLogger(__name__)
 api = FastAPI()
 
