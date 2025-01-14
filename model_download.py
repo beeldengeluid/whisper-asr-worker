@@ -5,7 +5,7 @@ from urllib.parse import urlparse
 import requests
 from s3_util import S3Store, parse_s3_uri, validate_s3_uri
 from base_util import get_asset_info, validate_http_uri
-from config import s3_endpoint_url
+from config import S3_ENDPOINT_URL
 
 
 logger = logging.getLogger(__name__)
@@ -58,7 +58,7 @@ def check_s3_location(base_dir: str, whisper_model: str) -> str:
     if os.path.exists(destination):
         logger.info("Model already exists")
         return destination
-    s3 = S3Store(s3_endpoint_url)
+    s3 = S3Store(S3_ENDPOINT_URL)
     success = s3.download_file(bucket, object_name, base_dir)
     if not success:
         logger.error(f"Could not download {whisper_model} into {base_dir}")

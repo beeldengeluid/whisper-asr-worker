@@ -7,18 +7,18 @@ from whisper import load_model
 from enum import Enum
 from pydantic import BaseModel
 from config import (
-    model_base_dir,
-    w_device,
-    w_model,
+    MODEL_BASE_DIR,
+    W_DEVICE,
+    W_MODEL,
 )
 
 logger = logging.getLogger(__name__)
 api = FastAPI()
 
-logger.info(f"Loading model on device {w_device}")
+logger.info(f"Loading model on device {W_DEVICE}")
 
 # load the model in memory on API startup
-model = load_model(model_base_dir, w_model, w_device)
+model = load_model(MODEL_BASE_DIR, W_MODEL, W_DEVICE)
 
 
 class Status(Enum):
@@ -38,52 +38,31 @@ StatusToHTTP = {
 
 class Task(BaseModel):
     input_uri: str
-    output_uri: str
+    output_uri: str = ""
     status: Status = Status.CREATED
     id: str | None = None
     error_msg: str | None = None
+    response: dict | None = None
 
 
-all_tasks = [
-    {
-        "input_uri": "http://modelhosting.beng.nl/whisper-asr.mp3",
-        "output_uri": "http://modelhosting.beng.nl/assets/whisper-asr",
-        "id": "test1",
-    }
-]
+all_tasks: dict[str, Task] = {}
 
 current_task: Optional[Task] = None
 
 
-def get_task_by_id(task_id: str) -> Optional[dict]:
-    tasks_with_id = list(filter(lambda t: t.get("id", "") == task_id, all_tasks))
-    return tasks_with_id[0] if tasks_with_id else None
-
-
-def get_task_index(task_id: str) -> int:
-    for index, task in enumerate(all_tasks):
-        if task.get("id", "") == task_id:
-            return index
-    return -1
-
-
 def delete_task(task_id) -> bool:
-    task_index = get_task_index(task_id)
-    if task_index == -1:
-        return False
-    del all_tasks[task_index]
-    return True
+    try:
+        del all_tasks[task_id]
+    except KeyError:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Task {task_id} not found"
+        )
 
 
 def update_task(task: Task) -> bool:
     if not task or not task.id:
-        logger.warning("Tried to update task without ID")
-        return False
-    task_index = get_task_index(task.id)
-    if task_index == -1:
-        return False
-    all_tasks[task_index] = task.dict()
-    return True
+        raise Exception("Tried to update task without task or ID")
+    all_tasks[task.id] = task
 
 
 def try_whisper(task: Task):
@@ -92,14 +71,18 @@ def try_whisper(task: Task):
     try:
         task.status = Status.PROCESSING
         update_task(task)
-        error_msg = run(task.input_uri, task.output_uri, model)
-        task.status = Status.ERROR if error_msg else Status.DONE
-        task.error_msg = error_msg
-    except Exception:
-        logger.exception("Failed to run whisper")
+        outputs = run(task.input_uri, task.output_uri, model)
+        if outputs:
+            task.status = Status.DONE
+            task.response = outputs
+            logger.info(f"Successfully transcribed task {task.id}")
+    except Exception as e:
+        logger.error("Failed to run Whisper")
+        logger.exception(e)
         task.status = Status.ERROR
+        task.error_msg = str(e)
     update_task(task)
-    logger.info(f"Done running Whisper for task {task.id}")
+    logger.info(f"Task {task.id} has been updated")
 
 
 @api.get("/tasks")
@@ -132,36 +115,36 @@ async def create_task(
     task.status = Status.CREATED
     current_task = task
     task_dict = task.dict()
-    all_tasks.append(task_dict)
+    all_tasks["task_id"] = task
     return {"data": task_dict, "msg": "Successfully added task", "task_id": task.id}
 
 
 @api.get("/tasks/{task_id}")
 async def get_task(task_id: str, response: Response):
-    task = get_task_by_id(task_id)
-    if not task:
+    try:
+        task = all_tasks[task_id]
+    except KeyError:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"Task {task_id} not found"
         )
-    response.status_code = StatusToHTTP[task["status"]]
+    response.status_code = StatusToHTTP[task.status]
     return {"data": task}
 
 
 @api.delete("/tasks/{task_id}")
 async def remove_task(task_id: str):
-    success = delete_task(task_id)
-    if not success:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Task {task_id} not found"
-        )
-    return {
-        "msg": (
-            f"Successfully deleted task {task_id}"
-            if success
-            else f"Failed to delete task {task_id}"
-        ),
-        "task_id": task_id,
-    }
+    try:
+        delete_task(task_id)
+        return {
+            "msg": f"Successfully deleted task {task_id}",
+            "task_id": task_id,
+        }
+    except HTTPException as e:
+        logger.error(e)
+        return {
+            "msg": f"Failed to delete task {task_id}",
+            "task_id": task_id,
+        }
 
 
 @api.get("/ping")

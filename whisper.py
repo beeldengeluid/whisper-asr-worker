@@ -1,29 +1,27 @@
 # import ast
 import json
 import logging
-import traceback
 import os
 import time
-from typing import Optional
 
 import faster_whisper
 
 from config import (
-    model_base_dir,
-    w_beam_size,
-    w_best_of,
-    w_device,
-    w_model,
-    w_batch_size,
-    w_vad,
-    w_word_timestamps,
+    MODEL_BASE_DIR,
+    W_BEAM_SIZE,
+    W_BEST_OF,
+    W_DEVICE,
+    W_MODEL,
+    W_BATCH_SIZE,
+    W_VAD,
+    W_WORD_TIMESTAMPS,
+    WHISPER_JSON_FILE,
 )
-from base_util import get_asset_info
+from base_util import Provenance
 from gpu_measure import GpuMemoryMeasure
 from model_download import get_model_location
 
 
-WHISPER_JSON_FILE = "whisper-transcript.json"
 logger = logging.getLogger(__name__)
 
 
@@ -37,7 +35,7 @@ def load_model(
     os.environ["HF_HOME"] = model_base_dir
 
     # determine loading locally or have Whisper download from HuggingFace
-    model_location = get_model_location(model_base_dir, w_model)
+    model_location = get_model_location(model_base_dir, W_MODEL)
 
     if model_location == "":
         raise ValueError("Transcribe failure: Model could not be loaded")
@@ -53,110 +51,100 @@ def load_model(
     return batching_model
 
 
-def run_asr(input_path, output_dir, model=None) -> dict | str:
+def run_asr(
+    input_path: str,
+    output_dir: str,
+    asset_id: str,
+    model=None,
+) -> dict:
     logger.info(f"Starting ASR on {input_path}")
     start_time = time.time()
-    try:
-        if not model:
-            logger.info("Model not passed as param, need to obtain it first")
-            model = load_model(model_base_dir, w_model, w_device)
-        if w_device == "cpu":
-            logger.warning(f"Device selected is {w_device}: using a batch size of 1")
 
-        os.environ["PYTORCH_KERNEL_CACHE_PATH"] = model_base_dir
-        logger.info("Processing segments")
+    if not model:
+        logger.info("Model not passed as param, need to obtain it first")
+        model = load_model(MODEL_BASE_DIR, W_MODEL, W_DEVICE)
+    if W_DEVICE == "cpu":
+        logger.warning(f"Device selected is {W_DEVICE}: using a batch size of 1")
 
-        if w_device == "cuda":
-            gpu_mem_measure = GpuMemoryMeasure()
-            gpu_mem_measure.start_measure_gpu_mem()
+    os.environ["PYTORCH_KERNEL_CACHE_PATH"] = MODEL_BASE_DIR
+    logger.info("Processing segments")
 
-        segments, _ = model.transcribe(
-            input_path,
-            vad_filter=w_vad,
-            beam_size=w_beam_size,
-            best_of=w_best_of,
-            batch_size=w_batch_size if w_device == "cuda" else 1,
-            language="nl",  # TODO: experiment without language parameter specified (for programs with foreign speech)
-            word_timestamps=w_word_timestamps,
-        )
+    if W_DEVICE == "cuda":
+        gpu_mem_measure = GpuMemoryMeasure()
+        gpu_mem_measure.start_measure_gpu_mem()
 
-        segments_to_add = []
-        for segment in segments:
-            words_to_add = []
-            if w_word_timestamps:
-                for word in segment.words:
-                    words_to_add.append(
-                        {
-                            "text": word.word.strip(),
-                            "start": word.start,
-                            "end": word.end,
-                            "confidence": word.probability,
-                        }
-                    )
-            segments_to_add.append(
-                {
-                    "id": segment.id,
-                    "seek": segment.seek,
-                    "start": segment.start,
-                    "end": segment.end,
-                    "text": segment.text.strip(),
-                    "tokens": segment.tokens,
-                    "temperature": segment.temperature,
-                    "avg_logprob": segment.avg_logprob,
-                    "compression_ratio": segment.compression_ratio,
-                    "no_speech_prob": segment.no_speech_prob,
-                    "words": words_to_add,
-                }
-            )
-        asset_id, _ = get_asset_info(input_path)
-        # Also added "carrierId" because the DAAN format requires it
-        transcript = {"carrierId": asset_id, "segments": segments_to_add}
-        end_time = (time.time() - start_time) * 1000
+    segments, _ = model.transcribe(
+        input_path,
+        vad_filter=W_VAD,
+        beam_size=W_BEAM_SIZE,
+        best_of=W_BEST_OF,
+        batch_size=W_BATCH_SIZE if W_DEVICE == "cuda" else 1,
+        language="nl",  # TODO: experiment without language parameter specified (for programs with foreign speech)
+        word_timestamps=W_WORD_TIMESTAMPS,
+    )
 
-        if w_device == "cuda":
-            max_mem_usage, gpu_limit = gpu_mem_measure.stop_measure_gpu_mem()
-            logger.info(
-                "Maximum GPU memory usage: %dMiB / %dMiB (%.2f%%)"
-                % (
-                    max_mem_usage,
-                    gpu_limit,
-                    (max_mem_usage / gpu_limit) * 100,
+    segments_to_add = []
+    for segment in segments:
+        words_to_add = []
+        if W_WORD_TIMESTAMPS:
+            for word in segment.words:
+                words_to_add.append(
+                    {
+                        "text": word.word.strip(),
+                        "start": word.start,
+                        "end": word.end,
+                        "confidence": word.probability,
+                    }
                 )
+        segments_to_add.append(
+            {
+                "id": segment.id,
+                "seek": segment.seek,
+                "start": segment.start,
+                "end": segment.end,
+                "text": segment.text.strip(),
+                "tokens": segment.tokens,
+                "temperature": segment.temperature,
+                "avg_logprob": segment.avg_logprob,
+                "compression_ratio": segment.compression_ratio,
+                "no_speech_prob": segment.no_speech_prob,
+                "words": words_to_add,
+            }
+        )
+    # Also added "carrierId" because the DAAN format requires it
+    transcript = {"carrierId": asset_id, "segments": segments_to_add}
+    end_time = (time.time() - start_time) * 1000
+
+    if W_DEVICE == "cuda":
+        max_mem_usage, gpu_limit = gpu_mem_measure.stop_measure_gpu_mem()
+        logger.info(
+            "Maximum GPU memory usage: %dMiB / %dMiB (%.2f%%)"
+            % (
+                max_mem_usage,
+                gpu_limit,
+                (max_mem_usage / gpu_limit) * 100,
             )
-            del gpu_mem_measure
+        )
+        del gpu_mem_measure
 
-        provenance = {
-            "activity_name": "Running Whisper",
-            "activity_description": "Runs Whisper to transcribe the input audio file",
-            "processing_time_ms": end_time,
-            "start_time_unix": start_time,
-            "parameters": [],
-            "software_version": faster_whisper.__version__,
-            "input_data": input_path,
-            "output_data": transcript,
-            "steps": [],
-        }
+    provenance = Provenance(
+        activity_name="Running",
+        activity_description="Runs Whisper to transcribe the input audio file",
+        processing_time_ms=end_time,
+        start_time_unix=start_time,
+        input_data=input_path,
+        output_data=transcript,
+    )
 
-        error = write_whisper_json(transcript, output_dir)
-        return error if error else provenance
-    except Exception as e:
-        logger.exception(str(e))
-        return traceback.format_exc()
+    write_whisper_json(transcript, output_dir)
+    return provenance
 
 
-def write_whisper_json(transcript: dict, output_dir: str) -> Optional[str]:
+def write_whisper_json(transcript: dict, output_dir: str):
     logger.info("Writing whisper-transcript.json")
-    try:
-        if not os.path.exists(output_dir):
-            logger.info(f"{output_dir} does not exist, creating it now")
-            os.makedirs(output_dir)
 
-        with open(
-            os.path.join(output_dir, WHISPER_JSON_FILE), "w+", encoding="utf-8"
-        ) as f:
-            logger.info(transcript)
-            json.dump(transcript, f, ensure_ascii=False, indent=4)
-    except EnvironmentError as e:  # OSError or IOError...
-        logger.exception(os.strerror(e.errno))
-        return traceback.format_exc()
-    return None
+    with open(
+        os.path.join(output_dir, WHISPER_JSON_FILE), "w+", encoding="utf-8"
+    ) as f:
+        logger.debug(transcript)
+        json.dump(transcript, f, ensure_ascii=False, indent=4)

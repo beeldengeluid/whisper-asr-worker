@@ -1,179 +1,130 @@
 import logging
 import os
 import time
-from typing import Optional
+from urllib.parse import urlparse
 
 from base_util import (
     get_asset_info,
-    asr_output_dir,
     save_provenance,
-    PROVENANCE_JSON_FILE,
 )
 from config import (
-    s3_endpoint_url,
-    w_word_timestamps,
-    w_device,
-    w_model,
-    w_beam_size,
-    w_best_of,
-    w_vad,
+    DATA_BASE_DIR,
+    W_WORD_TIMESTAMPS,
+    W_DEVICE,
+    W_MODEL,
+    W_BEAM_SIZE,
+    W_BEST_OF,
+    W_VAD,
+    WHISPER_JSON_FILE,
+    DAAN_JSON_FILE,
+    PROV_FILENAME,
 )
 
 from download import download_uri
-from whisper import run_asr, WHISPER_JSON_FILE
-from s3_util import S3Store, parse_s3_uri
-from base_util import remove_all_input_output
+from whisper import run_asr
+from base_util import remove_all_input_output, transfer_asr_output, Provenance
 from transcode import try_transcode
-from daan_transcript import generate_daan_transcript, DAAN_JSON_FILE
+from daan_transcript import generate_daan_transcript
 
 logger = logging.getLogger(__name__)
 
-# TODO: Get commit hash and use it as version in prov
-# (prev impl didn't work)
-version = ""
-# if os.path.exists("git_commit"):
-#     with open("git_commit", "r") as f:
-#         for line in f:
-#             version = line.strip()
 
-
-def run(input_uri: str, output_uri: str, model=None) -> Optional[str]:
+def run(input_uri: str, output_uri: str, model=None) -> dict:
     logger.info(f"Processing {input_uri} (save to --> {output_uri})")
     start_time = time.time()
     prov_steps = []  # track provenance
-    # 1. download input
-    result = download_uri(input_uri)
-    logger.info(result)
-    if result.error != "":
-        logger.error("Could not obtain input, quitting...")
-        return result.error
 
-    prov_steps.append(result.provenance)
+    try:
+        # 1. get all needed info about input
+        fn = os.path.basename(urlparse(input_uri).path)
+        asset_id, extension = get_asset_info(fn)
+        data_dir = os.path.join(DATA_BASE_DIR, asset_id)
 
-    input_path = result.file_path
-    asset_id, extension = get_asset_info(input_path)
-    output_path = asr_output_dir(input_path)
+        # 2. download input
+        dl_result = download_uri(input_uri, data_dir, fn, extension)
+        logger.info(dl_result)
 
-    # 2. check if the input file is suitable for processing any further
-    transcode_output = try_transcode(input_path, asset_id, extension)
-    if transcode_output.error != "":
-        logger.error(
-            "The transcode failed to yield a valid file to continue with, quitting..."
+        prov_steps.append(dl_result.provenance)
+
+        # 3. check if the input file is suitable for processing any further
+        transcode_prov = try_transcode(
+            dl_result.file_path, asset_id, extension, data_dir
         )
-        remove_all_input_output(output_path)
-        return transcode_output.error
-    else:
-        input_path = transcode_output.transcoded_file_path
-        prov_steps.append(transcode_output.provenance)
+        prov_steps.append(transcode_prov)
 
-    # 3. run ASR
-    if not asr_already_done(output_path):
-        logger.info("No Whisper transcript found")
-        whisper_prov_or_error = run_asr(input_path, output_path, model)
-        if isinstance(whisper_prov_or_error, dict):
-            prov_steps.append(whisper_prov_or_error)
+        # 4. run ASR
+        whisper_prov = Provenance(
+            activity_name="Whisper transcript already exists",
+            activity_description="",
+            start_time_unix=time.time(),
+            input_data="",
+        )
+
+        if not asr_already_done(data_dir):
+            logger.info("No Whisper transcript found")
+            whisper_prov = run_asr(dl_result.file_path, data_dir, asset_id, model)
         else:
-            remove_all_input_output(output_path)
-            return whisper_prov_or_error
-    else:
-        logger.info(f"Whisper transcript already present in {output_path}")
-        provenance = {
-            "activity_name": "Whisper transcript already exists",
-            "activity_description": "",
-            "processing_time_ms": "",
-            "start_time_unix": "",
-            "parameters": [],
-            "software_version": "",
-            "input_data": "",
-            "output_data": "",
-            "steps": [],
-        }
-        prov_steps.append(provenance)
+            logger.info(f"Whisper transcript already present in {data_dir}")
 
-    # 4. generate JSON transcript
-    if not daan_transcript_already_done(output_path):
-        logger.info("No DAAN transcript found")
-        daan_prov = generate_daan_transcript(output_path)
-        if daan_prov:
-            prov_steps.append(daan_prov)
+        prov_steps.append(whisper_prov)
+
+        # 5. generate DAAN format transcript
+        daan_prov = Provenance(
+            activity_name="DAAN transcript already exists",
+            activity_description="",
+            start_time_unix=time.time(),
+            input_data="",
+        )
+
+        if not daan_transcript_already_done(data_dir):
+            logger.info("No DAAN transcript found")
+            daan_prov = generate_daan_transcript(data_dir)
         else:
-            logger.error("Could not generate DAAN transcript")
-            remove_all_input_output(output_path)
-            return "DAAN Transcript failure: Could not generate DAAN transcript"
-    else:
-        logger.info(f"DAAN transcript already present in {output_path}")
-        provenance = {
-            "activity_name": "DAAN transcript already exists",
-            "activity_description": "",
-            "processing_time_ms": "",
-            "start_time_unix": "",
-            "parameters": [],
-            "software_version": "",
-            "input_data": "",
-            "output_data": "",
-            "steps": [],
+            logger.info(f"DAAN transcript already present in {data_dir}")
+
+        prov_steps.append(daan_prov)
+
+        # 6. generate final provenance
+        end_time = (time.time() - start_time) * 1000
+        final_prov = Provenance(
+            activity_name="Whisper ASR Worker",
+            activity_description="Worker that gets a video/audio file as input and outputs JSON transcripts in various formats",
+            processing_time_ms=end_time,
+            start_time_unix=start_time,
+            parameters={
+                "WORD_TIMESTAMPS": W_WORD_TIMESTAMPS,
+                "DEVICE": W_DEVICE,
+                "VAD": W_VAD,
+                "MODEL": W_MODEL,
+                "BEAM_SIZE": W_BEAM_SIZE,
+                "BEST_OF": W_BEST_OF,
+            },
+            input_data=input_uri,
+            output_data=output_uri if output_uri else data_dir,
+            steps=prov_steps,
+        )
+
+        save_provenance(final_prov, data_dir)
+
+        # 7. transfer output
+        if output_uri:
+            transfer_asr_output(data_dir, output_uri)
+            remove_all_input_output(data_dir)
+        else:
+            logger.info("No output_uri specified, so all is done")
+
+        return {
+            "whisper_transcript": WHISPER_JSON_FILE,
+            "daan_transcript": DAAN_JSON_FILE,
+            "provenance": PROV_FILENAME
         }
-        prov_steps.append(provenance)
 
-    end_time = (time.time() - start_time) * 1000
-    final_prov = {
-        "activity_name": "Whisper ASR Worker",
-        "activity_description": "Worker that gets a video/audio file as input and outputs JSON transcripts in various formats",
-        "processing_time_ms": end_time,
-        "start_time_unix": start_time,
-        "parameters": {
-            "word_timestamps": w_word_timestamps,
-            "device": w_device,
-            "vad": w_vad,
-            "model": w_model,
-            "beam_size": w_beam_size,
-            "best_of": w_best_of,
-        },
-        "software_version": version,
-        "input_data": input_uri,
-        "output_data": output_uri if output_uri else output_path,
-        "steps": prov_steps,
-    }
-
-    prov_success = save_provenance(final_prov, output_path)
-    if not prov_success:
-        logger.error("Could not save the provenance")
-        remove_all_input_output(output_path)
-        return "Provenance failure: Could not save the provenance"
-
-    # 5. transfer output
-    if output_uri:
-        success = transfer_asr_output(output_path, output_uri)
-        if not success:
-            logger.error("Could not upload output to S3")
-            remove_all_input_output(output_path)
-            return "Upload failure: Could not upload output to S3"
-    else:
-        logger.info("No output_uri specified, so all is done")
-
-    remove_all_input_output(output_path)
-    return None
-
-
-# if S3 output_uri is supplied transfers data to S3 location
-def transfer_asr_output(output_path: str, output_uri: str) -> bool:
-    logger.info(f"Transferring {output_path} to S3 (destination={output_uri})")
-    if not s3_endpoint_url:
-        logger.warning("Transfer to S3 configured without an S3_ENDPOINT_URL!")
-        return False
-
-    s3_bucket, s3_folder_in_bucket = parse_s3_uri(output_uri)
-
-    s3 = S3Store(s3_endpoint_url)
-    return s3.transfer_to_s3(
-        s3_bucket,
-        s3_folder_in_bucket,
-        [
-            os.path.join(output_path, DAAN_JSON_FILE),
-            os.path.join(output_path, WHISPER_JSON_FILE),
-            os.path.join(output_path, PROVENANCE_JSON_FILE),
-        ],
-    )
+    except Exception as e:
+        logger.error(f"Worker failed! Exception raised: {e}")
+        # Check if variable exists (might not if exception raised from download_uri)
+        if "dl_result" in locals():
+            remove_all_input_output(data_dir)
+        raise e
 
 
 # check if there is a whisper-transcript.json
