@@ -1,3 +1,4 @@
+import tarfile
 import pytest
 import shutil
 import os
@@ -12,20 +13,45 @@ from model_download import extract_model, get_model_location  # noqa
 
 @pytest.mark.parametrize(
     "destination, extension, expected_output",
-    [
-        ("valid_model", "tar.gz", "valid_model"),
-        ("valid_model", "mp3", ""),
-        ("invalid_model", "tar.gz", ""),
-    ],
+    [("valid_model", "tar.gz", "valid_model")],
 )
-def test_extract_model(destination, extension, expected_output, tmp_path):
+def test_extract_valid_model(destination, extension, expected_output, tmp_path):
     tar_path = os.path.join("tests/input/extract_model_test", destination)
     shutil.copy(f"{tar_path}.{extension}", str(tmp_path))
-    if expected_output != "":
-        expected_output = os.path.join(tmp_path, expected_output)
+    expected_output = os.path.join(tmp_path, expected_output)
     assert (
         extract_model(os.path.join(tmp_path, destination), extension) == expected_output
     )
+
+
+@pytest.mark.parametrize(
+    "destination, extension, expected_output",
+    [("valid_model", "mp3", "")],
+)
+def test_extract_wrong_extension(destination, extension, expected_output, tmp_path):
+    tar_path = os.path.join("tests/input/extract_model_test", destination)
+    shutil.copy(f"{tar_path}.{extension}", str(tmp_path))
+    with pytest.raises(tarfile.ReadError):
+        assert (
+            extract_model(os.path.join(tmp_path, destination), extension)
+            == expected_output
+        )
+
+
+@pytest.mark.parametrize(
+    "destination, extension, expected_output",
+    [
+        ("invalid_model", "tar.gz", ""),
+    ],
+)
+def test_extract_invalid_model(destination, extension, expected_output, tmp_path):
+    tar_path = os.path.join("tests/input/extract_model_test", destination)
+    shutil.copy(f"{tar_path}.{extension}", str(tmp_path))
+    with pytest.raises(Exception):
+        assert (
+            extract_model(os.path.join(tmp_path, destination), extension)
+            == expected_output
+        )
 
 
 @pytest.mark.parametrize(

@@ -9,7 +9,7 @@ ENV POETRY_NO_INTERACTION=1 \
 
 COPY ./poetry.lock ./poetry.lock
 COPY ./pyproject.toml ./pyproject.toml
-RUN poetry self add poetry-plugin-export
+RUN poetry self add poetry-plugin-export==1.8.0
 RUN poetry export --format requirements.txt --output requirements.txt
 
 FROM nvidia/cuda:12.3.2-cudnn9-runtime-ubuntu22.04
