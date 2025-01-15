@@ -64,7 +64,7 @@ def run_shell_command(command: List[str]) -> Tuple[bool, str]:
     )
 
     stdout, stderr = process.communicate()
-    logger.info(stdout)
+    logger.debug(stdout)
     logger.error(stderr)
     logger.info(f"Process is done: return code {process.returncode}")
     if process.returncode == 0:
@@ -72,7 +72,7 @@ def run_shell_command(command: List[str]) -> Tuple[bool, str]:
     return False, stderr.decode()
 
 
-def save_provenance(provenance: Provenance, output_dir: str) -> bool:
+def save_provenance(provenance: Provenance, output_dir: str):
     logger.info(f"Saving provenance to: {output_dir}")
     # write provenance.json
     with open(os.path.join(output_dir, PROV_FILENAME), "w+", encoding="utf-8") as f:

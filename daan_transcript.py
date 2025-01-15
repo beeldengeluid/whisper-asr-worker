@@ -40,8 +40,8 @@ def generate_daan_transcript(asr_output_dir: str) -> Provenance:
         activity_description="Converts the output of Whisper to the DAAN index format",
         processing_time_ms=end_time,
         start_time_unix=start_time,
-        input_data=whisper_transcript,
-        output_data=daan_transcript,
+        input_data=str(whisper_transcript),
+        output_data=str(daan_transcript),
     )
     return provenance
 

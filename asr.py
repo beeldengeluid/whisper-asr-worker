@@ -116,13 +116,13 @@ def run(input_uri: str, output_uri: str, model=None) -> dict:
         return {
             "whisper_transcript": WHISPER_JSON_FILE,
             "daan_transcript": DAAN_JSON_FILE,
-            "provenance": PROV_FILENAME
+            "provenance": PROV_FILENAME,
         }
 
     except Exception as e:
         logger.error(f"Worker failed! Exception raised: {e}")
         # Check if variable exists (might not if exception raised from download_uri)
-        if "dl_result" in locals():
+        if os.path.exists(data_dir):
             remove_all_input_output(data_dir)
         raise e
 

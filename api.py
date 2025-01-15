@@ -50,7 +50,7 @@ all_tasks: dict[str, Task] = {}
 current_task: Optional[Task] = None
 
 
-def delete_task(task_id) -> bool:
+def delete_task(task_id):
     try:
         del all_tasks[task_id]
     except KeyError:
@@ -59,7 +59,7 @@ def delete_task(task_id) -> bool:
         )
 
 
-def update_task(task: Task) -> bool:
+def update_task(task: Task):
     if not task or not task.id:
         raise Exception("Tried to update task without task or ID")
     all_tasks[task.id] = task

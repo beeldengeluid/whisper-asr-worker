@@ -58,9 +58,7 @@ def try_transcode(
     if not success:
         raise Exception("Running ffmpeg to transcode failed")
 
-    logger.info(
-        f"Transcode of {extension} successful, returning: {output_file}"
-    )
+    logger.info(f"Transcode of {extension} successful, returning: {output_file}")
 
     provenance.processing_time_ms = (time.time() - start_time) * 1000
     provenance.output_data = output_file

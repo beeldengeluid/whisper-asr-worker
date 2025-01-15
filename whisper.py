@@ -56,7 +56,7 @@ def run_asr(
     output_dir: str,
     asset_id: str,
     model=None,
-) -> dict:
+) -> Provenance:
     logger.info(f"Starting ASR on {input_path}")
     start_time = time.time()
 
@@ -133,7 +133,7 @@ def run_asr(
         processing_time_ms=end_time,
         start_time_unix=start_time,
         input_data=input_path,
-        output_data=transcript,
+        output_data=str(transcript),
     )
 
     write_whisper_json(transcript, output_dir)
@@ -143,8 +143,6 @@ def run_asr(
 def write_whisper_json(transcript: dict, output_dir: str):
     logger.info("Writing whisper-transcript.json")
 
-    with open(
-        os.path.join(output_dir, WHISPER_JSON_FILE), "w+", encoding="utf-8"
-    ) as f:
+    with open(os.path.join(output_dir, WHISPER_JSON_FILE), "w+", encoding="utf-8") as f:
         logger.debug(transcript)
         json.dump(transcript, f, ensure_ascii=False, indent=4)

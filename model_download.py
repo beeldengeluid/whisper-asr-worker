@@ -18,22 +18,15 @@ def extract_model(destination: str, extension: str) -> str:
     if not os.path.exists(destination):  # Create dir for model to be extracted in
         os.makedirs(destination)
     logger.info(f"Extracting the model into {destination}")
-    try:
-        with tarfile.open(tar_path) as tar:
-            tar.extractall(path=destination)
-        # cleanup: delete the tar file
-        os.remove(tar_path)
-        if os.path.exists(os.path.join(destination, "model.bin")):
-            logger.info(
-                f"model.bin found in {destination}. Model extracted successfully!"
-            )
-            return destination
-        else:
-            logger.error(f"{destination} does not contain a model.bin file. Exiting...")
-            return ""
-    except tarfile.ReadError:
-        logger.error("Could not extract the model")
-        return ""
+    with tarfile.open(tar_path) as tar:
+        tar.extractall(path=destination)
+    # cleanup: delete the tar file
+    os.remove(tar_path)
+    if os.path.exists(os.path.join(destination, "model.bin")):
+        logger.info(f"model.bin found in {destination}. Model extracted successfully!")
+        return destination
+    else:
+        raise Exception(f"{destination} does not contain a model.bin file. Exiting...")
 
 
 # makes sure the model is obtained from S3/HTTP/Huggingface, if w_model doesn't exist locally
@@ -61,8 +54,7 @@ def check_s3_location(base_dir: str, whisper_model: str) -> str:
     s3 = S3Store(S3_ENDPOINT_URL)
     success = s3.download_file(bucket, object_name, base_dir)
     if not success:
-        logger.error(f"Could not download {whisper_model} into {base_dir}")
-        return ""
+        raise Exception(f"Could not download {whisper_model} into {base_dir}")
     return extract_model(destination, extension)
 
 
@@ -76,8 +68,7 @@ def check_http_location(base_dir: str, whisper_model: str) -> str:
     with open(f"{destination}.{extension}", "wb") as file:
         response = requests.get(whisper_model)
         if response.status_code >= 400:
-            logger.error(f"Could not download {whisper_model} into {base_dir}")
-            return ""
+            raise Exception(f"Could not download {whisper_model} into {base_dir}")
         file.write(response.content)
         file.close()
     return extract_model(destination, extension)
