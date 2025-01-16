@@ -15,8 +15,11 @@ def run_api(port: int):
     from whisper_api import api
     import uvicorn
 
+    log_config = uvicorn.config.LOGGING_CONFIG
+    log_config["formatters"]["default"]["fmt"] = LOG_FORMAT
+
     logger.info("Running Whisper as a service")
-    uvicorn.run(api, port=port, host="0.0.0.0")
+    uvicorn.run(api, port=port, host="0.0.0.0", log_config=log_config)
 
 
 def run_job(input_uri: str, output_uri: str):
