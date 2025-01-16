@@ -1,15 +1,16 @@
 FROM docker.io/python:3.11 AS req
 
-RUN python3 -m pip install pipx && \
-  python3 -m pipx ensurepath
+RUN pip install poetry==1.8.5
 
-RUN pipx install poetry==1.8.2 && \
-  pipx inject poetry poetry-plugin-export && \
-  pipx run poetry config warnings.export false
+ENV POETRY_NO_INTERACTION=1 \
+    POETRY_VIRTUALENVS_IN_PROJECT=1 \
+    POETRY_VIRTUALENVS_CREATE=1 \
+    POETRY_CACHE_DIR=/tmp/poetry_cache
 
 COPY ./poetry.lock ./poetry.lock
 COPY ./pyproject.toml ./pyproject.toml
-RUN pipx run poetry export --format requirements.txt --output requirements.txt
+RUN poetry self add poetry-plugin-export
+RUN poetry export --format requirements.txt --output requirements.txt
 
 FROM nvidia/cuda:12.3.2-cudnn9-runtime-ubuntu22.04
 

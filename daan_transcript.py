@@ -35,7 +35,8 @@ def generate_daan_transcript(asr_output_dir: str) -> Optional[dict]:
         with open(
             os.path.join(asr_output_dir, DAAN_JSON_FILE), "w+", encoding="utf-8"
         ) as f:
-            logger.info(transcript)
+            logger.info(f"writing transcript of length '{len(transcript)}'")
+            logger.debug(transcript)
             json.dump(transcript, f, ensure_ascii=False, indent=4)
     except EnvironmentError as e:  # OSError or IOError...
         logger.exception(os.strerror(e.errno))
