@@ -2,6 +2,8 @@ import logging
 from typing import Optional
 from uuid import uuid4
 from fastapi import BackgroundTasks, FastAPI, HTTPException, status, Response
+import asyncio
+from contextlib import asynccontextmanager
 from asr import run
 from whisper import load_model
 from enum import Enum
@@ -12,14 +14,33 @@ from config import (
     W_MODEL,
 )
 
-
 logger = logging.getLogger(__name__)
-api = FastAPI()
+shutdown_current_task_done = False
 
-logger.info(f"Loading model on device {W_DEVICE}")
 
-# load the model in memory on API startup
-model = load_model(MODEL_BASE_DIR, W_MODEL, W_DEVICE)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Load the Whisper model
+    global model
+    logger.info(f"Loading model on device {W_DEVICE}")
+    model = load_model(MODEL_BASE_DIR, W_MODEL, W_DEVICE)
+    # Run the API
+    yield
+    # Shutdown call
+    global current_task
+    # If there is a task still being processed at shutdown time
+    if current_task and current_task.status == Status.PROCESSING:
+        global shutdown_current_task_done
+        shutdown_current_task_done = False
+        # Wait until the task is complete
+        while not shutdown_current_task_done:
+            await asyncio.sleep(0.1)
+    yield
+    # Clean up
+    logger.info("Current task is done. Shutting down...")
+    del model
+
+api = FastAPI(lifespan=lifespan)
 
 
 class Status(Enum):
@@ -84,6 +105,9 @@ def try_whisper(task: Task):
         task.error_msg = str(e)
     update_task(task)
     logger.info(f"Task {task.id} has been updated")
+    # In case the application is shutting down
+    global shutdown_current_task_done
+    shutdown_current_task_done = True
 
 
 @api.get("/tasks")
