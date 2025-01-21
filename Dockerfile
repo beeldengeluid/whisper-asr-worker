@@ -12,6 +12,14 @@ COPY ./pyproject.toml ./pyproject.toml
 RUN poetry self add poetry-plugin-export==1.8.0
 RUN poetry export --format requirements.txt --output requirements.txt
 
+# Get git commit info
+RUN apt-get update && \
+    apt-get install -y git
+COPY ./.git/ ./
+RUN git rev-parse HEAD >> commit_hash
+RUN rm -rf .git/ && apt-get purge -y git
+
+
 FROM nvidia/cuda:12.3.2-cudnn9-runtime-ubuntu22.04
 
 # Install Python & ffmpeg
@@ -32,13 +40,10 @@ RUN mkdir /src /data /model /model/.cache
 WORKDIR /src
 
 COPY --from=req ./requirements.txt requirements.txt
+COPY --from=req ./commit_hash commit_hash
 RUN python -m pip install --no-cache-dir -r requirements.txt
 
 # copy the rest into the source dir
 COPY ./ /src
-
-# # Get git commit info, then delete the .git folder
-# RUN git rev-parse HEAD >> git_commit
-# RUN rm -rf .git
 
 ENTRYPOINT ["./docker-entrypoint.sh"]

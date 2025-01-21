@@ -28,13 +28,11 @@ from daan_transcript import generate_daan_transcript, DAAN_JSON_FILE
 
 logger = logging.getLogger(__name__)
 
-# TODO: Get commit hash and use it as version in prov
-# (prev impl didn't work)
 version = ""
-# if os.path.exists("git_commit"):
-#     with open("git_commit", "r") as f:
-#         for line in f:
-#             version = line.strip()
+if os.path.exists("commit_hash"):
+    with open("commit_hash", "r") as f:
+        for line in f:
+            version = f"git-{line[:6]}"
 
 
 def run(input_uri: str, output_uri: str, model=None) -> Optional[str]:

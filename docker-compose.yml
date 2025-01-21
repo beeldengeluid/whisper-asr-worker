@@ -12,12 +12,12 @@ services:
         max-size: 20m
     restart: no
     # Uncomment below when testing the service locally
-    # ports:
-    #   - "5333:5333"
-    #
+    ports:
+      - "5333:5333"
+    
     # Comment below to use the CPU instead of the GPU/CUDA
-    deploy:
-      resources:
-        reservations:
-          devices:
-          - capabilities: [gpu]
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #       - capabilities: [gpu]
