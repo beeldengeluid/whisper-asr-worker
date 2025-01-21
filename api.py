@@ -35,7 +35,6 @@ async def lifespan(app: FastAPI):
         # Wait until the task is complete
         while not shutdown_current_task_done:
             await asyncio.sleep(0.1)
-    yield
     # Clean up
     logger.info("Current task is done. Shutting down...")
     del model
