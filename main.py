@@ -36,4 +36,7 @@ if __name__ == "__main__":
     logger.info(f"Got the following CMD line arguments: {args}")
 
     port = int(args.port)
-    uvicorn.run(api, port=port, host="0.0.0.0")
+    log_config = uvicorn.config.LOGGING_CONFIG
+    log_config["formatters"]["default"]["fmt"] = LOG_FORMAT
+
+    uvicorn.run(api, port=port, host="0.0.0.0", log_config=log_config)

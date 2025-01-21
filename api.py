@@ -12,6 +12,7 @@ from config import (
     W_MODEL,
 )
 
+
 logger = logging.getLogger(__name__)
 api = FastAPI()
 
