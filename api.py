@@ -16,6 +16,7 @@ from config import (
 
 logger = logging.getLogger(__name__)
 shutdown_current_task_done = False
+model = None  # for mypy to pass
 
 
 @asynccontextmanager
@@ -38,6 +39,7 @@ async def lifespan(app: FastAPI):
     # Clean up
     logger.info("Current task is done. Shutting down...")
     del model
+
 
 api = FastAPI(lifespan=lifespan)
 
