@@ -8,7 +8,7 @@ def assert_bool(param: str) -> bool:
     return value == "y"
 
 
-def assert_int(param: str, default: int) -> int:
+def as_int(param: str, default: int) -> int:
     value = os.environ.get(param, default)
     try:
         return int(value)
@@ -28,14 +28,16 @@ W_WORD_TIMESTAMPS = assert_bool("W_WORD_TIMESTAMPS")
 W_VAD = assert_bool("W_VAD")
 W_DEVICE = os.environ.get("W_DEVICE", "cuda")
 W_MODEL = os.environ.get("W_MODEL", "large-v2")
-W_BEAM_SIZE = assert_int("W_BEAM_SIZE", 5)
-W_BEST_OF = assert_int("W_BEST_OF", 5)
-W_BATCH_SIZE = assert_int("W_BATCH_SIZE", 50)
+W_BEAM_SIZE = as_int("W_BEAM_SIZE", 5)
+W_BEST_OF = as_int("W_BEST_OF", 5)
+W_BATCH_SIZE = as_int("W_BATCH_SIZE", 50)
 
 # Output filenames
 WHISPER_JSON_FILE = os.environ.get("WHISPER_JSON_FILE", "whisper-transcript.json")
 DAAN_JSON_FILE = os.environ.get("DAAN_JSON_FILE", "daan-es-transcript.json")
 PROV_FILENAME = os.environ.get("PROVENANCE_FILENAME", "provenance.json")
+
+LOG_FORMAT = "%(asctime)s|%(levelname)s|%(process)d|%(module)s|%(funcName)s|%(lineno)d|%(message)s"
 
 assert DATA_BASE_DIR, "Please add DATA_BASE_DIR to your environment"
 assert DATA_BASE_DIR not in [".", "/"], "Please enter an absolute, non-root path"

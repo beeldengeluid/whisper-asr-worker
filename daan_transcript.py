@@ -3,7 +3,7 @@ import logging
 import os
 import time
 from typing import TypedDict, List
-from base_util import Provenance
+from base_util import Provenance, write_transcript_to_json
 from config import WHISPER_JSON_FILE, DAAN_JSON_FILE
 
 
@@ -24,15 +24,10 @@ def generate_daan_transcript(asr_output_dir: str) -> Provenance:
     logger.info(f"Generating transcript from: {asr_output_dir}")
     start_time = time.time()
     whisper_transcript = load_whisper_transcript(asr_output_dir)
-    daan_transcript = parse_whisper_transcript(whisper_transcript)
+    daan_transcript = whisper_json_to_daan_format(whisper_transcript)
 
     # write daan-es-transcript.json
-    with open(
-        os.path.join(asr_output_dir, DAAN_JSON_FILE), "w+", encoding="utf-8"
-    ) as f:
-        logger.info(f"writing transcript of length '{len(daan_transcript)}'")
-        logger.debug(daan_transcript)
-        json.dump(daan_transcript, f, ensure_ascii=False, indent=4)
+    write_transcript_to_json(daan_transcript, asr_output_dir, DAAN_JSON_FILE)
 
     end_time = (time.time() - start_time) * 1000
     provenance = Provenance(
@@ -52,7 +47,7 @@ def load_whisper_transcript(asr_output_dir: str) -> dict:
     return whisper_transcript
 
 
-def parse_whisper_transcript(whisper_transcript: dict) -> List[ParsedResult]:
+def whisper_json_to_daan_format(whisper_transcript: dict) -> List[ParsedResult]:
     i = 0  # sequenceNr counter
     daan_transcript = []
     for segment in whisper_transcript["segments"]:

@@ -18,19 +18,10 @@ def try_transcode(
     )
     start_time = time.time()
 
-    # Get output of "ffmpeg -version"
-    success, ffmpeg_ver = run_shell_command(["ffmpeg", "-version"])
-    if not success:
-        raise Exception("Running ffmpeg to extract audio failed")
-
-    # Add only the ffmpeg version number info to prov
-    ffmpeg_ver = " ".join(ffmpeg_ver.split()[:3])
-
     provenance = Provenance(
         activity_name="Transcoding",
         activity_description="Checks if input needs transcoding, then transcodes if so",
         start_time_unix=start_time,
-        software_version=ffmpeg_ver,
         input_data=input_file,
     )
 
@@ -44,9 +35,18 @@ def try_transcode(
         provenance.steps.append("Input is already audio or has been transcoded")
         return provenance
 
+    # Get output of "ffmpeg -version"
+    success, ffmpeg_ver = run_shell_command(["ffmpeg", "-version"])
+    if not success:
+        raise RuntimeError("Running ffmpeg to extract audio failed")
+
+    # Add only the ffmpeg version number info to prov
+    ffmpeg_ver = " ".join(ffmpeg_ver.split()[:3])
+    provenance.software_version = ffmpeg_ver
+
     # if the input format is not supported, fail
     if not _is_transcodable(extension):
-        raise Exception(
+        raise ValueError(
             f"Audio extraction failure: Input with extension {extension} is not transcodable"
         )
 
@@ -56,7 +56,7 @@ def try_transcode(
         output_file,
     )
     if not success:
-        raise Exception("Running ffmpeg to transcode failed")
+        raise RuntimeError("Running ffmpeg to transcode failed")
 
     logger.info(f"Transcode of {extension} successful, returning: {output_file}")
 

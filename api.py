@@ -1,4 +1,5 @@
 import logging
+import sys
 from typing import Optional
 from uuid import uuid4
 from fastapi import BackgroundTasks, FastAPI, HTTPException, status, Response
@@ -11,8 +12,14 @@ from config import (
     W_DEVICE,
     W_MODEL,
 )
+from config import LOG_FORMAT
 
 
+logging.basicConfig(
+    level=logging.INFO,
+    stream=sys.stdout,
+    format=LOG_FORMAT,
+)
 logger = logging.getLogger(__name__)
 api = FastAPI()
 
@@ -55,14 +62,12 @@ def delete_task(task_id):
     try:
         del all_tasks[task_id]
     except KeyError:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Task {task_id} not found"
-        )
+        raise KeyError(f"Task {task_id} not found")
 
 
 def update_task(task: Task):
     if not task or not task.id:
-        raise Exception("Tried to update task without task or ID")
+        raise KeyError("Tried to update task without task or ID")
     all_tasks[task.id] = task
 
 
@@ -73,10 +78,9 @@ def try_whisper(task: Task):
         task.status = Status.PROCESSING
         update_task(task)
         outputs = run(task.input_uri, task.output_uri, model)
-        if outputs:
-            task.status = Status.DONE
-            task.response = outputs
-            logger.info(f"Successfully transcribed task {task.id}")
+        task.status = Status.DONE
+        task.response = outputs
+        logger.info(f"Successfully transcribed task {task.id}")
     except Exception as e:
         logger.error("Failed to run Whisper")
         logger.exception(e)
@@ -140,7 +144,7 @@ async def remove_task(task_id: str):
             "msg": f"Successfully deleted task {task_id}",
             "task_id": task_id,
         }
-    except HTTPException as e:
+    except KeyError as e:
         logger.error(e)
         return {
             "msg": f"Failed to delete task {task_id}",
@@ -151,38 +155,3 @@ async def remove_task(task_id: str):
 @api.get("/ping")
 async def ping():
     return "pong"
-
-
-if __name__ == "__main__":
-    import sys
-    import uvicorn
-    from argparse import ArgumentParser
-    from base_util import LOG_FORMAT
-
-    # first read the CLI arguments
-    parser = ArgumentParser(description="whisper-api")
-    parser.add_argument("--port", action="store", dest="port", default="5333")
-    parser.add_argument("--log", action="store", dest="loglevel", default="INFO")
-    args = parser.parse_args()
-
-    # initialises the root logger
-    logging.basicConfig(
-        stream=sys.stdout,  # configure a stream handler only for now (single handler)
-        format=LOG_FORMAT,
-    )
-
-    # setting the loglevel
-    log_level = args.loglevel.upper()
-    logger.setLevel(log_level)
-    logger.info(f"Logger initialized (log level: {log_level})")
-    logger.info(f"Got the following CMD line arguments: {args}")
-
-    port = 5333
-    try:
-        port = int(args.port)
-    except ValueError:
-        logger.error(
-            f"--port must be a valid integer, starting with default port {port}"
-        )
-
-    uvicorn.run(api, port=port, host="0.0.0.0")

@@ -1,5 +1,3 @@
-# import ast
-import json
 import logging
 import os
 import time
@@ -17,7 +15,7 @@ from config import (
     W_WORD_TIMESTAMPS,
     WHISPER_JSON_FILE,
 )
-from base_util import Provenance
+from base_util import Provenance, write_transcript_to_json
 from gpu_measure import GpuMemoryMeasure
 from model_download import get_model_location
 
@@ -83,7 +81,38 @@ def run_asr(
         word_timestamps=W_WORD_TIMESTAMPS,
     )
 
+    # Also added "carrierId" because the DAAN format requires it
+    transcript = {"carrierId": asset_id, "segments": process_segments(segments)}
+    end_time = (time.time() - start_time) * 1000
+
+    if W_DEVICE == "cuda":
+        max_mem_usage, gpu_limit = gpu_mem_measure.stop_measure_gpu_mem()
+        logger.info(
+            "Maximum GPU memory usage: %dMiB / %dMiB (%.2f%%)"
+            % (
+                max_mem_usage,
+                gpu_limit,
+                (max_mem_usage / gpu_limit) * 100,
+            )
+        )
+        del gpu_mem_measure
+
+    provenance = Provenance(
+        activity_name="Running",
+        activity_description="Runs Whisper to transcribe the input audio file",
+        processing_time_ms=end_time,
+        start_time_unix=start_time,
+        input_data=input_path,
+        output_data=str(transcript),
+    )
+
+    write_transcript_to_json(transcript, output_dir, WHISPER_JSON_FILE)
+    return provenance
+
+
+def process_segments(segments) -> list:
     segments_to_add = []
+
     for segment in segments:
         words_to_add = []
         if W_WORD_TIMESTAMPS:
@@ -111,38 +140,5 @@ def run_asr(
                 "words": words_to_add,
             }
         )
-    # Also added "carrierId" because the DAAN format requires it
-    transcript = {"carrierId": asset_id, "segments": segments_to_add}
-    end_time = (time.time() - start_time) * 1000
 
-    if W_DEVICE == "cuda":
-        max_mem_usage, gpu_limit = gpu_mem_measure.stop_measure_gpu_mem()
-        logger.info(
-            "Maximum GPU memory usage: %dMiB / %dMiB (%.2f%%)"
-            % (
-                max_mem_usage,
-                gpu_limit,
-                (max_mem_usage / gpu_limit) * 100,
-            )
-        )
-        del gpu_mem_measure
-
-    provenance = Provenance(
-        activity_name="Running",
-        activity_description="Runs Whisper to transcribe the input audio file",
-        processing_time_ms=end_time,
-        start_time_unix=start_time,
-        input_data=input_path,
-        output_data=str(transcript),
-    )
-
-    write_whisper_json(transcript, output_dir)
-    return provenance
-
-
-def write_whisper_json(transcript: dict, output_dir: str):
-    logger.info("Writing whisper-transcript.json")
-
-    with open(os.path.join(output_dir, WHISPER_JSON_FILE), "w+", encoding="utf-8") as f:
-        logger.debug(transcript)
-        json.dump(transcript, f, ensure_ascii=False, indent=4)
+    return segments_to_add

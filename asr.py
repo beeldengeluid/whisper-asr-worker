@@ -46,26 +46,25 @@ def run(input_uri: str, output_uri: str, model=None) -> dict:
 
         prov_steps.append(dl_result.provenance)
 
-        # 3. check if the input file is suitable for processing any further
+        # 3. convert input to audio if input is video
         transcode_prov = try_transcode(
             dl_result.file_path, asset_id, extension, data_dir
         )
         prov_steps.append(transcode_prov)
 
         # 4. run ASR
-        whisper_prov = Provenance(
-            activity_name="Whisper transcript already exists",
-            activity_description="",
-            start_time_unix=time.time(),
-            input_data="",
-        )
-
         if not asr_already_done(data_dir):
             logger.info("No Whisper transcript found")
             whisper_prov = run_asr(dl_result.file_path, data_dir, asset_id, model)
         else:
             logger.info(f"Whisper transcript already present in {data_dir}")
 
+        whisper_prov = Provenance(
+            activity_name="Whisper transcript already exists",
+            activity_description="",
+            start_time_unix=time.time(),
+            input_data="",
+        )
         prov_steps.append(whisper_prov)
 
         # 5. generate DAAN format transcript
@@ -88,7 +87,7 @@ def run(input_uri: str, output_uri: str, model=None) -> dict:
         end_time = (time.time() - start_time) * 1000
         final_prov = Provenance(
             activity_name="Whisper ASR Worker",
-            activity_description="Worker that gets a video/audio file as input and outputs JSON transcripts in various formats",
+            activity_description="Worker that gets a video/audio file as input and transcribes it using Whisper",
             processing_time_ms=end_time,
             start_time_unix=start_time,
             parameters={

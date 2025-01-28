@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from fastapi import HTTPException
 import logging
 import os
 import requests
@@ -33,7 +34,7 @@ def download_uri(
     if validate_http_uri(uri):
         logger.info("URI seems to be an HTTP URI")
         return http_download(uri, input_dir, filename, extension)
-    raise Exception("Input failure: URI is neither S3, nor HTTP")
+    raise ValueError("Input failure: URI is neither S3, nor HTTP")
 
 
 def http_download(
@@ -63,8 +64,8 @@ def http_download(
     with open(input_file, "wb") as file:
         response = requests.get(url)
         if response.status_code != 200:
-            raise Exception(
-                f"Could not download {url}. Response code: {response.status_code}"
+            raise HTTPException(
+                status_code=response.status_code, detail=f"Could not download {url}"
             )
         file.write(response.content)
         file.close()
