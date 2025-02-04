@@ -14,7 +14,6 @@ from config import (
 from s3_util import parse_s3_uri, S3Store
 
 
-LOG_FORMAT = "%(asctime)s|%(levelname)s|%(process)d|%(module)s|%(funcName)s|%(lineno)d|%(message)s"
 logger = logging.getLogger(__name__)
 
 
@@ -104,6 +103,15 @@ def remove_all_input_output(path: str) -> bool:
         return True
     except OSError:
         return False
+
+
+def write_transcript_to_json(transcript, output_dir: str, filename: str):
+    logger.info(f"Saving transcript to {filename}")
+
+    with open(os.path.join(output_dir, filename), "w+", encoding="utf-8") as f:
+        logger.info(f"writing transcript of length '{len(transcript)}'")
+        logger.debug(transcript)
+        json.dump(transcript, f, ensure_ascii=False, indent=4)
 
 
 # if S3 output_uri is supplied transfers data to S3 location

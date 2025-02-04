@@ -2,8 +2,8 @@ from api import api
 import uvicorn
 import logging
 import sys
-from base_util import LOG_FORMAT
 from argparse import ArgumentParser
+from config import LOG_FORMAT
 
 
 # initialises the root logger
@@ -25,6 +25,7 @@ if __name__ == "__main__":
 
     # initialises the root logger
     logging.basicConfig(
+        level=logging.INFO,
         stream=sys.stdout,  # configure a stream handler only for now (single handler)
         format=LOG_FORMAT,
     )
