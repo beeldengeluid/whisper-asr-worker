@@ -48,7 +48,38 @@ To run the worker with a CUDA-compatible GPU instead of the CPU, either:
 
 Make sure to replace `dane-example-worker` in the `docker run` command with `dane-whisper-asr-worker`.
 
-## Expected run
+## Using the API
+### Accessing the endpoint
+
+To access the worker and schedule runs, go to the following link: http://localhost:5333/docs.
+
+In there, you have the following options:
+1. `GET /tasks`: returns a list of all tasks that have run or are currently running/scheduled to run
+2. `POST /tasks`: schedule a new task to transcribe the input URI and export it to the output URI. The format of a task is the following:
+```
+{
+  "input_uri": "string",
+  "output_uri": "string",
+  "status": "CREATED | PROCESSING | DONE | ERROR",
+  "id": "string",
+  "error_msg": "string",
+  "response": {}
+}
+```
+
+The only thing you need to absolutely have is the `input_uri`. The `output_uri` can stay empty in which case the generated transcripts will be stored locally, and the rest of the fields will be automatically generated or updated throughout the task's process.
+
+3. `GET /status`: returns the status of the worker:
+- `503` if the worker is currently executing a task
+- `200` if the worker is available to run new tasks
+
+4. `GET /tasks/{task_id}`: returns the task details of the given `task_id`
+
+5. `DELETE /tasks/{task_id}`: deletes the task with the given `task_id`
+
+6. `GET /ping`: returns `pong` (can be ignored, not relevant to the main functionality of the worker)
+
+## Expected run when scheduling a new task
 
 The expected run of this worker (whose pipeline is defined in `asr.py`) should
 

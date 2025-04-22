@@ -52,6 +52,13 @@ def run(input_uri: str, output_uri: str, model=None) -> dict:
         )
         prov_steps.append(transcode_prov)
 
+        whisper_prov = Provenance(
+            activity_name="Whisper transcript already exists",
+            activity_description="",
+            start_time_unix=time.time(),
+            input_data="",
+        )
+
         # 4. run ASR
         if not asr_already_done(data_dir):
             logger.info("No Whisper transcript found")
@@ -59,12 +66,6 @@ def run(input_uri: str, output_uri: str, model=None) -> dict:
         else:
             logger.info(f"Whisper transcript already present in {data_dir}")
 
-        whisper_prov = Provenance(
-            activity_name="Whisper transcript already exists",
-            activity_description="",
-            start_time_unix=time.time(),
-            input_data="",
-        )
         prov_steps.append(whisper_prov)
 
         # 5. generate DAAN format transcript
