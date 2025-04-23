@@ -103,7 +103,7 @@ def run_asr(
         processing_time_ms=end_time,
         start_time_unix=start_time,
         input_data=input_path,
-        output_data=str(transcript),
+        output_data=os.path.join(output_dir, WHISPER_JSON_FILE),
     )
 
     write_transcript_to_json(transcript, output_dir, WHISPER_JSON_FILE)
