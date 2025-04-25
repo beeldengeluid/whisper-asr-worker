@@ -1,4 +1,4 @@
-name: non-main branch - test
+name: Check Project
 
 on:
   push:
