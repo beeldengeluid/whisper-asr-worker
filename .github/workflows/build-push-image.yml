@@ -1,4 +1,4 @@
-name: Deploy dane-whisper-asr-worker to ghcr
+name: Build & Push
 
 on:
   push:
@@ -6,6 +6,7 @@ on:
     -  main
   workflow_call:
   workflow_dispatch:
+
 jobs:
   build-push-image:
     uses: beeldengeluid/gha-workflows/.github/workflows/build-push-image.yml@85791061bfaf6de89238a64e2b7eb4d1d32f5f88 # v2025.04.18
