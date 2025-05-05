@@ -9,11 +9,11 @@ package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
-faster-whisper = "^1.1.0"
+faster-whisper = "^1.1.1"
 validators = "^0.34.0"
-boto3 = "^1.35.10"
-fastapi = "^0.115.0"
-uvicorn = "^0.30.6"
+boto3 = "^1.38.1"
+fastapi = "^0.115.12"
+uvicorn = "^0.34.2"
 py3nvml = "^0.2.7"
 
 [tool.poetry.group.dev.dependencies]
@@ -23,7 +23,7 @@ mypy = "^1.13.0"
 flake8 = "^7.1.1"
 black = "^24.10.0"
 pytest = "^8.3.3"
-pytest-cov = "^5.0.0"
+pytest-cov = "^6.1.1"
 pytest-mock = "^3.14.0"
 
 [tool.poetry.group.service]
