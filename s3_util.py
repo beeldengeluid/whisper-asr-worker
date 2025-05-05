@@ -11,7 +11,8 @@ logger = logging.getLogger(__name__)
 COMPRESSED_TAR_EXTENSION = ".tar.gz"
 
 
-# the file name without extension is used as an asset ID by the ASR container to save the results
+# the file name without extension is used as an asset ID
+# by the ASR container to save the results
 def generate_asset_id_from_input_file(
     input_file: str, with_extension: bool = False
 ) -> str:
@@ -32,7 +33,8 @@ def is_valid_tar_path(archive_path: str) -> bool:
         return False
     if archive_path[-7:] != COMPRESSED_TAR_EXTENSION:
         logger.error(
-            f"Archive file should have the correct extension: {COMPRESSED_TAR_EXTENSION}"
+            f"Archive file should have the correct"
+            f"extension: {COMPRESSED_TAR_EXTENSION}"
         )
         return False
     return True

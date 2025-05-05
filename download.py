@@ -5,7 +5,7 @@ import os
 import requests
 import time
 from s3_util import S3Store, parse_s3_uri, validate_s3_uri
-from config import S3_ENDPOINT_URL
+from config import INPUT_S3_ENDPOINT_URL
 from base_util import (
     extension_to_mime_type,
     validate_http_uri,
@@ -100,7 +100,7 @@ def s3_download(
         logger.info(f"File {input_file} already exists, attempting to delete")
         remove_all_input_output(input_dir)
 
-    s3 = S3Store(S3_ENDPOINT_URL)
+    s3 = S3Store(INPUT_S3_ENDPOINT_URL)
     # Create /data/<asset_id>/ folder if not exists
     if not os.path.exists(input_dir):
         logger.info(f"{input_dir} does not exist, creating it now")
