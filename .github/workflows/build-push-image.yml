@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-push-image:
-    uses: beeldengeluid/gha-workflows/.github/workflows/build-push-image.yml@b4e5d97323dd3d84c0b00960acb94bed82cc0f41 # v2025.05.01
+    uses: beeldengeluid/gha-workflows/.github/workflows/build-push-image.yml@8fbee00af5ef567cb5e7c59aacdef526c06616fd # v2025.05.07
     secrets: inherit
     permissions:
       contents: read
