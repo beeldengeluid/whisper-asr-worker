@@ -88,7 +88,8 @@ def run(input_uri: str, output_uri: str, model=None) -> dict:
         end_time = (time.time() - start_time) * 1000
         final_prov = Provenance(
             activity_name="Whisper ASR Worker",
-            activity_description="Worker that gets a video/audio file as input and transcribes it using Whisper",
+            activity_description="Worker that gets a video/audio file as input "
+            "and transcribes it using Whisper",
             processing_time_ms=end_time,
             start_time_unix=start_time,
             parameters={

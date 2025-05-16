@@ -6,7 +6,7 @@ from urllib.parse import urlparse
 from dataclasses import dataclass, field, asdict
 from typing import List, Tuple
 from config import (
-    S3_ENDPOINT_URL,
+    OUTPUT_S3_ENDPOINT_URL,
     PROV_FILENAME,
     WHISPER_JSON_FILE,
     DAAN_JSON_FILE,
@@ -117,12 +117,12 @@ def write_transcript_to_json(transcript, output_dir: str, filename: str):
 # if S3 output_uri is supplied transfers data to S3 location
 def transfer_asr_output(output_path: str, output_uri: str):
     logger.info(f"Transferring {output_path} to S3 (destination={output_uri})")
-    if not S3_ENDPOINT_URL:
+    if not OUTPUT_S3_ENDPOINT_URL:
         raise Exception("Transfer to S3 configured without an S3_ENDPOINT_URL!")
 
     s3_bucket, s3_folder_in_bucket = parse_s3_uri(output_uri)
 
-    s3 = S3Store(S3_ENDPOINT_URL)
+    s3 = S3Store(OUTPUT_S3_ENDPOINT_URL)
     return s3.transfer_to_s3(
         s3_bucket,
         s3_folder_in_bucket,
