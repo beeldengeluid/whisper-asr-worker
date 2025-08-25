@@ -1811,14 +1811,14 @@ telegram = ["requests"]
 
 [[package]]
 name = "types-requests"
-version = "2.32.0.20241016"
+version = "2.32.4.20250809"
 description = "Typing stubs for requests"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 groups = ["dev"]
 files = [
-    {file = "types-requests-2.32.0.20241016.tar.gz", hash = "sha256:0d9cad2f27515d0e3e3da7134a1b6f28fb97129d86b867f24d9c726452634d95"},
-    {file = "types_requests-2.32.0.20241016-py3-none-any.whl", hash = "sha256:4195d62d6d3e043a4eaaf08ff8a62184584d2e8684e9d2aa178c7915a7da3747"},
+    {file = "types_requests-2.32.4.20250809-py3-none-any.whl", hash = "sha256:f73d1832fb519ece02c85b1f09d5f0dd3108938e7d47e7f94bbfa18a6782b163"},
+    {file = "types_requests-2.32.4.20250809.tar.gz", hash = "sha256:d8060de1c8ee599311f56ff58010fb4902f462a1470802cf9f6ed27bc46c4df3"},
 ]
 
 [package.dependencies]
@@ -1921,4 +1921,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.11"
-content-hash = "edc9463bec05fe29c970e26ab1f3fb0d2e15de7c9ae312eb5e77b1b36d16bbf4"
+content-hash = "5f650925c3d64062407c953a974250f1ed067e427aab8d3f0f6aba9f3e1f90b2"
