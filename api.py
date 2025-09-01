@@ -97,7 +97,6 @@ def get_all_tasks():
 
 @api.get("/status")
 def get_status(response: Response):
-    global current_task
 
     if current_task and current_task.status == Status.PROCESSING:
         response.status_code = status.HTTP_503_SERVICE_UNAVAILABLE
