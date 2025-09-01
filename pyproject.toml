@@ -19,7 +19,7 @@ py3nvml = "^0.2.7"
 [tool.poetry.group.dev.dependencies]
 moto = "^5.1.11"
 types-requests = "^2.32.4.20250809"
-mypy = "^1.13.0"
+mypy = "^1.17.1"
 flake8 = "^7.1.1"
 black = "^25.1.0"
 pytest = "^8.3.5"
