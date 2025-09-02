@@ -22,7 +22,7 @@ types-requests = "^2.32.4.20250809"
 mypy = "^1.17.1"
 flake8 = "^7.3.0"
 black = "^25.1.0"
-pytest = "^8.3.5"
+pytest = "^8.4.1"
 pytest-cov = "^6.1.1"
 pytest-mock = "^3.14.0"
 
