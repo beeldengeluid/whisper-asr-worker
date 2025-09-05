@@ -1,5 +1,8 @@
 import os
 import validators
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def assert_bool(param: str) -> bool:
@@ -52,6 +55,8 @@ assert os.path.exists(MODEL_BASE_DIR), "MODEL_BASE_DIR does not exist"
 for url in [INPUT_S3_ENDPOINT_URL, OUTPUT_S3_ENDPOINT_URL, MODEL_S3_ENDPOINT_URL]:
     if url:
         assert validators.url(url), "Please enter a valid S3_ENDPOINT_URL"
+    else:
+        logger.warning("No S3 endpoint URL specified")
 
 
 assert W_DEVICE in ["cuda", "cpu"], "Please use either cuda|cpu for W_DEVICE"
