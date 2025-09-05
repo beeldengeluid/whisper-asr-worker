@@ -3,7 +3,7 @@ import logging
 import os
 from pathlib import Path
 import tarfile
-from typing import List, Tuple, Optional
+from typing import List, Tuple
 from urllib.parse import urlparse
 
 
@@ -79,15 +79,6 @@ def parse_s3_uri(s3_uri: str) -> Tuple[str, str]:
     bucket = o.netloc  # beng-daan-visxp
     object_name = o.path.lstrip("/")  # jaap-dane-test/dane-test.tar.gz
     return bucket, object_name
-
-
-def download_s3_uri(s3_uri: str, output_folder: str) -> bool:
-    if not validate_s3_uri(s3_uri):
-        logger.error("Invalid S3 URI")
-        return False
-    s3_store = S3Store()
-    bucket, object_name = parse_s3_uri(s3_uri)
-    return s3_store.download_file(bucket, object_name, output_folder)
 
 
 class S3Store:
