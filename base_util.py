@@ -7,6 +7,8 @@ from dataclasses import dataclass, field, asdict
 from typing import List, Tuple
 from config import (
     OUTPUT_S3_ENDPOINT_URL,
+    OUTPUT_S3_ACCES_KEY_ID,
+    OUTPUT_S3_SECRET_ACCES_KEY,
     PROV_FILENAME,
     WHISPER_JSON_FILE,
     DAAN_JSON_FILE,
@@ -122,7 +124,11 @@ def transfer_asr_output(output_path: str, output_uri: str):
 
     s3_bucket, s3_folder_in_bucket = parse_s3_uri(output_uri)
 
-    s3 = S3Store(OUTPUT_S3_ENDPOINT_URL)
+    s3 = S3Store(
+        s3_endpoint_url=OUTPUT_S3_ENDPOINT_URL,
+        access_key_id=OUTPUT_S3_ACCES_KEY_ID,
+        secret_access_key=OUTPUT_S3_SECRET_ACCES_KEY,
+    )
     return s3.transfer_to_s3(
         s3_bucket,
         s3_folder_in_bucket,
