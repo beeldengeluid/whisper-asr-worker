@@ -612,14 +612,14 @@ standard = ["email-validator (>=2.0.0)", "fastapi-cli[standard] (>=0.0.5)", "htt
 
 [[package]]
 name = "faster-whisper"
-version = "1.1.1"
+version = "1.2.0"
 description = "Faster Whisper transcription with CTranslate2"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "faster-whisper-1.1.1.tar.gz", hash = "sha256:50d27571970c1be0c2b2680a2593d5d12f9f5d2f10484f242a1afbe7cb946604"},
-    {file = "faster_whisper-1.1.1-py3-none-any.whl", hash = "sha256:5808dc334fb64fb4336921450abccfe5e313a859b31ba61def0ac7f639383d90"},
+    {file = "faster-whisper-1.2.0.tar.gz", hash = "sha256:56b20d616a575049a79f33b04f02db0868ce38c5d057a0b816d36ca59a6d2598"},
+    {file = "faster_whisper-1.2.0-py3-none-any.whl", hash = "sha256:e5535628fe93b5123029b410fd8edba2d28f8cee9f8fff8119138e5a9d81afbe"},
 ]
 
 [package.dependencies]
@@ -1938,4 +1938,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.11"
-content-hash = "b7df50b10c42994151fec429a0e22345806e9d0b341d5764be0c72b82a8851f3"
+content-hash = "de52619f10619555baa3095f342a06851d1594faa0c9b860fbeabebd4831eb16"
