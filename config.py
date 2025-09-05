@@ -24,9 +24,18 @@ DATA_BASE_DIR = os.environ.get("DATA_BASE_DIR", "")
 MODEL_BASE_DIR = os.environ.get("MODEL_BASE_DIR", "")
 
 # s3 connection param
-INPUT_S3_ENDPOINT_URL = os.environ.get("INPUT_S3_ENDPOINT_URL", "")
-OUTPUT_S3_ENDPOINT_URL = os.environ.get("OUTPUT_S3_ENDPOINT_URL", "")
+INPUT_S3_ENDPOINT_URL = os.environ.get("INPUT_S3_ENDPOINT_URL")
+INPUT_S3_ACCES_KEY_ID = os.environ.get("INPUT_ACCESS_KEY_ID")
+INPUT_S3_SECRET_ACCES_KEY = os.environ.get("INPUT_SECRET_ACCESS_KEY")
+
+OUTPUT_S3_ENDPOINT_URL = os.environ.get("OUTPUT_S3_ENDPOINT_URL")
+OUTPUT_S3_ACCES_KEY_ID = os.environ.get("OUTPUT_ACCESS_KEY_ID")
+OUTPUT_S3_SECRET_ACCES_KEY = os.environ.get("OUTPUT_SECRET_ACCESS_KEY")
+
 MODEL_S3_ENDPOINT_URL = os.environ.get("MODEL_S3_ENDPOINT_URL", "")
+MODEL_S3_ACCES_KEY_ID = os.environ.get("MODEL_ACCESS_KEY_ID", "")
+MODEL_S3_SECRET_ACCES_KEY = os.environ.get("MODEL_SECRET_ACCESS_KEY", "")
+
 
 # Whisper params
 W_WORD_TIMESTAMPS = assert_bool("W_WORD_TIMESTAMPS")
@@ -52,11 +61,16 @@ assert MODEL_BASE_DIR, "Please add MODEL_BASE_DIR to your environment"
 assert MODEL_BASE_DIR not in [".", "/"], "Please enter an absolute, non-root path"
 assert os.path.exists(MODEL_BASE_DIR), "MODEL_BASE_DIR does not exist"
 
-for url in [INPUT_S3_ENDPOINT_URL, OUTPUT_S3_ENDPOINT_URL, MODEL_S3_ENDPOINT_URL]:
+for url, access_key_id, secret_access_key in [
+    (INPUT_S3_ENDPOINT_URL, INPUT_S3_ACCES_KEY_ID, INPUT_S3_SECRET_ACCES_KEY),
+    (OUTPUT_S3_ENDPOINT_URL, OUTPUT_S3_ACCES_KEY_ID, OUTPUT_S3_SECRET_ACCES_KEY),
+    (MODEL_S3_ENDPOINT_URL, MODEL_S3_ACCES_KEY_ID, MODEL_S3_SECRET_ACCES_KEY),
+]:
     if url:
         assert validators.url(url), "Please enter a valid S3_ENDPOINT_URL"
-    else:
-        logger.warning("No S3 endpoint URL specified")
+        assert (
+            access_key_id and secret_access_key
+        ), f"No valid credentials specified for {url}"
 
 
 assert W_DEVICE in ["cuda", "cpu"], "Please use either cuda|cpu for W_DEVICE"
