@@ -100,8 +100,15 @@ class S3Store:
 
     """
 
-    def __init__(self, s3_endpoint_url: Optional[str] = None, unit_testing=False):
-        self.client = boto3.client("s3", endpoint_url=s3_endpoint_url)
+    def __init__(
+        self, s3_endpoint_url: str, access_key_id: str, secret_access_key: str
+    ):
+        self.client = boto3.client(
+            "s3",
+            endpoint_url=s3_endpoint_url,
+            aws_access_key_id=access_key_id,
+            aws_secret_access_key=secret_access_key,
+        )
 
     def transfer_to_s3(
         self, bucket: str, path: str, file_list: List[str], tar_archive_path: str = ""
