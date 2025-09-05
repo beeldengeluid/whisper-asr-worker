@@ -5,7 +5,11 @@ from urllib.parse import urlparse
 import requests
 from s3_util import S3Store, parse_s3_uri, validate_s3_uri
 from base_util import get_asset_info, validate_http_uri
-from config import S3_ENDPOINT_URL
+from config import (
+    MODEL_S3_ENDPOINT_URL,
+    MODEL_S3_ACCES_KEY_ID,
+    MODEL_S3_SECRET_ACCES_KEY,
+)
 
 
 logger = logging.getLogger(__name__)
@@ -29,7 +33,8 @@ def extract_model(destination: str, extension: str) -> str:
         raise Exception(f"{destination} does not contain a model.bin file. Exiting...")
 
 
-# makes sure the model is obtained from S3/HTTP/Huggingface, if w_model doesn't exist locally
+# makes sure the model is obtained from S3/HTTP/Huggingface,
+# if w_model doesn't exist locally
 def get_model_location(base_dir: str, whisper_model: str) -> str:
     logger.info(f"Checking w_model: {whisper_model} and download if necessary")
     if validate_s3_uri(whisper_model):
@@ -38,7 +43,8 @@ def get_model_location(base_dir: str, whisper_model: str) -> str:
     elif validate_http_uri(whisper_model):
         return check_http_location(base_dir, whisper_model)
 
-    # The faster-whisper API can auto-detect if the version exists locally. No need to add extra checks
+    # The faster-whisper API can auto-detect if the version exists locally.
+    # No need to add extra checks
     logger.info(f"{whisper_model} is not an S3/HTTP URI. Using HuggingFace instead")
     return whisper_model
 
@@ -51,7 +57,11 @@ def check_s3_location(base_dir: str, whisper_model: str) -> str:
     if os.path.exists(destination):
         logger.info("Model already exists")
         return destination
-    s3 = S3Store(S3_ENDPOINT_URL)
+    s3 = S3Store(
+        s3_endpoint_url=MODEL_S3_ENDPOINT_URL,
+        access_key_id=MODEL_S3_ACCES_KEY_ID,
+        secret_access_key=MODEL_S3_SECRET_ACCES_KEY,
+    )
     success = s3.download_file(bucket, object_name, base_dir)
     if not success:
         raise Exception(f"Could not download {whisper_model} into {base_dir}")

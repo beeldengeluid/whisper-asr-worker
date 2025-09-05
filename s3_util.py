@@ -3,7 +3,7 @@ import logging
 import os
 from pathlib import Path
 import tarfile
-from typing import List, Tuple, Optional
+from typing import List, Tuple
 from urllib.parse import urlparse
 
 
@@ -11,7 +11,8 @@ logger = logging.getLogger(__name__)
 COMPRESSED_TAR_EXTENSION = ".tar.gz"
 
 
-# the file name without extension is used as an asset ID by the ASR container to save the results
+# the file name without extension is used as an asset ID
+# by the ASR container to save the results
 def generate_asset_id_from_input_file(
     input_file: str, with_extension: bool = False
 ) -> str:
@@ -32,7 +33,8 @@ def is_valid_tar_path(archive_path: str) -> bool:
         return False
     if archive_path[-7:] != COMPRESSED_TAR_EXTENSION:
         logger.error(
-            f"Archive file should have the correct extension: {COMPRESSED_TAR_EXTENSION}"
+            f"Archive file should have the correct"
+            f"extension: {COMPRESSED_TAR_EXTENSION}"
         )
         return False
     return True
@@ -79,15 +81,6 @@ def parse_s3_uri(s3_uri: str) -> Tuple[str, str]:
     return bucket, object_name
 
 
-def download_s3_uri(s3_uri: str, output_folder: str) -> bool:
-    if not validate_s3_uri(s3_uri):
-        logger.error("Invalid S3 URI")
-        return False
-    s3_store = S3Store()
-    bucket, object_name = parse_s3_uri(s3_uri)
-    return s3_store.download_file(bucket, object_name, output_folder)
-
-
 class S3Store:
     """
     requires environment:
@@ -98,8 +91,15 @@ class S3Store:
 
     """
 
-    def __init__(self, s3_endpoint_url: Optional[str] = None, unit_testing=False):
-        self.client = boto3.client("s3", endpoint_url=s3_endpoint_url)
+    def __init__(
+        self, s3_endpoint_url: str, access_key_id: str, secret_access_key: str
+    ):
+        self.client: boto3.client = boto3.client(
+            "s3",
+            endpoint_url=s3_endpoint_url,
+            aws_access_key_id=access_key_id,
+            aws_secret_access_key=secret_access_key,
+        )
 
     def transfer_to_s3(
         self, bucket: str, path: str, file_list: List[str], tar_archive_path: str = ""
@@ -139,10 +139,11 @@ class S3Store:
             logger.info("Output folder does not exist, creating it...")
             os.makedirs(output_folder)
         output_file = os.path.join(output_folder, os.path.basename(object_name))
-        try:
-            with open(output_file, "wb") as f:
-                self.client.download_fileobj(bucket, object_name, f)
-        except Exception:
-            logger.exception(f"Failed to download {object_name}")
-            return False
+        self.client.download_file(Bucket=bucket, Key=object_name, Filename=output_file)
+        # try:
+        #     with open(output_file, "wb") as f:
+        #         self.client.download_fileobj(bucket, object_name, f)
+        # except Exception:
+        #     logger.exception(f"Failed to download {object_name}")
+        #     return False
         return True
