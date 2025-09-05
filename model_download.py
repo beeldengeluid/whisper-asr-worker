@@ -59,7 +59,7 @@ def check_s3_location(base_dir: str, whisper_model: str) -> str:
         return destination
     s3 = S3Store(
         s3_endpoint_url=MODEL_S3_ENDPOINT_URL,
-        access_key_id=MODEL_S3_SECRET_ACCES_KEY,
+        access_key_id=MODEL_S3_ACCES_KEY_ID,
         secret_access_key=MODEL_S3_SECRET_ACCES_KEY,
     )
     success = s3.download_file(bucket, object_name, base_dir)
