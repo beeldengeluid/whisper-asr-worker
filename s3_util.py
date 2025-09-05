@@ -94,7 +94,7 @@ class S3Store:
     def __init__(
         self, s3_endpoint_url: str, access_key_id: str, secret_access_key: str
     ):
-        self.client = boto3.client(
+        self.client: boto3.client = boto3.client(
             "s3",
             endpoint_url=s3_endpoint_url,
             aws_access_key_id=access_key_id,
@@ -139,10 +139,11 @@ class S3Store:
             logger.info("Output folder does not exist, creating it...")
             os.makedirs(output_folder)
         output_file = os.path.join(output_folder, os.path.basename(object_name))
-        try:
-            with open(output_file, "wb") as f:
-                self.client.download_fileobj(bucket, object_name, f)
-        except Exception:
-            logger.exception(f"Failed to download {object_name}")
-            return False
+        self.client.download_file(Bucket=bucket, Key=object_name, Filename=output_file)
+        # try:
+        #     with open(output_file, "wb") as f:
+        #         self.client.download_fileobj(bucket, object_name, f)
+        # except Exception:
+        #     logger.exception(f"Failed to download {object_name}")
+        #     return False
         return True
