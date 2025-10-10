@@ -1,4 +1,4 @@
-FROM docker.io/python:3.11.13 AS req
+FROM docker.io/python:3.11.14 AS req
 
 RUN pip install poetry==1.8.5
 
