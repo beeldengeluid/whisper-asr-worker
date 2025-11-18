@@ -58,7 +58,7 @@ def whisper_json_to_daan_format(whisper_transcript: dict) -> List[ParsedResult]:
         subtitle: ParsedResult = {
             "wordTimes": wordTimes,
             "sequenceNr": i,
-            "start": segment["start"],
+            "start": int(segment["start"] * 1000),  # should be same as wordTimes[0]
             # converts i to a 5-char long string prepended with 0s
             # (similar to kaldi output)
             "fragmentId": f"{i:05d}",
