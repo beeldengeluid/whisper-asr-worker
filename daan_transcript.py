@@ -52,17 +52,21 @@ def whisper_json_to_daan_format(whisper_transcript: dict) -> List[ParsedResult]:
     daan_transcript = []
     for segment in whisper_transcript["segments"]:
         wordTimes = []
+        words = []
         for word in segment["words"]:
             wordTimes.append(int(word["start"] * 1000))  # as seen in dane-asr-worker
+            words.append(word["text"])
 
         subtitle: ParsedResult = {
             "wordTimes": wordTimes,
             "sequenceNr": i,
-            "start": segment["start"],
+            "start": int(segment["start"] * 1000),  # should be same as wordTimes[0]
             # converts i to a 5-char long string prepended with 0s
             # (similar to kaldi output)
             "fragmentId": f"{i:05d}",
-            "words": segment["text"],
+            "words": " ".join(
+                words
+            ),  # NOTE: segment["text"].split(" ") will not always yield the same amount as wordTimes!,
             "carrierId": whisper_transcript["carrierId"],
         }
         daan_transcript.append(subtitle)
